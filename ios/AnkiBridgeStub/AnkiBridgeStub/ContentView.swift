@@ -62,72 +62,242 @@ final class ReviewViewModel: ObservableObject {
     }
 }
 
+// MARK: - Bauhaus design tokens
+
+/// Single source of truth for the Bauhaus visual language: exact palette,
+/// the Futura font helper, and spacing/rule constants. Inline (no new files).
+enum BauhausTheme {
+    // Palette (exact hex from the design spec).
+    static let red    = Color(hex: 0xE2231A)   // "Again" rating; header circle
+    static let yellow = Color(hex: 0xF2C200)   // "Hard" rating; header triangle
+    static let green  = Color(hex: 0x2E9E4F)   // "Good" rating; correct highlight
+    static let blue   = Color(hex: 0x1E52A8)   // "Easy" rating; header square
+    static let ink    = Color(hex: 0x1A1A1A)   // text, rules, borders, Show Answer bar
+    static let paper  = Color(hex: 0xF5F1E6)   // app + card background
+
+    // Rules / spacing.
+    static let headerRule: CGFloat = 3   // ink rule under the header
+    static let rowRule: CGFloat    = 3   // ink rule above button rows
+    static let buttonGap: CGFloat  = 2   // ink gaps between rating buttons
+    static let pad: CGFloat        = 16  // standard screen padding
+
+    /// Futura with the spec's fallback stack. iOS resolves "Futura" natively;
+    /// `Font.custom` falls back through the system if unavailable.
+    static func futura(size: CGFloat, weight: Font.Weight = .regular) -> Font {
+        Font.custom("Futura", size: size).weight(weight)
+    }
+}
+
+extension Color {
+    /// Build a Color from a 0xRRGGBB literal.
+    init(hex: UInt32) {
+        self.init(
+            .sRGB,
+            red:   Double((hex >> 16) & 0xFF) / 255,
+            green: Double((hex >> 8) & 0xFF) / 255,
+            blue:  Double(hex & 0xFF) / 255,
+            opacity: 1
+        )
+    }
+}
+
+// MARK: - Bauhaus button style
+
+/// Flat, hard-edged, full-bleed block button: solid fill, zero corner radius,
+/// uppercase letter-spaced Futura white label. Used for both the Show Answer
+/// bar (ink fill) and the rating buttons (per-spectrum color fill).
+private struct BauhausBlockButtonStyle: ButtonStyle {
+    let fill: Color
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 18)
+            .background(fill)
+            // Hard corners: no cornerRadius, no shadow, no gloss.
+            .opacity(configuration.isPressed ? 0.82 : 1)
+            .contentShape(Rectangle())
+    }
+}
+
+// MARK: - Shared marks & tabs
+
+/// The Bauhaus geometric mark: red circle + blue square + yellow triangle.
+private struct BauhausMark: View {
+    var size: CGFloat = 22
+
+    var body: some View {
+        HStack(spacing: size * 0.28) {
+            Circle()
+                .fill(BauhausTheme.red)
+                .frame(width: size, height: size)
+            Rectangle()
+                .fill(BauhausTheme.blue)
+                .frame(width: size, height: size)
+            Triangle()
+                .fill(BauhausTheme.yellow)
+                .frame(width: size, height: size)
+        }
+    }
+}
+
+/// A hard-edged upward triangle.
+private struct Triangle: Shape {
+    func path(in rect: CGRect) -> Path {
+        var p = Path()
+        p.move(to: CGPoint(x: rect.midX, y: rect.minY))
+        p.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
+        p.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
+        p.closeSubpath()
+        return p
+    }
+}
+
+/// Solid ink tab label (uppercase, letter-spaced Futura on paper text).
+private struct InkTab: View {
+    let text: String
+
+    var body: some View {
+        Text(text.uppercased())
+            .font(BauhausTheme.futura(size: 13, weight: .bold))
+            .tracking(2)
+            .foregroundColor(BauhausTheme.paper)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 5)
+            .background(BauhausTheme.ink)
+    }
+}
+
 struct ContentView: View {
     @StateObject private var vm = ReviewViewModel()
 
     var body: some View {
         VStack(spacing: 0) {
             header
-            Divider()
             content
         }
+        .background(BauhausTheme.paper.ignoresSafeArea())
+        .preferredColorScheme(.light)
         .onAppear { if case .loading = vm.phase { vm.start() } }
     }
 
     private var header: some View {
-        HStack {
-            Text("GMAT Review")
-                .font(.headline)
+        HStack(alignment: .center) {
+            // Left: geometric mark + GMAT wordmark.
+            HStack(spacing: 10) {
+                BauhausMark(size: 22)
+                Text("GMAT")
+                    .font(BauhausTheme.futura(size: 24, weight: .bold))
+                    .tracking(4)
+                    .foregroundColor(BauhausTheme.ink)
+            }
+
             Spacer()
-            Text("Answered: \(vm.answeredCount)")
-                .font(.subheadline.monospacedDigit())
-                .foregroundStyle(.secondary)
+
+            // Right: answered count (tabular) with an uppercase ANSWERED label.
+            VStack(alignment: .trailing, spacing: 0) {
+                Text("\(vm.answeredCount)")
+                    .font(BauhausTheme.futura(size: 28, weight: .bold).monospacedDigit())
+                    .foregroundColor(BauhausTheme.ink)
+                Text("ANSWERED")
+                    .font(BauhausTheme.futura(size: 10, weight: .bold))
+                    .tracking(2)
+                    .foregroundColor(BauhausTheme.ink)
+            }
         }
-        .padding()
+        .padding(.horizontal, BauhausTheme.pad)
+        .padding(.vertical, 12)
+        .background(BauhausTheme.paper)
+        // 3px ink rule as the header's bottom border.
+        .overlay(alignment: .bottom) {
+            Rectangle()
+                .fill(BauhausTheme.ink)
+                .frame(height: BauhausTheme.headerRule)
+        }
     }
 
     @ViewBuilder
     private var content: some View {
         switch vm.phase {
         case .loading:
-            VStack(spacing: 12) {
-                ProgressView()
-                Text("Loading GMAT deck via rslib…")
-                    .foregroundStyle(.secondary)
+            VStack(spacing: 20) {
+                BauhausMark(size: 34)
+                Text("LOADING DECK…")
+                    .font(BauhausTheme.futura(size: 15, weight: .bold))
+                    .tracking(3)
+                    .foregroundColor(BauhausTheme.ink)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(BauhausTheme.paper)
 
         case .reviewing:
             if let card = vm.card {
                 reviewer(for: card)
             } else {
-                ProgressView().frame(maxWidth: .infinity, maxHeight: .infinity)
+                VStack(spacing: 20) {
+                    BauhausMark(size: 34)
+                    Text("LOADING DECK…")
+                        .font(BauhausTheme.futura(size: 15, weight: .bold))
+                        .tracking(3)
+                        .foregroundColor(BauhausTheme.ink)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(BauhausTheme.paper)
             }
 
         case .finished:
-            VStack(spacing: 12) {
-                Image(systemName: "checkmark.circle.fill")
-                    .font(.system(size: 48))
-                    .foregroundStyle(.green)
-                Text("Session complete")
-                    .font(.title3).bold()
-                Text("Answered \(vm.answeredCount) cards on the shared Anki engine.")
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
+            VStack(spacing: 24) {
+                // Bold geometric composition.
+                ZStack {
+                    Rectangle()
+                        .fill(BauhausTheme.blue)
+                        .frame(width: 96, height: 96)
+                    Circle()
+                        .fill(BauhausTheme.red)
+                        .frame(width: 54, height: 54)
+                        .offset(x: 34, y: -34)
+                    Triangle()
+                        .fill(BauhausTheme.yellow)
+                        .frame(width: 48, height: 48)
+                        .offset(x: -34, y: 36)
+                }
+                Text("SESSION COMPLETE")
+                    .font(BauhausTheme.futura(size: 22, weight: .bold))
+                    .tracking(3)
+                    .foregroundColor(BauhausTheme.ink)
+                VStack(spacing: 2) {
+                    Text("\(vm.answeredCount)")
+                        .font(BauhausTheme.futura(size: 40, weight: .bold).monospacedDigit())
+                        .foregroundColor(BauhausTheme.ink)
+                    Text("ANSWERED")
+                        .font(BauhausTheme.futura(size: 11, weight: .bold))
+                        .tracking(2)
+                        .foregroundColor(BauhausTheme.ink)
+                }
             }
-            .padding()
+            .padding(BauhausTheme.pad)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(BauhausTheme.paper)
 
         case .error(let msg):
             ScrollView {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Error").font(.headline).foregroundStyle(.red)
+                VStack(alignment: .leading, spacing: 12) {
+                    InkTab(text: "ERROR")
+                    Text("SOMETHING WENT WRONG")
+                        .font(BauhausTheme.futura(size: 18, weight: .bold))
+                        .tracking(2)
+                        .foregroundColor(BauhausTheme.ink)
+                    // Keep the monospaced, selectable error text for debuggability.
                     Text(msg)
                         .font(.system(.footnote, design: .monospaced))
+                        .foregroundColor(BauhausTheme.ink)
                         .textSelection(.enabled)
                 }
-                .padding()
+                .padding(BauhausTheme.pad)
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(BauhausTheme.paper)
         }
     }
 
@@ -140,28 +310,50 @@ struct ContentView: View {
             .id("\(card.cardId)-\(vm.showingAnswer)")  // force reload on change
             .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-            Divider()
-
             if vm.showingAnswer {
-                HStack(spacing: 8) {
-                    ratingButton(.again, .red)
-                    ratingButton(.hard, .orange)
-                    ratingButton(.good, .green)
-                    ratingButton(.easy, .blue)
-                }
-                .padding()
+                ratingRow
             } else {
-                Button {
-                    vm.showingAnswer = true
-                } label: {
-                    Text("Show Answer")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 8)
-                }
-                .buttonStyle(.borderedProminent)
-                .padding()
+                showAnswerBar
             }
+        }
+    }
+
+    /// Question sub-state: full-width ink SHOW ANSWER bar with a 3px ink rule
+    /// directly above it.
+    private var showAnswerBar: some View {
+        VStack(spacing: 0) {
+            Rectangle()
+                .fill(BauhausTheme.ink)
+                .frame(height: BauhausTheme.rowRule)
+
+            Button {
+                vm.showingAnswer = true
+            } label: {
+                Text("SHOW ANSWER")
+                    .font(BauhausTheme.futura(size: 16, weight: .bold))
+                    .tracking(3)
+                    .foregroundColor(BauhausTheme.paper)
+            }
+            .buttonStyle(BauhausBlockButtonStyle(fill: BauhausTheme.ink))
+        }
+    }
+
+    /// Answer sub-state: four rating buttons in one row with 2px ink gaps
+    /// (ink background shows through), and a 3px ink rule across the top.
+    private var ratingRow: some View {
+        VStack(spacing: 0) {
+            Rectangle()
+                .fill(BauhausTheme.ink)
+                .frame(height: BauhausTheme.rowRule)
+
+            // Ink background behind the row so the 2px gaps read as ink lines.
+            HStack(spacing: BauhausTheme.buttonGap) {
+                ratingButton(.again, BauhausTheme.red)
+                ratingButton(.hard,  BauhausTheme.yellow)
+                ratingButton(.good,  BauhausTheme.green)
+                ratingButton(.easy,  BauhausTheme.blue)
+            }
+            .background(BauhausTheme.ink)
         }
     }
 
@@ -169,12 +361,13 @@ struct ContentView: View {
         Button {
             vm.answer(rating)
         } label: {
-            Text(rating.label)
-                .font(.subheadline.bold())
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 8)
+            // White label on ALL four buttons, including yellow Hard (deck
+            // owner's explicit decision — do NOT switch to black text).
+            Text(rating.label.uppercased())
+                .font(BauhausTheme.futura(size: 15, weight: .bold))
+                .tracking(2)
+                .foregroundColor(.white)
         }
-        .buttonStyle(.borderedProminent)
-        .tint(color)
+        .buttonStyle(BauhausBlockButtonStyle(fill: color))
     }
 }
