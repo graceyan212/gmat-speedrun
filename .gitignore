@@ -1,0 +1,14 @@
+# The Anki fork is tracked in its own repo: github.com/graceyan212/anki
+anki/
+
+# Large packaged desktop build output (regenerable)
+*.dmg
+
+# Rust build cache (~2.9GB, regenerable via the build script)
+bridge/anki-bridge-rs/target/
+
+# macOS / Xcode cruft
+.DS_Store
+**/xcuserdata/
+**/*.xcuserstate
+**/DerivedData/

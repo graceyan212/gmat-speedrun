@@ -1,0 +1,31 @@
+# Copyright: G-iOS speedrun track.
+# Standalone C-ABI bridge crate that links Anki's real Rust core (rslib) for iOS.
+# Depends on the upstream `anki` and `anki_proto` crates BY PATH (read-only).
+# Adapted from AMGI (github.com/antigluten/amgi).
+
+[package]
+name = "anki-bridge-ios"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+# Make this crate its own workspace root so cargo does not try to fold it into
+# the upstream anki workspace (rslib declares `workspace = ".."`). Path deps are
+# still resolved against the anki workspace's [workspace.dependencies].
+[workspace]
+
+[lib]
+name = "anki_bridge"
+crate-type = ["staticlib"]
+
+[dependencies]
+# Read-only path dependencies on the real Anki core. Do NOT modify rslib.
+anki = { path = "../../anki/rslib", features = ["rustls"] }
+anki_proto = { path = "../../anki/rslib/proto" }
+prost = "0.13"
+
+[profile.release]
+opt-level = "s" # optimize for size (iOS binary)
+lto = true
+strip = true
+panic = "abort"
