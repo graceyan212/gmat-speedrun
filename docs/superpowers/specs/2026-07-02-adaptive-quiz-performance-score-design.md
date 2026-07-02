@@ -86,8 +86,9 @@ A new module (`rslib/src/scheduler/adaptive.rs`) that:
   where `b` = item difficulty (rescaled from 0–100 to logits) and `θ` = ability.
 - Exposes the **performance score** = θ mapped to a 0–100 display value, with a
   **range** from the estimate's standard error.
-- Provides **adaptive selection**: among candidate (due/new) cards, pick the one
-  whose difficulty is nearest the current θ.
+- Provides **adaptive selection**: extends the Jul 1 points-at-stake reorder as a
+  hierarchy — topic weakness sets the priority (as Wed already does), and *within*
+  that, the card nearest the current θ is chosen.
 
 Exposed to all clients via a new protobuf RPC `GetPerformanceScore`. Adaptive
 selection hooks into the existing queue-build path (behind the toggle) so the
@@ -105,7 +106,7 @@ items.json ──calibrate (Claude)──► items.json + notes get ai_difficult
   study session ──► queue build (toggle ON) reads difficulty per card
                           │
                           ├─ compute θ from revlog history + difficulty (Rasch)
-                          ├─ order/pick next card by nearest-difficulty-to-θ
+                          ├─ order next card: weakness (primary) then difficulty-fit (secondary)
                           └─ GetPerformanceScore RPC ► desktop/phone shows score+range
 ```
 
@@ -129,7 +130,7 @@ items.json ──calibrate (Claude)──► items.json + notes get ai_difficult
 | `calibrate_difficulty` | Python | LLM difficulty + rationale → items.json + `aidiff::` tags | CLI script |
 | `adaptive` module | Rust | Rasch θ estimate, SE→range, nearest-difficulty selection | internal + RPC |
 | `GetPerformanceScore` | proto/Rust | return `{score, score_low, score_high, answered, abstained}` | protobuf RPC → Python/Swift bindings |
-| queue-build hook | Rust | when toggle ON, order review queue by nearest-difficulty-to-θ | internal, in `queue/builder` |
+| queue-build hook | Rust | extends points-at-stake: weakness (primary) + difficulty-fit vs θ (secondary); toggle gates the difficulty term | internal, in `queue/builder` |
 | desktop score UI | Python/Qt | show performance score + range | reuses readiness-dashboard style |
 | eval harness | Python | Brier + accuracy: AI difficulty vs coarse tags on the student's own answers | CLI script + test |
 | toggle | Rust config | `gmat_adaptive_enabled` bool | collection config |
@@ -147,15 +148,33 @@ items.json ──calibrate (Claude)──► items.json + notes get ai_difficult
   `GetPerformanceScore` abstains (no number, lists what's needed) — mirrors the
   existing readiness give-up rule so all three scores behave consistently.
 
-## Adaptive selection
+## Adaptive selection (hierarchy merge with Wed's ordering)
 
-- **MVP (Friday):** at queue-build time, order the review queue by
-  `|difficulty − θ|` ascending (θ from history so far). Reaches the phone for
-  free via the existing path. "Approximately adaptive" — reorders per session.
-- **Stretch (Sunday):** re-pick after each answer using the just-updated θ (true
-  per-answer CAT). Still entirely in the engine.
+There is exactly one "next card" decision, and one ordering fills it — so this
+**extends** the Jul 1 points-at-stake reorder (`sort_review` in the queue
+builder) instead of competing with it. The ordering is a **hierarchy**:
+
+1. **Primary — topic weakness (Wed):** weak-topic cards are prioritized, exactly
+   as points-at-stake already does.
+2. **Secondary — difficulty fit (new):** *within* that priority, choose the card
+   whose difficulty is nearest the student's current ability θ.
+
+Concretely, the existing per-note weight becomes the coarse sort key and
+`-|difficulty − θ|` becomes the tiebreaker (one weight, one stable sort, same
+hook) → weakness sets the neighborhood, difficulty picks the card, and it reaches
+the phone for free via the existing review path.
+
+- **Friday:** the merged hierarchy ordering above (re-derived per session as θ
+  updates from answer history). Right→harder is present, softened by the weakness
+  pull — an accepted trade-off for reusing the Wed hook with minimal work.
+- **Stretch (Sunday):** a standalone "Adaptive Quiz" mode governed *purely* by
+  difficulty-vs-θ (crisp per-answer right→harder) with true per-answer re-pick.
 - Cards with no `aidiff::` tag fall back to the coarse `difficulty::` value
   (easy=20, medium=50, hard=80) so selection degrades gracefully.
+
+The **toggle** gates the secondary term: off ⇒ pure Wed weakness ordering (the
+ablation's "adaptive off" arm); on-with-AI-difficulty vs on-with-coarse-tags are
+the other two ablation arms.
 
 ## Eval (uses the student's own answers)
 
@@ -208,11 +227,13 @@ Modified upstream files (small, additive, mirrors the T2 footprint):
 ## Scope split for the deadline
 
 - **Friday (Jul 3):** calibration script + `aidiff::` tags; Rust performance
-  score (θ + range) + adaptive queue ordering behind the toggle; desktop shows
-  the score; first eval on the student's own answers; Rust + Python tests.
-  (Engine is shared, so the phone gets adaptive ordering underneath.)
-- **Sunday (Jul 5):** true per-answer re-selection; phone score readout (SwiftUI);
-  fuller eval (calibration curve / Brier) + the ablation table + write-up.
+  score (θ + range); the **hierarchy-merge ordering** (weakness → difficulty-fit)
+  extending the Wed points-at-stake hook, behind the toggle; desktop shows the
+  score; first eval on the student's own answers; Rust + Python tests.
+  (Engine is shared, so the phone gets the merged ordering underneath.)
+- **Sunday (Jul 5):** standalone "Adaptive Quiz" mode (pure difficulty-vs-θ) with
+  true per-answer re-selection; phone score readout (SwiftUI); fuller eval
+  (calibration curve / Brier) + the ablation table + write-up.
 
 ## Open questions / risks
 
