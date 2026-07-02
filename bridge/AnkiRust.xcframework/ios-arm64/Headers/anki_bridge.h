@@ -189,6 +189,41 @@ int anki_next_card(int64_t backend_ptr, uint8_t **out_data, uintptr_t *out_len);
  */
 int anki_answer_rating(int64_t backend_ptr, int64_t card_id, uint32_t rating);
 
+/**
+ * Log in to a sync server. Returns a serialized SyncAuth (caller frees via anki_free_response).
+ * # Safety: standard FFI pointer contract; strings are NUL-terminated UTF-8.
+ */
+int anki_sync_login(int64_t backend_ptr,
+                    const char *endpoint,
+                    const char *user,
+                    const char *pass,
+                    uint8_t **out_data,
+                    uintptr_t *out_len);
+
+/**
+ * Run a collection sync using a serialized SyncAuth from anki_sync_login.
+ * Returns a serialized SyncCollectionResponse (inspect `.required` for full-sync).
+ * # Safety: auth_data/auth_len describe a valid SyncAuth protobuf.
+ */
+int anki_sync_collection(int64_t backend_ptr,
+                         const uint8_t *auth_data,
+                         uintptr_t auth_len,
+                         uint8_t **out_data,
+                         uintptr_t *out_len);
+
+/**
+ * Full upload or download (used when SyncCollectionResponse.required is a full-sync variant).
+ * upload=true -> full_upload; false -> full_download. server_usn < 0 omits media sync.
+ * # Safety: auth_data/auth_len describe a valid SyncAuth protobuf.
+ */
+int anki_full_upload_or_download(int64_t backend_ptr,
+                                 const uint8_t *auth_data,
+                                 uintptr_t auth_len,
+                                 bool upload,
+                                 int32_t server_usn,
+                                 uint8_t **out_data,
+                                 uintptr_t *out_len);
+
 #ifdef __cplusplus
 }  // extern "C"
 #endif  // __cplusplus
