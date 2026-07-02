@@ -12,3 +12,6 @@ bridge/anki-bridge-rs/target/
 **/xcuserdata/
 **/*.xcuserstate
 **/DerivedData/
+
+# Visual brainstorming companion (superpowers)
+.superpowers/
