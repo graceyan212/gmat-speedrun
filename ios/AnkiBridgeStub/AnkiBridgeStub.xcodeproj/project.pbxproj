@@ -19,7 +19,7 @@
 		AA0000000000000000000001 /* AnkiBridgeStubApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnkiBridgeStubApp.swift; sourceTree = "<group>"; };
 		AA0000000000000000000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		AA0000000000000000000003 /* AnkiBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnkiBridge.swift; sourceTree = "<group>"; };
-		AA0000000000000000000004 /* AnkiRust.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AnkiRust.xcframework; path = "../../bridge/AnkiRust.xcframework"; sourceTree = "<group>"; };
+		AA0000000000000000000004 /* AnkiRust.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AnkiRust.xcframework; path = ../../bridge/AnkiRust.xcframework; sourceTree = "<group>"; };
 		AA0000000000000000000005 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA0000000000000000000006 /* CardWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardWebView.swift; sourceTree = "<group>"; };
 		AA0000000000000000000007 /* gmat_focus.apkg */ = {isa = PBXFileReference; lastKnownFileType = file; path = gmat_focus.apkg; sourceTree = "<group>"; };
@@ -37,19 +37,8 @@
 		};
 /* End PBXFrameworksBuildPhase section */
 
-/* Begin PBXResourcesBuildPhase section */
-		AA0000000000000000000040 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				AA0000000000000000000015 /* gmat_focus.apkg in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
 /* Begin PBXGroup section */
-		AA0000000000000000000100 /* Root */ = {
+		AA0000000000000000000100 = {
 			isa = PBXGroup;
 			children = (
 				AA0000000000000000000101 /* AnkiBridgeStub */,
@@ -130,7 +119,7 @@
 				en,
 				Base,
 			);
-			mainGroup = AA0000000000000000000100 /* Root */;
+			mainGroup = AA0000000000000000000100;
 			productRefGroup = AA0000000000000000000102 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -139,6 +128,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AA0000000000000000000040 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA0000000000000000000015 /* gmat_focus.apkg in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		AA0000000000000000000020 /* Sources */ = {
@@ -192,11 +192,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS = NO;
-				CODE_SIGNING_ALLOWED = NO;
-				CODE_SIGNING_REQUIRED = NO;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGNING_ALLOWED = YES;
+				CODE_SIGNING_REQUIRED = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4DMP5UV5S6;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = AnkiBridgeStub/Info.plist;
@@ -216,11 +218,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS = NO;
-				CODE_SIGNING_ALLOWED = NO;
-				CODE_SIGNING_REQUIRED = NO;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGNING_ALLOWED = YES;
+				CODE_SIGNING_REQUIRED = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4DMP5UV5S6;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = AnkiBridgeStub/Info.plist;
@@ -239,20 +243,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		AA0000000000000000000910 /* Build configuration list for PBXProject "AnkiBridgeStub" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AA0000000000000000000400 /* Debug */,
-				AA0000000000000000000401 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		AA0000000000000000000310 /* Build configuration list for PBXNativeTarget "AnkiBridgeStub" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AA0000000000000000000410 /* Debug */,
 				AA0000000000000000000411 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA0000000000000000000910 /* Build configuration list for PBXProject "AnkiBridgeStub" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA0000000000000000000400 /* Debug */,
+				AA0000000000000000000401 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
