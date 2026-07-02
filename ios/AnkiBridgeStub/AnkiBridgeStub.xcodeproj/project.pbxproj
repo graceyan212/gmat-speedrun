@@ -13,6 +13,7 @@
 		AA0000000000000000000013 /* AnkiRust.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000004 /* AnkiRust.xcframework */; };
 		AA0000000000000000000014 /* CardWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000006 /* CardWebView.swift */; };
 		AA0000000000000000000015 /* gmat_focus.apkg in Resources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000007 /* gmat_focus.apkg */; };
+		AA0000000000000000000016 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000008 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		AA0000000000000000000005 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA0000000000000000000006 /* CardWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardWebView.swift; sourceTree = "<group>"; };
 		AA0000000000000000000007 /* gmat_focus.apkg */ = {isa = PBXFileReference; lastKnownFileType = file; path = gmat_focus.apkg; sourceTree = "<group>"; };
+		AA0000000000000000000008 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA00000000000000000000F0 /* AnkiBridgeStub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnkiBridgeStub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -55,6 +57,7 @@
 				AA0000000000000000000003 /* AnkiBridge.swift */,
 				AA0000000000000000000006 /* CardWebView.swift */,
 				AA0000000000000000000007 /* gmat_focus.apkg */,
+				AA0000000000000000000008 /* Assets.xcassets */,
 				AA0000000000000000000005 /* Info.plist */,
 			);
 			path = AnkiBridgeStub;
@@ -135,6 +138,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA0000000000000000000015 /* gmat_focus.apkg in Resources */,
+				AA0000000000000000000016 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,6 +195,7 @@
 		AA0000000000000000000410 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS = NO;
 				CODE_SIGNING_ALLOWED = YES;
 				CODE_SIGNING_REQUIRED = YES;
@@ -217,6 +222,7 @@
 		AA0000000000000000000411 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS = NO;
 				CODE_SIGNING_ALLOWED = YES;
 				CODE_SIGNING_REQUIRED = YES;
