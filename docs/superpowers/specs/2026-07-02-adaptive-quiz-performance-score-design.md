@@ -52,6 +52,31 @@ that:
 
 This never runs during study, so review stays fully offline.
 
+#### Difficulty rubric (how the score is decided)
+
+The score is **not** a free-form LLM guess. The model rates each item against an
+explicit rubric and returns which factors drove the score (the rationale = the
+traceable record). Factors:
+
+- **Reasoning steps** — number of distinct steps from stem to answer.
+- **Concept load** — single concept vs. combining several.
+- **Distractor trickiness** — are the wrong choices engineered to catch common errors?
+- **Parsing/wording** — convoluted stems, negations, "all of the following EXCEPT".
+- **Computation weight** — quick mental math vs. heavy arithmetic.
+- **Intended time** — the item's existing `target_seconds` as a difficulty signal.
+
+Scale: **0–100, anchored to described bands** (e.g. 0–20 trivial recall … 80–100
+multi-step with strong traps) so ratings are comparable, not arbitrary;
+single-point differences are not treated as meaningful. Output per item:
+`{ai_difficulty: int, ai_difficulty_reason: str}` — e.g. *"78 — 3-step
+ratios+percents chain; choice (C) is an off-by-one trap."*
+
+**This is a proxy, not ground truth.** True difficulty is the empirical p-value
+(fraction of real test-takers who miss it); the LLM judges *human* difficulty
+from the rubric, since it is not itself a test-taker. The eval (below) validates
+the proxy against the student's actual answers and reports honestly if it does
+not beat the coarse baseline.
+
 ### Part 2 — Adaptive selection + performance score (Rust, `rslib`, shared)
 
 A new module (`rslib/src/scheduler/adaptive.rs`) that:
