@@ -59,6 +59,13 @@ const SVC_BACKEND_DECKS: u32 = 7;
 const M_GET_DECK_ID_BY_NAME: u32 = 7;
 const M_SET_CURRENT_DECK: u32 = 22;
 
+// BackendSyncService (svc 1): SyncLogin=method 3, SyncCollection=method 5,
+// FullUploadOrDownload=method 6.
+const SVC_BACKEND_SYNC: u32 = 1;
+const M_SYNC_LOGIN: u32 = 3;
+const M_SYNC_COLLECTION: u32 = 5;
+const M_FULL_UPLOAD_OR_DOWNLOAD: u32 = 6;
+
 /// Process-global stash of the SchedulingStates rslib most recently returned for
 /// each card via `anki_next_card`. AnswerCard requires the card's `current` and
 /// rating-selected `new` SchedulingState; rather than make Swift parse protobuf,
@@ -595,6 +602,86 @@ pub unsafe extern "C" fn anki_answer_rating(
             0
         }
         Err(_) => 1,
+    }
+}
+
+/// Log in to a sync server. Returns a serialized SyncAuth (caller frees via anki_free_response).
+/// # Safety: standard FFI pointer contract; strings are NUL-terminated UTF-8.
+#[no_mangle]
+pub unsafe extern "C" fn anki_sync_login(
+    backend_ptr: i64,
+    endpoint: *const c_char,
+    user: *const c_char,
+    pass: *const c_char,
+    out_data: *mut *mut u8,
+    out_len: *mut usize,
+) -> c_int {
+    if backend_ptr == 0 || user.is_null() || pass.is_null() { return -1; }
+    let Some(username) = (unsafe { cstr_to_string(user) }) else { return -1; };
+    let Some(password) = (unsafe { cstr_to_string(pass) }) else { return -1; };
+    let endpoint = unsafe { cstr_to_string(endpoint) }.unwrap_or_default();
+    let req = anki_proto::sync::SyncLoginRequest {
+        username,
+        password,
+        endpoint: if endpoint.is_empty() { None } else { Some(endpoint) },
+    };
+    let input = req.encode_to_vec();
+    let backend = unsafe { &*(backend_ptr as *const Backend) };
+    match backend.run_service_method(SVC_BACKEND_SYNC, M_SYNC_LOGIN, &input) {
+        Ok(output) => { unsafe { set_output(output, out_data, out_len) }; 0 }
+        Err(err_bytes) => { unsafe { set_output(err_bytes, out_data, out_len) }; 1 }
+    }
+}
+
+/// Run a collection sync using a serialized SyncAuth from anki_sync_login.
+/// Returns a serialized SyncCollectionResponse (inspect `.required` for full-sync).
+/// # Safety: auth_data/auth_len describe a valid SyncAuth protobuf.
+#[no_mangle]
+pub unsafe extern "C" fn anki_sync_collection(
+    backend_ptr: i64,
+    auth_data: *const u8,
+    auth_len: usize,
+    out_data: *mut *mut u8,
+    out_len: *mut usize,
+) -> c_int {
+    if backend_ptr == 0 || auth_data.is_null() || auth_len == 0 { return -1; }
+    let auth_bytes = unsafe { slice::from_raw_parts(auth_data, auth_len) };
+    let auth = match anki_proto::sync::SyncAuth::decode(auth_bytes) { Ok(a) => a, Err(_) => return -1 };
+    let req = anki_proto::sync::SyncCollectionRequest { auth: Some(auth), sync_media: false };
+    let input = req.encode_to_vec();
+    let backend = unsafe { &*(backend_ptr as *const Backend) };
+    match backend.run_service_method(SVC_BACKEND_SYNC, M_SYNC_COLLECTION, &input) {
+        Ok(output) => { unsafe { set_output(output, out_data, out_len) }; 0 }
+        Err(err_bytes) => { unsafe { set_output(err_bytes, out_data, out_len) }; 1 }
+    }
+}
+
+/// Full upload or download (used when SyncCollectionResponse.required is a full-sync variant).
+/// upload=true -> full_upload; false -> full_download. server_usn < 0 omits media sync.
+/// # Safety: auth_data/auth_len describe a valid SyncAuth protobuf.
+#[no_mangle]
+pub unsafe extern "C" fn anki_full_upload_or_download(
+    backend_ptr: i64,
+    auth_data: *const u8,
+    auth_len: usize,
+    upload: bool,
+    server_usn: i32,
+    out_data: *mut *mut u8,
+    out_len: *mut usize,
+) -> c_int {
+    if backend_ptr == 0 || auth_data.is_null() || auth_len == 0 { return -1; }
+    let auth_bytes = unsafe { slice::from_raw_parts(auth_data, auth_len) };
+    let auth = match anki_proto::sync::SyncAuth::decode(auth_bytes) { Ok(a) => a, Err(_) => return -1 };
+    let req = anki_proto::sync::FullUploadOrDownloadRequest {
+        auth: Some(auth),
+        upload,
+        server_usn: if server_usn < 0 { None } else { Some(server_usn) },
+    };
+    let input = req.encode_to_vec();
+    let backend = unsafe { &*(backend_ptr as *const Backend) };
+    match backend.run_service_method(SVC_BACKEND_SYNC, M_FULL_UPLOAD_OR_DOWNLOAD, &input) {
+        Ok(output) => { unsafe { set_output(output, out_data, out_len) }; 0 }
+        Err(err_bytes) => { unsafe { set_output(err_bytes, out_data, out_len) }; 1 }
     }
 }
 
