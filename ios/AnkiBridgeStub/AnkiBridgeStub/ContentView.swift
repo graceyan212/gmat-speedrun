@@ -16,6 +16,14 @@ final class ReviewViewModel: ObservableObject {
     @Published var showingAnswer = false
     @Published var answeredCount = 0
 
+    // Sync settings + status. `serverURL` must carry a trailing slash
+    // (rslib's sync client does `Url::join("sync/")`).
+    @Published var serverURL = ""
+    @Published var syncUser = ""
+    @Published var syncPass = ""
+    @Published var syncStatus = ""
+    @Published var isSyncing = false
+
     private let engine = AnkiEngine()
 
     func start() {
@@ -57,6 +65,33 @@ final class ReviewViewModel: ObservableObject {
                 }
             } catch {
                 await MainActor.run { self.phase = .error("\(error)") }
+            }
+        }
+    }
+
+    /// Log in to the configured sync server and run a collection sync.
+    /// Sync is blocking network I/O, so — same pattern as `start()`/`answer()`
+    /// — this runs off the main thread and only publishes back on main.
+    func syncNow() {
+        guard !isSyncing else { return }
+        let endpoint = serverURL
+        let user = syncUser
+        let pass = syncPass
+        isSyncing = true
+        syncStatus = "Syncing…"
+        Task.detached(priority: .userInitiated) { [engine] in
+            do {
+                let auth = try engine.syncLogin(endpoint: endpoint, user: user, pass: pass)
+                try engine.sync(auth: auth)
+                await MainActor.run {
+                    self.isSyncing = false
+                    self.syncStatus = "Synced"
+                }
+            } catch {
+                await MainActor.run {
+                    self.isSyncing = false
+                    self.syncStatus = "Sync failed: \(error)"
+                }
             }
         }
     }
@@ -170,6 +205,7 @@ private struct InkTab: View {
 
 struct ContentView: View {
     @StateObject private var vm = ReviewViewModel()
+    @State private var showingSyncSheet = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -179,6 +215,9 @@ struct ContentView: View {
         .background(BauhausTheme.paper.ignoresSafeArea())
         .preferredColorScheme(.light)
         .onAppear { if case .loading = vm.phase { vm.start() } }
+        .sheet(isPresented: $showingSyncSheet) {
+            SyncSettingsView(vm: vm)
+        }
     }
 
     private var header: some View {
@@ -193,6 +232,24 @@ struct ContentView: View {
             }
 
             Spacer()
+
+            // Sync button: opens the server-settings sheet, and doubles as a
+            // status readout via the ink label underneath.
+            Button {
+                showingSyncSheet = true
+            } label: {
+                VStack(alignment: .trailing, spacing: 2) {
+                    Text(vm.isSyncing ? "SYNCING…" : "SYNC")
+                        .font(BauhausTheme.futura(size: 13, weight: .bold))
+                        .tracking(2)
+                        .foregroundColor(BauhausTheme.paper)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 5)
+                        .background(BauhausTheme.blue)
+                }
+            }
+            .disabled(vm.isSyncing)
+            .padding(.trailing, 14)
 
             // Right: answered count (tabular) with an uppercase ANSWERED label.
             VStack(alignment: .trailing, spacing: 0) {
@@ -369,5 +426,104 @@ struct ContentView: View {
                 .foregroundColor(.white)
         }
         .buttonStyle(BauhausBlockButtonStyle(fill: color))
+    }
+}
+
+// MARK: - Sync settings sheet
+
+/// Server URL + credentials + a manual Sync trigger, in the Bauhaus idiom:
+/// flat ink/paper fields with hard edges, uppercase letter-spaced labels.
+private struct SyncSettingsView: View {
+    @ObservedObject var vm: ReviewViewModel
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            // Sheet header: ink rule + wordmark, matching the app header.
+            HStack {
+                Text("SYNC SETTINGS")
+                    .font(BauhausTheme.futura(size: 18, weight: .bold))
+                    .tracking(3)
+                    .foregroundColor(BauhausTheme.ink)
+                Spacer()
+                Button {
+                    dismiss()
+                } label: {
+                    Text("DONE")
+                        .font(BauhausTheme.futura(size: 13, weight: .bold))
+                        .tracking(2)
+                        .foregroundColor(BauhausTheme.ink)
+                }
+            }
+            .padding(BauhausTheme.pad)
+            .overlay(alignment: .bottom) {
+                Rectangle()
+                    .fill(BauhausTheme.ink)
+                    .frame(height: BauhausTheme.headerRule)
+            }
+
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    fieldBlock(label: "Server URL (needs trailing slash)") {
+                        TextField("https://example.trycloudflare.com/", text: $vm.serverURL)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled(true)
+                            .keyboardType(.URL)
+                    }
+
+                    fieldBlock(label: "Username") {
+                        TextField("username", text: $vm.syncUser)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled(true)
+                    }
+
+                    fieldBlock(label: "Password") {
+                        SecureField("password", text: $vm.syncPass)
+                    }
+
+                    if !vm.syncStatus.isEmpty {
+                        Text(vm.syncStatus.uppercased())
+                            .font(BauhausTheme.futura(size: 12, weight: .bold))
+                            .tracking(1.5)
+                            .foregroundColor(BauhausTheme.ink)
+                            .textSelection(.enabled)
+                    }
+
+                    Button {
+                        vm.syncNow()
+                    } label: {
+                        Text(vm.isSyncing ? "SYNCING…" : "SYNC NOW")
+                            .font(BauhausTheme.futura(size: 16, weight: .bold))
+                            .tracking(3)
+                            .foregroundColor(BauhausTheme.paper)
+                    }
+                    .buttonStyle(BauhausBlockButtonStyle(fill: BauhausTheme.ink))
+                    .disabled(vm.isSyncing || vm.serverURL.isEmpty)
+                }
+                .padding(BauhausTheme.pad)
+            }
+        }
+        .background(BauhausTheme.paper.ignoresSafeArea())
+        .preferredColorScheme(.light)
+    }
+
+    /// Uppercase ink label above a flat, hard-edged paper-on-ink text field.
+    @ViewBuilder
+    private func fieldBlock<Content: View>(label: String, @ViewBuilder field: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(label.uppercased())
+                .font(BauhausTheme.futura(size: 11, weight: .bold))
+                .tracking(1.5)
+                .foregroundColor(BauhausTheme.ink)
+            field()
+                .font(BauhausTheme.futura(size: 15))
+                .padding(.horizontal, 12)
+                .padding(.vertical, 10)
+                .background(BauhausTheme.paper)
+                .overlay(
+                    Rectangle()
+                        .stroke(BauhausTheme.ink, lineWidth: 2)
+                )
+        }
     }
 }

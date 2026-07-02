@@ -45,6 +45,8 @@ enum AnkiBridgeError: Error, CustomStringConvertible {
     case nextCard(Int32)
     case answer(Int32)
     case badResponse
+    case syncLogin(Int32)
+    case sync(Int32)
 
     var description: String {
         switch self {
@@ -55,6 +57,8 @@ enum AnkiBridgeError: Error, CustomStringConvertible {
         case .nextCard(let rc): return "anki_next_card failed (rc=\(rc))"
         case .answer(let rc): return "anki_answer_rating failed (rc=\(rc))"
         case .badResponse: return "could not decode rslib JSON response"
+        case .syncLogin(let rc): return "anki_sync_login failed (rc=\(rc))"
+        case .sync(let rc): return "sync failed (rc=\(rc))"
         }
     }
 }
@@ -81,18 +85,20 @@ final class AnkiEngine {
         note("anki_open_backend rc=\(rc) ptr=\(backendPtr)")
         guard rc == 0, backendPtr != 0 else { throw AnkiBridgeError.backendInit }
 
-        // 2. Open (create) a collection in Application Support.
+        // 2. Open (create) a collection in Application Support. The collection
+        // PERSISTS across launches (no wipe) so reviews/sync state survive
+        // relaunch; only a genuinely first-ever launch imports the starter deck.
         let support = FileManager.default.urls(for: .applicationSupportDirectory,
                                                in: .userDomainMask)[0]
         let dir = support.appendingPathComponent(subdir, isDirectory: true)
         try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
-        // Start from a clean collection each launch so the import is deterministic.
         let colPath = dir.appendingPathComponent("collection.anki2").path
-        try? FileManager.default.removeItem(atPath: colPath)
+        // Capture BEFORE anki_open, which creates the file if absent.
+        let isFirstLaunch = !FileManager.default.fileExists(atPath: colPath)
         let mediaDir = dir.appendingPathComponent("collection.media").path
         try? FileManager.default.createDirectory(atPath: mediaDir, withIntermediateDirectories: true)
         let mediaDB = dir.appendingPathComponent("collection.media.db2").path
-        note("collection: \(colPath)")
+        note("collection: \(colPath) isFirstLaunch=\(isFirstLaunch)")
 
         let orc = colPath.withCString { cp in
             mediaDir.withCString { mf in
@@ -104,7 +110,14 @@ final class AnkiEngine {
         note("anki_open rc=\(orc)")
         guard orc == 0 else { throw AnkiBridgeError.openCollection(orc) }
 
-        // 3. Import the bundled GMAT .apkg through rslib.
+        guard isFirstLaunch else {
+            note("persisted collection found; skipping starter-deck import")
+            return
+        }
+
+        // 3. First launch only: import the bundled GMAT .apkg through rslib.
+        // On a persisted collection this must NOT re-run, or every relaunch
+        // would duplicate the starter deck's cards.
         guard let apkg = Bundle.main.url(forResource: "gmat_focus", withExtension: "apkg") else {
             note("FATAL: gmat_focus.apkg not found in app bundle")
             throw AnkiBridgeError.importPackage(-99)
@@ -154,6 +167,90 @@ final class AnkiEngine {
         guard rc == 0 else { throw AnkiBridgeError.answer(rc) }
     }
 
+    /// Log in to a self-hosted sync server. Returns the serialized `SyncAuth`
+    /// bytes (opaque to Swift) — pass them straight into `sync(auth:)`.
+    ///
+    /// No SwiftProtobuf dependency is linked (see the file header), so the
+    /// `SyncAuth` bytes are round-tripped as an opaque blob rather than
+    /// decoded; only `SyncCollectionResponse.required` needs to be read on
+    /// the Swift side, which is done with a minimal hand-rolled parser below.
+    func syncLogin(endpoint: String, user: String, pass: String) throws -> [UInt8] {
+        var outData: UnsafeMutablePointer<UInt8>? = nil
+        var outLen: UInt = 0
+        let rc = endpoint.withCString { ep in
+            user.withCString { up in
+                pass.withCString { pp in
+                    anki_sync_login(backendPtr, ep, up, pp, &outData, &outLen)
+                }
+            }
+        }
+        note("anki_sync_login rc=\(rc)")
+        guard rc == 0 else { throw AnkiBridgeError.syncLogin(rc) }
+        guard let outData = outData, outLen > 0 else { throw AnkiBridgeError.badResponse }
+        defer { anki_free_response(outData, outLen) }
+        return Array(UnsafeBufferPointer(start: outData, count: Int(outLen)))
+    }
+
+    /// Run a collection sync using the `SyncAuth` bytes from `syncLogin`.
+    ///
+    /// `anki_sync_collection` returns a serialized `SyncCollectionResponse`
+    /// (see `anki/proto/anki/sync.proto`):
+    ///   uint32 host_number = 1; string server_message = 2;
+    ///   ChangesRequired required = 3;  optional string new_endpoint = 4;
+    ///   int32 server_media_usn = 5;
+    /// `ChangesRequired`: NO_CHANGES=0, NORMAL_SYNC=1, FULL_SYNC=2,
+    /// FULL_DOWNLOAD=3, FULL_UPLOAD=4.
+    ///
+    /// Only field 3 (`required`, a varint) is needed here, so rather than
+    /// pull in SwiftProtobuf for one integer this walks the top-level
+    /// tag/length-delimited structure by hand (see `readVarintField` below).
+    /// If a full sync is required, follows up with
+    /// `anki_full_upload_or_download` (FULL_UPLOAD/FULL_SYNC -> upload=true,
+    /// FULL_DOWNLOAD -> upload=false).
+    func sync(auth: [UInt8]) throws {
+        var outData: UnsafeMutablePointer<UInt8>? = nil
+        var outLen: UInt = 0
+        let rc = auth.withUnsafeBufferPointer { buf -> Int32 in
+            anki_sync_collection(backendPtr, buf.baseAddress, UInt(buf.count), &outData, &outLen)
+        }
+        note("anki_sync_collection rc=\(rc)")
+        guard rc == 0 else { throw AnkiBridgeError.sync(rc) }
+        guard let outData = outData, outLen > 0 else { throw AnkiBridgeError.badResponse }
+        let responseBytes = Array(UnsafeBufferPointer(start: outData, count: Int(outLen)))
+        anki_free_response(outData, outLen)
+
+        let required = ProtoScan.readVarintField(responseBytes, fieldNumber: 3) ?? 0
+        note("sync_collection required=\(required)")
+
+        let upload: Bool
+        switch required {
+        case 0, 1:
+            // NO_CHANGES / NORMAL_SYNC: anki_sync_collection already merged
+            // the normal (incremental) changes; nothing further to do.
+            return
+        case 2, 4:
+            // FULL_SYNC, FULL_UPLOAD: local side is authoritative.
+            upload = true
+        case 3:
+            // FULL_DOWNLOAD: remote side is authoritative.
+            upload = false
+        default:
+            note("sync_collection: unrecognized required=\(required); skipping full sync")
+            return
+        }
+
+        var fudOutData: UnsafeMutablePointer<UInt8>? = nil
+        var fudOutLen: UInt = 0
+        let frc = auth.withUnsafeBufferPointer { buf -> Int32 in
+            anki_full_upload_or_download(backendPtr, buf.baseAddress, UInt(buf.count), upload, -1, &fudOutData, &fudOutLen)
+        }
+        note("anki_full_upload_or_download upload=\(upload) rc=\(frc)")
+        if let fudOutData = fudOutData, fudOutLen > 0 {
+            anki_free_response(fudOutData, fudOutLen)
+        }
+        guard frc == 0 else { throw AnkiBridgeError.sync(frc) }
+    }
+
     func close() {
         if backendPtr != 0 {
             _ = anki_close(backendPtr, false)
@@ -163,4 +260,68 @@ final class AnkiEngine {
     }
 
     deinit { close() }
+}
+
+/// A minimal, dependency-free protobuf scanner.
+///
+/// The app has no SwiftProtobuf dependency (by design — see the file header),
+/// but `sync(auth:)` needs to read exactly one integer field
+/// (`SyncCollectionResponse.required`, field 3) out of the response rslib
+/// returns. Pulling in the whole `.proto`-generated Swift model for one field
+/// isn't worth the dependency, so this walks the wire format directly:
+/// each field is a varint tag (`field_number << 3 | wire_type`) followed by
+/// a value whose shape depends on the wire type. This only needs to handle
+/// varint (0) and length-delimited (2) since those are the only wire types
+/// `SyncCollectionResponse` uses.
+enum ProtoScan {
+    /// Read a top-level varint-typed field's value from `data` by field number.
+    /// Returns `nil` if the field is absent or the bytes are malformed.
+    static func readVarintField(_ data: [UInt8], fieldNumber: Int) -> UInt64? {
+        var i = 0
+        var result: UInt64?
+        while i < data.count {
+            guard let (tag, tagLen) = readVarint(data, at: i) else { return result }
+            i += tagLen
+            let wireType = tag & 0x7
+            let field = Int(tag >> 3)
+            switch wireType {
+            case 0: // varint
+                guard let (value, len) = readVarint(data, at: i) else { return result }
+                i += len
+                if field == fieldNumber { result = value }
+            case 1: // 64-bit
+                guard i + 8 <= data.count else { return result }
+                i += 8
+            case 2: // length-delimited
+                guard let (len, lenLen) = readVarint(data, at: i) else { return result }
+                i += lenLen
+                guard i + Int(len) <= data.count else { return result }
+                i += Int(len)
+            case 5: // 32-bit
+                guard i + 4 <= data.count else { return result }
+                i += 4
+            default:
+                return result // unknown wire type; stop rather than misparse
+            }
+        }
+        return result
+    }
+
+    /// Decode a base-128 varint starting at `start`. Returns (value, byteCount).
+    private static func readVarint(_ data: [UInt8], at start: Int) -> (UInt64, Int)? {
+        var result: UInt64 = 0
+        var shift: UInt64 = 0
+        var i = start
+        while i < data.count {
+            let byte = data[i]
+            result |= UInt64(byte & 0x7F) << shift
+            i += 1
+            if byte & 0x80 == 0 {
+                return (result, i - start)
+            }
+            shift += 7
+            if shift > 63 { return nil }
+        }
+        return nil
+    }
 }
