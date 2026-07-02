@@ -17,10 +17,19 @@ final class ReviewViewModel: ObservableObject {
     @Published var answeredCount = 0
 
     // Sync settings + status. `serverURL` must carry a trailing slash
-    // (rslib's sync client does `Url::join("sync/")`).
-    @Published var serverURL = ""
-    @Published var syncUser = ""
-    @Published var syncPass = ""
+    // (rslib's sync client does `Url::join("sync/")`). serverURL/user/pass
+    // persist to UserDefaults so they survive app relaunches — paste once.
+    // (Keychain would be the production choice for the password; UserDefaults
+    // is fine for this self-hosted demo.)
+    @Published var serverURL = UserDefaults.standard.string(forKey: "syncServerURL") ?? "" {
+        didSet { UserDefaults.standard.set(serverURL, forKey: "syncServerURL") }
+    }
+    @Published var syncUser = UserDefaults.standard.string(forKey: "syncUser") ?? "" {
+        didSet { UserDefaults.standard.set(syncUser, forKey: "syncUser") }
+    }
+    @Published var syncPass = UserDefaults.standard.string(forKey: "syncPass") ?? "" {
+        didSet { UserDefaults.standard.set(syncPass, forKey: "syncPass") }
+    }
     @Published var syncStatus = ""
     @Published var isSyncing = false
 
@@ -83,9 +92,21 @@ final class ReviewViewModel: ObservableObject {
             do {
                 let auth = try engine.syncLogin(endpoint: endpoint, user: user, pass: pass)
                 try engine.sync(auth: auth)
+                // A sync can change the card currently on screen (its stashed
+                // scheduling state goes stale, which makes the next answer fail),
+                // so reload the queue afterward to pick up a fresh card + state.
+                let refreshed = try? engine.nextCard()
                 await MainActor.run {
                     self.isSyncing = false
                     self.syncStatus = "Synced"
+                    self.showingAnswer = false
+                    if let refreshed {
+                        self.card = refreshed
+                        self.phase = .reviewing
+                    } else {
+                        self.card = nil
+                        self.phase = .finished
+                    }
                 }
             } catch {
                 await MainActor.run {

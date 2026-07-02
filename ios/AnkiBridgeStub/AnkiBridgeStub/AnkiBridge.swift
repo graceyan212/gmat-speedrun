@@ -215,7 +215,16 @@ final class AnkiEngine {
         }
         note("anki_sync_collection rc=\(rc)")
         guard rc == 0 else { throw AnkiBridgeError.sync(rc) }
-        guard let outData = outData, outLen > 0 else { throw AnkiBridgeError.badResponse }
+        // An all-default SyncCollectionResponse (required = NO_CHANGES, zero
+        // media USN, empty message/endpoint) encodes to ZERO protobuf bytes.
+        // rslib has already committed the normal/no-op sync by the time
+        // anki_sync_collection returns rc=0, so an empty response means
+        // "synced — nothing further to do", NOT a decode failure. Treat it as
+        // NO_CHANGES rather than throwing .badResponse.
+        guard let outData = outData, outLen > 0 else {
+            note("sync_collection: empty response => NO_CHANGES (already in sync)")
+            return
+        }
         let responseBytes = Array(UnsafeBufferPointer(start: outData, count: Int(outLen)))
         anki_free_response(outData, outLen)
 
