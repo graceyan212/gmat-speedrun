@@ -7,6 +7,13 @@ Anki fork, and the iPhone app links the same engine through a small C-ABI bridge
 > This is a fork of Anki by Ankitects Pty Ltd and contributors, licensed **AGPL-3.0-or-later**.
 > See [`anki/LICENSE`](anki/LICENSE) and [`anki/NOTICE`](anki/NOTICE) for the full license and attribution.
 
+## Download the desktop app (prebuilt macOS `.dmg`)
+
+Don't want to build from source? Grab the packaged macOS app from the
+[**latest release**](https://github.com/graceyan212/gmat-speedrun/releases/latest):
+download `anki-gmat-merged.dmg`, open it, and drag the app to Applications.
+To build from source instead, see [Desktop app — build & run](#desktop-app--build--run) below.
+
 ## Repository layout
 
 | Path | What it is |
