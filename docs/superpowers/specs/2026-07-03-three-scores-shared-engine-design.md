@@ -136,6 +136,16 @@ Modified upstream files (small, additive, mirrors the existing T2/T3 footprint):
 
 All of the above — the full Friday phone requirement plus desktop parity — designed for full marks. Not in scope here: the AI difficulty *calibration* run and its eval/ablation (separate Friday AI workstream); performance uses the coarse-tag fallback until calibration runs, and picks up `aidiff::` automatically when present.
 
+## Coordination boundary (parallel agent owns the adaptive/AI lane)
+
+A separate agent owns **adaptive selection + AI difficulty calibration** and has the reins on that lane. To avoid colliding in shared `rslib`:
+
+- **This lane stays out of:** `rslib/src/scheduler/adaptive.rs`, `rslib/src/scheduler/queue/builder/*` (the toggle-gated selection hook), the AI calibration script + eval, and the `gmat_adaptive_enabled` toggle config.
+- **This lane owns:** `gmat_scores.rs`, `GetGmatScores` proto/RPC, `anki_get_scores` bridge export, and the desktop/phone score UI.
+- **Seam #1 (queue builder):** scores are strictly read-only and never touch `queue/builder/*` — confirmed clean.
+- **Seam #2 (ability θ):** each lane computes its own θ; the only shared input is the `aidiff::NN` tag (with coarse `difficulty::` fallback here, so this lane is not blocked on calibration). If the other lane later wants a single θ source, `gmat_scores.rs` can expose a `pub fn` for it — deferred to avoid coupling now.
+- **Only shared file this lane edits:** a one-line `mod gmat_scores;` in `scheduler/mod.rs` plus additive `scheduler.proto` / service-delegator entries — distinct regions, done on branch `three-scores-shared-engine`.
+
 ## Open questions / risks
 1. **Rasch stability on a small deck (47 items):** with few answers θ is noisy — mitigated by the wide SE range and the performance give-up threshold. Honest by construction.
 2. **Readiness↔performance distinctness:** readiness must visibly differ from a rescaled performance — coverage discount + confidence provide that; the `three_scores_are_distinct` test guards it.
