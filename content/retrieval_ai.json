@@ -1,0 +1,614 @@
+{
+ "DI-DS-001": {
+  "ranked": [
+   "DI-DS-005",
+   "DI-DS-003",
+   "DI-DS-006"
+  ],
+  "rationale": "Same method: yes/no Data Sufficiency on an inequality decided by sign preservation under powers -- DI-DS-005's x^2>y^2 statement is the identical 'even power destroys sign information' trap, mirroring x^2>0 being insufficient while the odd power x^3>0 is decisive.",
+  "top_source": "DI-DS-005"
+ },
+ "DI-DS-002": {
+  "ranked": [
+   "DI-DS-006",
+   "DI-DS-004",
+   "DI-DS-003"
+  ],
+  "rationale": "Same method: value-type Data Sufficiency where one statement's constraint pins a unique value while the other allows infinitely many (answer A) -- DI-DS-006 is structurally identical (x+4=11 fixes x, 'positive integer' does not).",
+  "top_source": "DI-DS-006"
+ },
+ "DI-DS-003": {
+  "ranked": [
+   "DI-DS-001",
+   "Q-PS-110",
+   "DI-DS-002"
+  ],
+  "rationale": "Same method: yes/no Data Sufficiency resolved by a parity/power lemma (k^2 even iff k even; odd*k parity equals k parity) -- DI-DS-001 uses the same 'a power or odd multiplier preserves or hides a property' deduction to settle the yes/no question.",
+  "top_source": "DI-DS-001"
+ },
+ "DI-DS-004": {
+  "ranked": [
+   "DI-TPA-002",
+   "Q-PS-002",
+   "DI-TPA-001"
+  ],
+  "rationale": "Same method: set up and solve a 2x2 system of linear equations, needing both a total and a relation to pin two unknowns -- DI-TPA-002 (two supply types, total units + total cost) uses the identical two-equations-for-two-unknowns approach the DS question needs when combining statements to C.",
+  "top_source": "DI-TPA-002"
+ },
+ "DI-DS-005": {
+  "ranked": [
+   "DI-DS-001",
+   "DI-DS-003",
+   "Q-PS-104"
+  ],
+  "rationale": "Same method: yes/no Data Sufficiency on an inequality where squaring loses order information (x^2>y^2 only gives |x|>|y|) -- DI-DS-001 turns on the same 'even power hides sign' trap while a direct statement resolves it.",
+  "top_source": "DI-DS-001"
+ },
+ "DI-DS-006": {
+  "ranked": [
+   "DI-DS-002",
+   "DI-DS-004",
+   "DI-DS-005"
+  ],
+  "rationale": "Same method: value-type Data Sufficiency where a single linear/constraint statement determines a unique value and a loose condition allows many (answer A) -- DI-DS-002 has the identical 'one statement fixes the value, the other permits infinitely many' structure.",
+  "top_source": "DI-DS-002"
+ },
+ "DI-GI-001": {
+  "ranked": [
+   "DI-TA-001",
+   "DI-TA-101",
+   "DI-GI-101"
+  ],
+  "rationale": "Same method: scan a series/set of categories, compute the per-item change or derived metric, and select the extreme (the largest increase); DI-TA-001 is the same 'largest increase across categories' comparison on a table.",
+  "top_source": "DI-TA-001"
+ },
+ "DI-GI-101": {
+  "ranked": [
+   "DI-TA-101",
+   "DI-TA-001",
+   "DI-GI-001"
+  ],
+  "rationale": "Same method: compute a ratio/derived metric per category (margin = profit/revenue vs net = units*price*(1-return)) and pick the max, with the identical trap that the largest absolute value is not the largest metric.",
+  "top_source": "DI-TA-101"
+ },
+ "DI-MSR-001": {
+  "ranked": [
+   "DI-MSR-101",
+   "V-CR-004",
+   "Q-CR-103"
+  ],
+  "rationale": "Same method: synthesize facts from two sources and apply all stated policy conditions to a specific case to reach a yes/no determination; DI-MSR-101 is the same multi-source rule-application problem.",
+  "top_source": "DI-MSR-101"
+ },
+ "DI-MSR-101": {
+  "ranked": [
+   "DI-MSR-001",
+   "V-CR-004",
+   "Q-CR-103"
+  ],
+  "rationale": "Same method: integrate two sources and apply a stated policy (compute the discounted total, then test it against a threshold) to determine qualification; DI-MSR-001 is the same multi-source condition-checking method.",
+  "top_source": "DI-MSR-001"
+ },
+ "DI-TA-001": {
+  "ranked": [
+   "DI-GI-001",
+   "DI-GI-101",
+   "DI-TA-101"
+  ],
+  "rationale": "Same method: compute the per-category change/metric and select the extreme; DI-GI-001 is the same 'find the largest increase across data points' comparison, on a chart series rather than a table.",
+  "top_source": "DI-GI-001"
+ },
+ "DI-TA-101": {
+  "ranked": [
+   "DI-GI-101",
+   "DI-TA-001",
+   "DI-GI-001"
+  ],
+  "rationale": "Same method: compute a derived metric per row (net = units*price*(1-return rate)) and pick the max; DI-GI-101 uses the identical compute-metric-then-select-max approach with the same 'biggest gross/absolute is not biggest metric' trap.",
+  "top_source": "DI-GI-101"
+ },
+ "DI-TPA-001": {
+  "ranked": [
+   "DI-TPA-002",
+   "Q-PS-108",
+   "Q-PS-002"
+  ],
+  "rationale": "Same method: set up and solve a system of two linear equations from a total-count constraint plus a total-value constraint; DI-TPA-002 is the identical count-plus-cost system solved by substitution.",
+  "top_source": "DI-TPA-002"
+ },
+ "DI-TPA-002": {
+  "ranked": [
+   "DI-TPA-001",
+   "Q-PS-002",
+   "Q-PS-108"
+  ],
+  "rationale": "DI-TPA-001 uses the same method: build two simultaneous linear equations from a total-count and a total-value constraint and solve by substitution.",
+  "top_source": "DI-TPA-001"
+ },
+ "DI-TPA-003": {
+  "ranked": [
+   "Q-PS-013",
+   "Q-PS-109",
+   "DI-TPA-002"
+  ],
+  "rationale": "Q-PS-013 uses the same combined-work-rate method: add individual per-hour rates to get a combined rate, then divide total output by it.",
+  "top_source": "Q-PS-013"
+ },
+ "Q-CR-101": {
+  "ranked": [
+   "V-CR-001",
+   "Q-CR-102",
+   "V-CR-009"
+  ],
+  "rationale": "V-CR-001 uses the same method: weaken a causal claim by introducing an alternative/confounding cause acting in the same period.",
+  "top_source": "V-CR-001"
+ },
+ "Q-CR-102": {
+  "ranked": [
+   "V-CR-003",
+   "Q-CR-101",
+   "V-CR-001"
+  ],
+  "rationale": "V-CR-003 uses the same method: strengthen a causal claim by supplying evidence that ties cause to effect and rules out confounds/coincidence.",
+  "top_source": "V-CR-003"
+ },
+ "Q-CR-103": {
+  "ranked": [
+   "V-CR-004",
+   "Q-PS-110",
+   "V-CR-008"
+  ],
+  "rationale": "V-CR-004 uses the same method: a must-be-true deduction chaining categorical/conditional statements to eliminate impossible cases.",
+  "top_source": "V-CR-004"
+ },
+ "Q-PS-001": {
+  "ranked": [
+   "Q-PS-101",
+   "Q-PS-015",
+   "DI-TA-001"
+  ],
+  "rationale": "Q-PS-101 uses the same method: multiply successive percent-change factors in sequence rather than adding the percentages.",
+  "top_source": "Q-PS-101"
+ },
+ "Q-PS-002": {
+  "ranked": [
+   "Q-PS-108",
+   "DI-TPA-002",
+   "DI-TPA-001"
+  ],
+  "rationale": "Q-PS-108 uses the same method: solve a system of two linear equations in two unknowns by elimination.",
+  "top_source": "Q-PS-108"
+ },
+ "Q-PS-003": {
+  "ranked": [
+   "Q-PS-107",
+   "Q-PS-110",
+   "Q-PS-016"
+  ],
+  "rationale": "Same method: prime-factorize the number and reason about the exponents of each prime (2 and 3) to determine divisibility, matching Q-PS-107's 12^3 = 2^6 * 3^3 exponent decomposition.",
+  "top_source": "Q-PS-107"
+ },
+ "Q-PS-004": {
+  "ranked": [
+   "Q-PS-021",
+   "Q-PS-106",
+   "Q-PS-005"
+  ],
+  "rationale": "Same method: combine fractions over a common denominator to compute a fractional part/difference of a whole, as in Q-PS-021's 4/5 - 3/5 = 1/5 of capacity.",
+  "top_source": "Q-PS-021"
+ },
+ "Q-PS-005": {
+  "ranked": [
+   "Q-PS-018",
+   "Q-PS-102",
+   "Q-PS-021"
+  ],
+  "rationale": "Same method: set up a part-to-part ratio, find the value of one 'part' from a known quantity, then scale, exactly as Q-PS-018 does with the 5:2 flour/sugar recipe.",
+  "top_source": "Q-PS-018"
+ },
+ "Q-PS-006": {
+  "ranked": [
+   "Q-PS-020",
+   "Q-PS-107",
+   "Q-PS-019"
+  ],
+  "rationale": "Same method: rewrite the terms to a common base and equate/manipulate exponents to solve, matching Q-PS-020's rewriting of 4^x and 8^(x-1) in base 2.",
+  "top_source": "Q-PS-020"
+ },
+ "Q-PS-007": {
+  "ranked": [
+   "Q-PS-103",
+   "Q-PS-008",
+   "DI-TPA-001"
+  ],
+  "rationale": "Same method: convert a given arithmetic mean into the total sum (mean x count) and back out the unknown value, as Q-PS-103 does with sum = 100 from mean 20 over 5 numbers.",
+  "top_source": "Q-PS-103"
+ },
+ "Q-PS-008": {
+  "ranked": [
+   "Q-PS-103",
+   "Q-PS-007",
+   "Q-PS-016"
+  ],
+  "rationale": "Same concept: compute descriptive statistics (median/range) from an ordered list, matching Q-PS-103's reasoning about the median of a set of numbers.",
+  "top_source": "Q-PS-103"
+ },
+ "Q-PS-009": {
+  "ranked": [
+   "Q-PS-105",
+   "Q-PS-104",
+   "Q-PS-106"
+  ],
+  "rationale": "Same method: factor a quadratic expression into linear factors and set them to zero to find the solution values, as Q-PS-105 factors x^2 - y^2 = 45 into (x-y)(x+y).",
+  "top_source": "Q-PS-105"
+ },
+ "Q-PS-010": {
+  "ranked": [
+   "Q-PS-104",
+   "Q-PS-106",
+   "Q-PS-105"
+  ],
+  "rationale": "Q-PS-104 shares the method: solve an absolute-value inequality and count the integers in the resulting solution interval.",
+  "top_source": "Q-PS-104"
+ },
+ "Q-PS-011": {
+  "ranked": [
+   "Q-PS-006",
+   "Q-PS-019",
+   "Q-PS-004"
+  ],
+  "rationale": "Q-PS-006 shares the method: substitute a value into a given algebraic expression and evaluate/combine to a numeric result.",
+  "top_source": "Q-PS-006"
+ },
+ "Q-PS-012": {
+  "ranked": [
+   "Q-PS-013",
+   "Q-PS-109",
+   "DI-TPA-003"
+  ],
+  "rationale": "Q-PS-013 shares the rate-aggregation method: combine per-unit rates and use total quantity over total time rather than a simple average.",
+  "top_source": "Q-PS-013"
+ },
+ "Q-PS-013": {
+  "ranked": [
+   "Q-PS-109",
+   "DI-TPA-003",
+   "Q-PS-012"
+  ],
+  "rationale": "Q-PS-109 shares the method: add individual work rates (reciprocals of times) to get a combined rate and invert for time.",
+  "top_source": "Q-PS-109"
+ },
+ "Q-PS-014": {
+  "ranked": [
+   "Q-PS-015",
+   "Q-PS-021",
+   "Q-PS-012"
+  ],
+  "rationale": "Q-PS-015 shares the method: a single percent-of-a-base computation, forming and solving one linear percent relationship.",
+  "top_source": "Q-PS-015"
+ },
+ "Q-PS-015": {
+  "ranked": [
+   "Q-PS-001",
+   "Q-PS-101",
+   "DI-MSR-101"
+  ],
+  "rationale": "Q-PS-001 shares the method: treat a percent discount as a multiplicative factor (1 - rate) on a base price and solve via that factor.",
+  "top_source": "Q-PS-001"
+ },
+ "Q-PS-016": {
+  "ranked": [
+   "Q-PS-107",
+   "Q-PS-106",
+   "Q-PS-008"
+  ],
+  "rationale": "Q-PS-107 shares the method: use divisor/prime-factorization structure of an integer (enumerating its factors) to compute the answer.",
+  "top_source": "Q-PS-107"
+ },
+ "Q-PS-017": {
+  "ranked": [
+   "Q-PS-002",
+   "DI-TPA-002",
+   "DI-DS-004"
+  ],
+  "rationale": "Same method: translate a word problem into a linear equation/system in defined unknowns and solve algebraically (the digit relation reduces to solving a linear equation for the digit).",
+  "top_source": "Q-PS-002"
+ },
+ "Q-PS-018": {
+  "ranked": [
+   "Q-PS-005",
+   "Q-PS-102",
+   "Q-PS-021"
+  ],
+  "rationale": "Same method: proportional scaling of a ratio - given one quantity in an a:b ratio, apply the scale factor / unit-part value to find the other.",
+  "top_source": "Q-PS-005"
+ },
+ "Q-PS-019": {
+  "ranked": [
+   "Q-PS-006",
+   "Q-PS-020",
+   "Q-PS-003"
+  ],
+  "rationale": "Same method: simplify/evaluate a powers-and-roots expression by rewriting radicals/powers to a common base using laws of exponents and roots.",
+  "top_source": "Q-PS-006"
+ },
+ "Q-PS-020": {
+  "ranked": [
+   "Q-PS-006",
+   "Q-PS-107",
+   "Q-PS-009"
+  ],
+  "rationale": "Same method: solve an exponential relation by expressing both sides in the same (prime) base and equating the exponents.",
+  "top_source": "Q-PS-006"
+ },
+ "Q-PS-021": {
+  "ranked": [
+   "Q-PS-102",
+   "Q-PS-005",
+   "Q-PS-018"
+  ],
+  "rationale": "Same method: a known amount equals a fractional/part-of-whole share - set (fraction or unit part) x whole = amount and solve for the total.",
+  "top_source": "Q-PS-102"
+ },
+ "Q-PS-101": {
+  "ranked": [
+   "Q-PS-001",
+   "Q-PS-015",
+   "DI-GI-101"
+  ],
+  "rationale": "Same method: apply successive percent-change multipliers in sequence (chain the factors), with the classic 'the changes do not cancel' trap.",
+  "top_source": "Q-PS-001"
+ },
+ "Q-PS-102": {
+  "ranked": [
+   "Q-PS-005",
+   "Q-PS-018",
+   "Q-PS-021"
+  ],
+  "rationale": "Q-PS-005: both set a ratio's parts equal to a known quantity and scale to solve for an unknown amount (ratio-parts / proportion method).",
+  "top_source": "Q-PS-005"
+ },
+ "Q-PS-103": {
+  "ranked": [
+   "Q-PS-007",
+   "Q-PS-008",
+   "DI-TPA-001"
+  ],
+  "rationale": "Q-PS-007: both convert the arithmetic mean into a fixed sum constraint and solve for a value under that constraint (mean-as-sum reasoning).",
+  "top_source": "Q-PS-007"
+ },
+ "Q-PS-104": {
+  "ranked": [
+   "Q-PS-010",
+   "Q-PS-105",
+   "Q-PS-106"
+  ],
+  "rationale": "Q-PS-010: both solve an absolute-value inequality by converting it to a bounded interval and counting the integers strictly inside it.",
+  "top_source": "Q-PS-010"
+ },
+ "Q-PS-105": {
+  "ranked": [
+   "Q-PS-106",
+   "Q-PS-009",
+   "Q-PS-016"
+  ],
+  "rationale": "Q-PS-106: both factor the equation into a product equal to a constant and count integer factor pairs subject to an ordering/distinctness constraint (Diophantine factor-pair counting).",
+  "top_source": "Q-PS-106"
+ },
+ "Q-PS-106": {
+  "ranked": [
+   "Q-PS-105",
+   "Q-PS-016",
+   "Q-PS-003"
+  ],
+  "rationale": "Q-PS-105: both clear/rearrange into a product equal to a constant and enumerate integer factor pairs to count valid solutions (Diophantine factor-pair counting).",
+  "top_source": "Q-PS-105"
+ },
+ "Q-PS-107": {
+  "ranked": [
+   "Q-PS-020",
+   "Q-PS-006",
+   "Q-PS-003"
+  ],
+  "rationale": "Q-PS-020: both rewrite the terms with a common prime base and equate exponents to solve for the unknowns (prime-factorization / equate-exponents method).",
+  "top_source": "Q-PS-020"
+ },
+ "Q-PS-108": {
+  "ranked": [
+   "Q-PS-002",
+   "DI-TPA-002",
+   "DI-TPA-001"
+  ],
+  "rationale": "Q-PS-002: both solve a 2x2 system of linear equations by elimination to find the unit prices (linear-system elimination).",
+  "top_source": "Q-PS-002"
+ },
+ "Q-PS-109": {
+  "ranked": [
+   "Q-PS-013",
+   "DI-TPA-003",
+   "Q-PS-012"
+  ],
+  "rationale": "Q-PS-013 uses the same work-rate method: add individual per-hour rates (1/6 + 1/9) to get a combined rate, exactly the mechanic the query's first phase relies on.",
+  "top_source": "Q-PS-013"
+ },
+ "Q-PS-110": {
+  "ranked": [
+   "Q-PS-003",
+   "DI-DS-003",
+   "DI-DS-001"
+  ],
+  "rationale": "Q-PS-003 shares the same integer-property / 'must be true' method: reason about the prime-factor (mod/parity) structure forced by a perfect square to derive what necessarily holds for n.",
+  "top_source": "Q-PS-003"
+ },
+ "V-CR-001": {
+  "ranked": [
+   "Q-CR-101",
+   "V-CR-009",
+   "Q-CR-102"
+  ],
+  "rationale": "Q-CR-101 uses the identical weaken-a-causal-claim method: introduce a confounding alternative cause acting in the same time and place to undercut the 'lights caused the drop' inference.",
+  "top_source": "Q-CR-101"
+ },
+ "V-CR-002": {
+  "ranked": [
+   "V-CR-008",
+   "V-CR-005",
+   "V-CR-006"
+  ],
+  "rationale": "V-CR-008 is the same required-assumption method: identify the unstated condition a plan depends on and confirm it via the negation test (savings/pass-rates not offset).",
+  "top_source": "V-CR-008"
+ },
+ "V-CR-003": {
+  "ranked": [
+   "Q-CR-102",
+   "V-CR-001",
+   "Q-CR-101"
+  ],
+  "rationale": "Q-CR-102 uses the same strengthen-a-causal-claim method: add evidence (a randomized control) that ties the proposed cause to the effect and rules out coincidence/confounds.",
+  "top_source": "Q-CR-102"
+ },
+ "V-CR-004": {
+  "ranked": [
+   "Q-CR-103",
+   "DI-MSR-001",
+   "V-CR-008"
+  ],
+  "rationale": "Q-CR-103 uses the same formal-logic 'must be true' method: chain universal conditional statements to deduce the single forced conclusion while rejecting reversals and overstatements.",
+  "top_source": "Q-CR-103"
+ },
+ "V-CR-005": {
+  "ranked": [
+   "V-CR-002",
+   "V-CR-008",
+   "V-CR-001"
+  ],
+  "rationale": "V-CR-002 shares the evaluate/plan-assumption method: pin down the unstated fact that most determines whether the plan's predicted outcome actually holds.",
+  "top_source": "V-CR-002"
+ },
+ "V-CR-006": {
+  "ranked": [
+   "V-CR-104",
+   "V-CR-002",
+   "V-CR-001"
+  ],
+  "rationale": "V-CR-104 is the same Resolve-the-Paradox CR method: reconcile a surprising drop (revenue falls despite a price cut / speed unchanged despite fewer cars) by supplying the missing offsetting variable rather than attacking the argument.",
+  "top_source": "V-CR-104"
+ },
+ "V-CR-007": {
+  "ranked": [
+   "V-RC-004",
+   "V-CR-002",
+   "V-CR-008"
+  ],
+  "rationale": "V-RC-004 uses the same Role/Function-of-a-Statement method: identify what a specific sentence does in the argument's structure (the boldface line / the 'nearly disappearing vs surging' detail) rather than judge its truth.",
+  "top_source": "V-RC-004"
+ },
+ "V-CR-008": {
+  "ranked": [
+   "V-CR-002",
+   "V-CR-005",
+   "V-CR-001"
+  ],
+  "rationale": "V-CR-002 is the same Required-Assumption method: find the unstated premise the plan depends on and confirm it via the negation test (online pass rates hold / cost savings not offset by lost revenue).",
+  "top_source": "V-CR-002"
+ },
+ "V-CR-009": {
+  "ranked": [
+   "V-CR-001",
+   "Q-CR-102",
+   "V-CR-003"
+  ],
+  "rationale": "V-CR-001 uses the same Weaken-a-Causal-Claim method: sever the link between the cited evidence and the 'X caused Y' conclusion (speed measures tastiness not nutrition / an alternative cause explains the accident drop).",
+  "top_source": "V-CR-001"
+ },
+ "V-CR-104": {
+  "ranked": [
+   "V-CR-006",
+   "V-CR-001",
+   "Q-CR-101"
+  ],
+  "rationale": "V-CR-006 is the same Resolve-the-Paradox CR method: explain an apparently contradictory result (same speed despite fewer cars / lower revenue despite a price cut) by introducing an overlooked offsetting factor.",
+  "top_source": "V-CR-006"
+ },
+ "V-RC-001": {
+  "ranked": [
+   "V-RC-102",
+   "V-RC-002",
+   "V-RC-101"
+  ],
+  "rationale": "V-RC-102 uses the same RC method of retrieving a stated explanatory mechanism/condition from the passage (why rereading persists / when choice-overload shrinks), matching the answer to what the text supports rather than analyzing an argument.",
+  "top_source": "V-RC-102"
+ },
+ "V-RC-002": {
+  "ranked": [
+   "V-RC-101",
+   "V-RC-005",
+   "V-RC-001"
+  ],
+  "rationale": "V-RC-101 is the same RC Main-Idea method: pick the option capturing the passage's central claim in full while rejecting too-narrow or overstated distortions.",
+  "top_source": "V-RC-101"
+ },
+ "V-RC-003": {
+  "ranked": [
+   "V-RC-102",
+   "V-RC-001",
+   "V-RC-002"
+  ],
+  "rationale": "Explicit-detail retrieval ('According to the passage' fact lookup) \u2014 V-RC-102 is the other 'According to the passage... ' direct-statement question.",
+  "top_source": "V-RC-102"
+ },
+ "V-RC-004": {
+  "ranked": [
+   "V-RC-001",
+   "V-RC-003",
+   "V-RC-002"
+  ],
+  "rationale": "Function/purpose of a cited detail \u2014 no other 'in order to' item exists, so the nearest are interpretive passage-reasoning items; V-RC-001 (inference tying evidence to claim) is the closest cognitive match.",
+  "top_source": "V-RC-001"
+ },
+ "V-RC-005": {
+  "ranked": [
+   "V-RC-104",
+   "V-RC-103",
+   "V-RC-001"
+  ],
+  "rationale": "Author's attitude/tone toward a claim \u2014 V-RC-104 is the other 'author's attitude ... best described as' measured-stance question.",
+  "top_source": "V-RC-104"
+ },
+ "V-RC-101": {
+  "ranked": [
+   "V-RC-002",
+   "V-RC-001",
+   "V-RC-103"
+  ],
+  "rationale": "Main idea / main point of the passage \u2014 V-RC-002 is the parallel 'best expresses the main idea' question.",
+  "top_source": "V-RC-002"
+ },
+ "V-RC-102": {
+  "ranked": [
+   "V-RC-003",
+   "V-RC-001",
+   "V-RC-002"
+  ],
+  "rationale": "Explicit-detail retrieval ('According to the passage' fact lookup) \u2014 V-RC-003 is the other 'According to the passage' direct-statement question.",
+  "top_source": "V-RC-003"
+ },
+ "V-RC-103": {
+  "ranked": [
+   "V-RC-001",
+   "V-RC-005",
+   "V-RC-104"
+  ],
+  "rationale": "Inference from the passage ('most strongly implies') \u2014 V-RC-001 ('the passage suggests ... best explained by') is the parallel inference question.",
+  "top_source": "V-RC-001"
+ },
+ "V-RC-104": {
+  "ranked": [
+   "V-RC-005",
+   "V-RC-103",
+   "V-RC-001"
+  ],
+  "rationale": "Author's attitude/tone toward scholarship \u2014 V-RC-005 is the other 'author's attitude ... best described as' measured-stance question.",
+  "top_source": "V-RC-005"
+ }
+}
