@@ -15,6 +15,8 @@ final class ReviewViewModel: ObservableObject {
     @Published var card: RenderedCard?
     @Published var showingAnswer = false
     @Published var answeredCount = 0
+    /// The three GMAT scores, refreshed after each card / sync. nil until first load.
+    @Published var scores: Scores?
 
     // Sync settings + status. `serverURL` must carry a trailing slash
     // (rslib's sync client does `Url::join("sync/")`). serverURL/user/pass
@@ -42,7 +44,9 @@ final class ReviewViewModel: ObservableObject {
             do {
                 try engine.startSession()
                 let first = try engine.nextCard()
+                let sc = try? engine.scores()
                 await MainActor.run {
+                    self.scores = sc
                     if let first {
                         self.card = first
                         self.phase = .reviewing
@@ -62,7 +66,9 @@ final class ReviewViewModel: ObservableObject {
             do {
                 try engine.answer(cardId: current.cardId, rating: rating)
                 let next = try engine.nextCard()
+                let sc = try? engine.scores()
                 await MainActor.run {
+                    self.scores = sc
                     self.answeredCount += 1
                     self.showingAnswer = false
                     if let next {
@@ -96,7 +102,9 @@ final class ReviewViewModel: ObservableObject {
                 // scheduling state goes stale, which makes the next answer fail),
                 // so reload the queue afterward to pick up a fresh card + state.
                 let refreshed = try? engine.nextCard()
+                let sc = try? engine.scores()
                 await MainActor.run {
+                    self.scores = sc
                     self.isSyncing = false
                     self.syncStatus = "Synced"
                     self.showingAnswer = false
@@ -227,6 +235,7 @@ private struct InkTab: View {
 struct ContentView: View {
     @StateObject private var vm = ReviewViewModel()
     @State private var showingSyncSheet = false
+    @State private var showingScores = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -238,6 +247,9 @@ struct ContentView: View {
         .onAppear { if case .loading = vm.phase { vm.start() } }
         .sheet(isPresented: $showingSyncSheet) {
             SyncSettingsView(vm: vm)
+        }
+        .sheet(isPresented: $showingScores) {
+            ScoresView(scores: vm.scores)
         }
     }
 
@@ -253,6 +265,21 @@ struct ContentView: View {
             }
 
             Spacer()
+
+            // Scores button: opens the three-score panel (memory / performance
+            // / readiness). Ink chip, beside the blue SYNC chip.
+            Button {
+                showingScores = true
+            } label: {
+                Text("SCORES")
+                    .font(BauhausTheme.futura(size: 13, weight: .bold))
+                    .tracking(2)
+                    .foregroundColor(BauhausTheme.paper)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .background(BauhausTheme.ink)
+            }
+            .padding(.trailing, 10)
 
             // Sync button: opens the server-settings sheet, and doubles as a
             // status readout via the ink label underneath.
@@ -447,6 +474,119 @@ struct ContentView: View {
                 .foregroundColor(.white)
         }
         .buttonStyle(BauhausBlockButtonStyle(fill: color))
+    }
+}
+
+// MARK: - Scores panel
+
+/// The three-score panel: memory, performance, readiness — each with its range,
+/// or the give-up state (what's still missing). Bauhaus idiom, matching the app.
+private struct ScoresView: View {
+    let scores: Scores?
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack {
+                Text("GMAT SCORES")
+                    .font(BauhausTheme.futura(size: 18, weight: .bold))
+                    .tracking(3)
+                    .foregroundColor(BauhausTheme.ink)
+                Spacer()
+                Button { dismiss() } label: {
+                    Text("DONE")
+                        .font(BauhausTheme.futura(size: 13, weight: .bold))
+                        .tracking(2)
+                        .foregroundColor(BauhausTheme.ink)
+                }
+            }
+            .padding(BauhausTheme.pad)
+            .overlay(alignment: .bottom) {
+                Rectangle().fill(BauhausTheme.ink).frame(height: BauhausTheme.headerRule)
+            }
+
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
+                    if let s = scores {
+                        ScoreBlock(label: "MEMORY", accent: BauhausTheme.green, value: s.memory)
+                        Rectangle().fill(BauhausTheme.ink).frame(height: BauhausTheme.rowRule)
+                        ScoreBlock(label: "PERFORMANCE", accent: BauhausTheme.yellow, value: s.performance)
+                        Rectangle().fill(BauhausTheme.ink).frame(height: BauhausTheme.rowRule)
+                        ScoreBlock(label: "READINESS", accent: BauhausTheme.blue, value: s.readiness)
+                    } else {
+                        Text("SCORES NOT LOADED YET")
+                            .font(BauhausTheme.futura(size: 14, weight: .bold))
+                            .tracking(2)
+                            .foregroundColor(BauhausTheme.ink)
+                            .padding(BauhausTheme.pad)
+                    }
+                }
+            }
+        }
+        .background(BauhausTheme.paper.ignoresSafeArea())
+        .preferredColorScheme(.light)
+    }
+}
+
+/// A single score row: big number + range when scored, or "NOT ENOUGH DATA YET"
+/// plus the missing-data checklist (the give-up rule) when abstaining.
+private struct ScoreBlock: View {
+    let label: String
+    let accent: Color
+    let value: ScoreValue
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(spacing: 8) {
+                Rectangle().fill(accent).frame(width: 14, height: 14)
+                Text(label)
+                    .font(BauhausTheme.futura(size: 13, weight: .bold))
+                    .tracking(2)
+                    .foregroundColor(BauhausTheme.ink)
+            }
+
+            if value.abstained {
+                Text("NOT ENOUGH DATA YET")
+                    .font(BauhausTheme.futura(size: 20, weight: .bold))
+                    .foregroundColor(BauhausTheme.ink)
+                ForEach(value.missing, id: \.self) { m in
+                    Text("— \(m)")
+                        .font(BauhausTheme.futura(size: 13))
+                        .foregroundColor(BauhausTheme.ink)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            } else {
+                Text(headline)
+                    .font(BauhausTheme.futura(size: 30, weight: .bold).monospacedDigit())
+                    .foregroundColor(BauhausTheme.ink)
+                Text(subline)
+                    .font(BauhausTheme.futura(size: 13))
+                    .foregroundColor(BauhausTheme.ink)
+                ForEach(value.reasons, id: \.self) { r in
+                    Text("· \(r)")
+                        .font(BauhausTheme.futura(size: 12))
+                        .foregroundColor(BauhausTheme.ink)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(BauhausTheme.pad)
+    }
+
+    /// "72 / 100" for pct scores; "545" for the GMAT-scale readiness.
+    private var headline: String {
+        let n = Int(value.score.rounded())
+        return value.unit == "gmat" ? "\(n)" : "\(n) / 100"
+    }
+
+    /// The likely range (+ confidence for readiness).
+    private var subline: String {
+        let lo = Int(value.low.rounded())
+        let hi = Int(value.high.rounded())
+        var s = "range \(lo)–\(hi)"
+        if !value.confidence.isEmpty { s += " · confidence \(value.confidence)" }
+        return s
     }
 }
 
