@@ -7,6 +7,16 @@ Anki fork, and the iPhone app links the same engine through a small C-ABI bridge
 > This is a fork of Anki by Ankitects Pty Ltd and contributors, licensed **AGPL-3.0-or-later**.
 > See [`anki/LICENSE`](anki/LICENSE) and [`anki/NOTICE`](anki/NOTICE) for the full license and attribution.
 
+## Features
+
+- **One shared Rust engine, two apps.** The desktop app and the iPhone app run the *same* Anki `rslib` core (the phone links it through a C-ABI bridge), so the GMAT engine change ships to **both** — not a Python-only add-on.
+- **Three honest GMAT scores, each with a range.** *Memory* (FSRS recall), *Performance* (a **Rasch / 1PL** ability estimate — real item-response theory), and *Readiness* (projected onto the GMAT **205–805** scale). Each carries a confidence range, and each has its own **give-up rule**: below enough evidence it *abstains* instead of showing a number it can't defend. Computed in Rust (`GetGmatScores`), so desktop and phone show identical numbers.
+- **Points-at-stake review ordering.** Reviews are reordered so your **weakest GMAT topics come first**, from a per-topic mastery query over your `Section::Topic::Subtopic` tags — and it's **undo-safe** (a plain read that never disturbs Anki's undo history; covered by tests).
+- **Computer-adaptive selection (Rasch / 1PL), switchable off.** Estimates your ability and serves questions near your level; **toggle-gated and off by default**.
+- **Two-way offline sync.** Both apps keep a local copy so you can **review offline**, then sync **both directions** through a **self-hosted sync server** you can deploy to fly.io in minutes — see [`deploy/fly-sync/`](deploy/fly-sync/). Your data, your server (no AnkiWeb required).
+- **GMAT readiness dashboard.** The three scores plus a **28-topic coverage map**, opened from the top toolbar or **Tools → GMAT Readiness**.
+- **Bauhaus design throughout.** A cohesive Futura + primary-palette look across the iPhone app, the desktop dashboard, and the card reviewer — square multiple-choice markers, a green correct-answer highlight, hard-edged flat controls.
+
 ## Download the desktop app (prebuilt macOS `.dmg`)
 
 Don't want to build from source? Grab the packaged macOS app from the

@@ -1,0 +1,32 @@
+# fly.toml app configuration file generated for gmat-sync on 2026-07-03T17:10:03-05:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'gmat-sync'
+primary_region = 'sjc'
+
+[build]
+  dockerfile = 'Dockerfile'
+
+[env]
+  SYNC_BASE = '/anki_data'
+  SYNC_HOST = '0.0.0.0'
+  SYNC_PORT = '8080'
+
+[[mounts]]
+  source = 'anki_data'
+  destination = '/anki_data'
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+
+[[vm]]
+  size = 'shared-cpu-1x'
+  memory = '512mb'
+  cpus = 1
+  memory_mb = 512
