@@ -35,6 +35,12 @@ final class ReviewViewModel: ObservableObject {
     @Published var syncStatus = ""
     @Published var isSyncing = false
 
+    /// True when server URL + username + password are all set — enough to sync
+    /// directly without opening the settings sheet.
+    var hasCredentials: Bool {
+        !serverURL.isEmpty && !syncUser.isEmpty && !syncPass.isEmpty
+    }
+
     private let engine = AnkiEngine()
 
     func start() {
@@ -283,23 +289,26 @@ struct ContentView: View {
             }
             .padding(.trailing, 8)
 
-            // Sync button: opens the server-settings sheet, and doubles as a
-            // status readout via the ink label underneath.
-            Button {
-                showingSyncSheet = true
-            } label: {
-                VStack(alignment: .trailing, spacing: 2) {
-                    Text(vm.isSyncing ? "SYNCING…" : "SYNC")
-                        .font(BauhausTheme.futura(size: 12, weight: .bold))
-                        .tracking(1.5)
-                        .fixedSize()
-                        .foregroundColor(BauhausTheme.paper)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 5)
-                        .background(BauhausTheme.blue)
-                }
+            // Sync: a single tap syncs immediately with the saved credentials.
+            // The server/username/password sheet only opens when nothing is
+            // saved yet, or on a double-tap (to change the server or account).
+            VStack(alignment: .trailing, spacing: 2) {
+                Text(vm.isSyncing ? "SYNCING…" : "SYNC")
+                    .font(BauhausTheme.futura(size: 12, weight: .bold))
+                    .tracking(1.5)
+                    .fixedSize()
+                    .foregroundColor(BauhausTheme.paper)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 5)
+                    .background(BauhausTheme.blue)
             }
-            .disabled(vm.isSyncing)
+            .contentShape(Rectangle())
+            // count:2 declared first so SwiftUI can disambiguate the double-tap.
+            .onTapGesture(count: 2) { showingSyncSheet = true }
+            .onTapGesture {
+                if vm.hasCredentials { vm.syncNow() } else { showingSyncSheet = true }
+            }
+            .allowsHitTesting(!vm.isSyncing)
             .padding(.trailing, 10)
 
             // Right: answered count (tabular) with an uppercase ANSWERED label.
