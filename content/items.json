@@ -2246,6 +2246,361 @@
       "answer": "C",
       "explanation": "Anyone admitted cannot be in the 70-90 band (none there were admitted), so they scored above 90 or below 70 - exactly C. A overstates ('some', not all, below-70 were admitted); B assumes unknown proportions; D contradicts the 70-90 rule; E is unstated (a high scorer might also have submitted a portfolio).",
       "paraphrases": []
+    },
+    {
+      "id": "Q-PS-107",
+      "section": "Quantitative Reasoning",
+      "topic": "Arithmetic: powers and roots",
+      "tags": [
+        "Quant::Arithmetic::PowersRoots",
+        "difficulty::hard",
+        "split::train"
+      ],
+      "type": "Problem Solving",
+      "difficulty": "hard",
+      "target_seconds": 150,
+      "source": "original-hardgen-v1",
+      "split": "train",
+      "stem": "If 2^x * 3^y = 12^3 and x and y are positive integers, what is x + y?",
+      "choices": [
+        "A) 3",
+        "B) 6",
+        "C) 9",
+        "D) 12",
+        "E) 18"
+      ],
+      "answer": "C",
+      "explanation": "12^3 = (2^2 * 3)^3 = 2^6 * 3^3, so x = 6 and y = 3, giving x + y = 9. Trap: 18 comes from 6*3; 6 uses only x.",
+      "paraphrases": []
+    },
+    {
+      "id": "Q-PS-108",
+      "section": "Quantitative Reasoning",
+      "topic": "Algebra: linear equations and systems",
+      "tags": [
+        "Quant::Algebra::LinearEquations",
+        "difficulty::hard",
+        "split::train"
+      ],
+      "type": "Problem Solving",
+      "difficulty": "hard",
+      "target_seconds": 150,
+      "source": "original-hardgen-v1",
+      "split": "train",
+      "stem": "At a shop, 3 notebooks and 2 pens cost $13, while 2 notebooks and 5 pens cost $16. What is the combined cost of one notebook and one pen?",
+      "choices": [
+        "A) $4",
+        "B) $5",
+        "C) $6",
+        "D) $7",
+        "E) $8"
+      ],
+      "answer": "B",
+      "explanation": "Solve 3n+2p=13 and 2n+5p=16: eliminating p gives 11n=33, n=3, then p=2. n+p=$5. Trap: $8 is n+2p or a mis-elimination.",
+      "paraphrases": []
+    },
+    {
+      "id": "Q-PS-109",
+      "section": "Quantitative Reasoning",
+      "topic": "Word problems: rate, work, mixtures, interest",
+      "tags": [
+        "Quant::WordProblems::RateWorkMixtureInterest",
+        "difficulty::hard",
+        "split::train"
+      ],
+      "type": "Problem Solving",
+      "difficulty": "hard",
+      "target_seconds": 165,
+      "source": "original-hardgen-v1",
+      "split": "train",
+      "stem": "Pump A fills a tank in 6 hours and pump B fills it in 9 hours. Both run together for 2 hours, then A is shut off and B finishes the tank alone. What is the total time, in hours, to fill the tank?",
+      "choices": [
+        "A) 4",
+        "B) 5",
+        "C) 6",
+        "D) 7",
+        "E) 8"
+      ],
+      "answer": "C",
+      "explanation": "In 2 hours together they fill 2*(1/6+1/9)=5/9 of the tank. B alone fills the remaining 4/9 at 1/9 per hour, taking 4 hours. Total = 2 + 4 = 6 hours. Trap: 8 assumes B does the whole remainder at A's rate.",
+      "paraphrases": []
+    },
+    {
+      "id": "Q-PS-110",
+      "section": "Quantitative Reasoning",
+      "topic": "Arithmetic: properties of integers",
+      "tags": [
+        "Quant::Arithmetic::PropertiesOfIntegers",
+        "difficulty::hard",
+        "split::train"
+      ],
+      "type": "Problem Solving",
+      "difficulty": "hard",
+      "target_seconds": 150,
+      "source": "original-hardgen-v1",
+      "split": "train",
+      "stem": "If n is a positive integer and n^2 leaves a remainder of 1 when divided by 8, which of the following must be true?",
+      "choices": [
+        "A) n is odd",
+        "B) n is even",
+        "C) n is a multiple of 3",
+        "D) n is a prime number",
+        "E) n is a perfect square"
+      ],
+      "answer": "A",
+      "explanation": "For odd n, n^2 is always 1 mod 8; for even n, n^2 is 0 or 4 mod 8. So the condition forces n to be odd. It does not force divisibility by 3, primality, or being a perfect square (e.g., n=5 works and is none of those).",
+      "paraphrases": []
+    },
+    {
+      "id": "V-RC-101",
+      "section": "Verbal Reasoning",
+      "topic": "Reading Comprehension: main idea",
+      "tags": [
+        "Verbal::ReadingComprehension::MainIdea",
+        "difficulty::hard",
+        "split::train"
+      ],
+      "type": "Reading Comprehension",
+      "difficulty": "hard",
+      "target_seconds": 150,
+      "source": "original-hardgen-v1",
+      "split": "train",
+      "passage": "For decades economists assumed that giving consumers more product options could only make them better off, since additional choices merely expand the set of possibilities. Recent behavioral research complicates this assumption. In several experiments, shoppers shown dozens of varieties of a product were less likely to buy any of them than shoppers shown only a few, and those who did buy from the larger assortment later reported lower satisfaction. The proposed explanation is not that variety is inherently bad but that beyond some point the effort of comparing options, and the anticipated regret of a wrong choice, can outweigh the benefit of a closer match. Tellingly, the effect shrinks when shoppers are given tools, such as filters or expert recommendations, that lower the cost of comparison.",
+      "stem": "Which of the following best expresses the main point of the passage?",
+      "choices": [
+        "A) Consumers always prefer a smaller number of options to a larger one.",
+        "B) Economists were wrong to believe that additional options expand the set of possibilities.",
+        "C) Filters and expert recommendations increase the variety of products available to shoppers.",
+        "D) Product variety is inherently undesirable and reduces consumer welfare.",
+        "E) More options can lower purchasing and satisfaction, but the root problem is the difficulty of comparing options, not variety itself."
+      ],
+      "answer": "E",
+      "explanation": "The passage documents downsides of large assortments yet explicitly locates the cause in comparison cost (shown by the tools finding), not variety per se - exactly E. A and D overstate; B misreads (the passage disputes the welfare claim, not the possibility-set claim); C reverses the role of the tools.",
+      "paraphrases": []
+    },
+    {
+      "id": "V-RC-102",
+      "section": "Verbal Reasoning",
+      "topic": "Reading Comprehension: detail",
+      "tags": [
+        "Verbal::ReadingComprehension::Detail",
+        "difficulty::hard",
+        "split::train"
+      ],
+      "type": "Reading Comprehension",
+      "difficulty": "hard",
+      "target_seconds": 135,
+      "source": "original-hardgen-v1",
+      "split": "train",
+      "passage": "For decades economists assumed that giving consumers more product options could only make them better off, since additional choices merely expand the set of possibilities. Recent behavioral research complicates this assumption. In several experiments, shoppers shown dozens of varieties of a product were less likely to buy any of them than shoppers shown only a few, and those who did buy from the larger assortment later reported lower satisfaction. The proposed explanation is not that variety is inherently bad but that beyond some point the effort of comparing options, and the anticipated regret of a wrong choice, can outweigh the benefit of a closer match. Tellingly, the effect shrinks when shoppers are given tools, such as filters or expert recommendations, that lower the cost of comparison.",
+      "stem": "According to the passage, the choice-overload effect diminishes when",
+      "choices": [
+        "A) shoppers are given tools, such as filters or recommendations, that reduce the cost of comparing options.",
+        "B) the number of available options is increased even further.",
+        "C) the products in the assortment are more expensive.",
+        "D) shoppers have previously purchased the product.",
+        "E) the available options are made more similar to one another."
+      ],
+      "answer": "A",
+      "explanation": "The passage states the effect 'shrinks when shoppers are given tools, such as filters or expert recommendations, that lower the cost of comparison' - A restates this. The other options are not mentioned as moderators.",
+      "paraphrases": []
+    },
+    {
+      "id": "V-RC-103",
+      "section": "Verbal Reasoning",
+      "topic": "Reading Comprehension: inference",
+      "tags": [
+        "Verbal::ReadingComprehension::Inference",
+        "difficulty::hard",
+        "split::train"
+      ],
+      "type": "Reading Comprehension",
+      "difficulty": "hard",
+      "target_seconds": 150,
+      "source": "original-hardgen-v1",
+      "split": "train",
+      "passage": "Historians once portrayed the medieval guilds chiefly as engines of stagnation - cartels that fixed prices, restricted membership, and suppressed innovation to protect established masters. More recent scholarship, drawing on surviving guild records, tempers this portrait. Those records show guilds funding the training of apprentices, certifying the quality of goods in markets where buyers could not easily judge craftsmanship, and occasionally financing members' new ventures. This is not to say the older view was simply mistaken; guilds did limit competition. But it suggests their economic role was more ambiguous than the caricature of pure obstruction allows.",
+      "stem": "The passage most strongly implies which of the following about the older view of guilds?",
+      "choices": [
+        "A) It was partly accurate but incomplete, capturing guilds' restrictive practices while overlooking their productive functions.",
+        "B) It was entirely mistaken and has been fully overturned by recent scholarship.",
+        "C) It rested on no documentary evidence about how guilds actually operated.",
+        "D) It described guilds' role more accurately than the recent scholarship does.",
+        "E) It focused primarily on guilds' funding of apprentice training."
+      ],
+      "answer": "A",
+      "explanation": "The author says the newer view 'is not to say the older view was simply mistaken' (guilds did limit competition) but that guilds also had productive roles the caricature ignored - i.e., partly right, incomplete (A). B contradicts 'not simply mistaken'; D reverses the author's lean; C and E misattribute content.",
+      "paraphrases": []
+    },
+    {
+      "id": "V-RC-104",
+      "section": "Verbal Reasoning",
+      "topic": "Reading Comprehension: tone",
+      "tags": [
+        "Verbal::ReadingComprehension::Tone",
+        "difficulty::hard",
+        "split::train"
+      ],
+      "type": "Reading Comprehension",
+      "difficulty": "hard",
+      "target_seconds": 135,
+      "source": "original-hardgen-v1",
+      "split": "train",
+      "passage": "Historians once portrayed the medieval guilds chiefly as engines of stagnation - cartels that fixed prices, restricted membership, and suppressed innovation to protect established masters. More recent scholarship, drawing on surviving guild records, tempers this portrait. Those records show guilds funding the training of apprentices, certifying the quality of goods in markets where buyers could not easily judge craftsmanship, and occasionally financing members' new ventures. This is not to say the older view was simply mistaken; guilds did limit competition. But it suggests their economic role was more ambiguous than the caricature of pure obstruction allows.",
+      "stem": "The author's attitude toward the more recent scholarship on guilds is best described as",
+      "choices": [
+        "A) dismissive of its reliance on incomplete records.",
+        "B) broadly sympathetic but careful not to overstate how much it revises the older view.",
+        "C) uncritically enthusiastic about its conclusions.",
+        "D) hostile to its challenge of the traditional portrait.",
+        "E) indifferent to the debate between the two views."
+      ],
+      "answer": "B",
+      "explanation": "The author endorses the newer view ('tempers this portrait,' 'more ambiguous than the caricature allows') yet hedges ('not to say the older view was simply mistaken') - measured sympathy, B. A/D are too negative; C ignores the hedging; E contradicts the author's clear engagement.",
+      "paraphrases": []
+    },
+    {
+      "id": "V-CR-104",
+      "section": "Verbal Reasoning",
+      "topic": "Critical Reasoning: paradox/discrepancy",
+      "tags": [
+        "Verbal::CriticalReasoning::Paradox",
+        "difficulty::hard",
+        "split::train"
+      ],
+      "type": "Critical Reasoning",
+      "difficulty": "hard",
+      "target_seconds": 150,
+      "source": "original-hardgen-v1",
+      "split": "train",
+      "stem": "After a city introduced a peak-hour congestion toll for cars entering downtown, the number of cars entering downtown during peak hours fell by 20% in the first year. Yet average vehicle speed on downtown streets during those hours did not improve at all. Which of the following, if true, best explains why speeds did not improve despite the drop in traffic?",
+      "choices": [
+        "A) The toll generated substantial revenue for the city's transit budget.",
+        "B) During the same year, the city converted several downtown car lanes into dedicated bus and bicycle lanes, reducing the road space available to cars.",
+        "C) Some drivers who stopped entering downtown switched to commuter rail.",
+        "D) Many downtown business owners publicly opposed the toll.",
+        "E) The toll applied only during peak hours and not on weekends."
+      ],
+      "answer": "B",
+      "explanation": "The paradox is 'fewer cars, same speed.' B resolves it: road capacity for cars fell at the same time, so fewer cars faced fewer lanes, leaving speed unchanged. A, C, D, and E are consistent with the toll but say nothing about why speed failed to rise.",
+      "paraphrases": []
+    },
+    {
+      "id": "DI-TA-101",
+      "section": "Data Insights",
+      "topic": "Table Analysis",
+      "tags": [
+        "DataInsights::TableAnalysis",
+        "difficulty::hard",
+        "split::train"
+      ],
+      "type": "Table Analysis",
+      "difficulty": "hard",
+      "target_seconds": 165,
+      "source": "original-hardgen-v1",
+      "split": "train",
+      "table": {
+        "columns": [
+          "Product",
+          "Units Sold",
+          "Unit Price ($)",
+          "Return Rate (%)"
+        ],
+        "rows": [
+          [
+            "Alpha",
+            500,
+            20,
+            10
+          ],
+          [
+            "Beta",
+            300,
+            40,
+            5
+          ],
+          [
+            "Gamma",
+            800,
+            15,
+            20
+          ],
+          [
+            "Delta",
+            400,
+            30,
+            15
+          ]
+        ]
+      },
+      "stem": "Net revenue for a product equals units sold times unit price times the fraction of units NOT returned. Based on the table, which product generated the highest net revenue?",
+      "choices": [
+        "A) Beta",
+        "B) Alpha",
+        "C) Delta",
+        "D) Gamma",
+        "E) Gamma and Delta tied"
+      ],
+      "answer": "A",
+      "explanation": "Net = units * price * (1 - return rate). Alpha: 500*20*0.90=9,000. Beta: 300*40*0.95=11,400. Gamma: 800*15*0.80=9,600. Delta: 400*30*0.85=10,200. Beta is highest. Trap: Gamma has the highest GROSS revenue (12,000) but the 20% return rate drops it below Beta.",
+      "paraphrases": []
+    },
+    {
+      "id": "DI-MSR-101",
+      "section": "Data Insights",
+      "topic": "Multi-Source Reasoning",
+      "tags": [
+        "DataInsights::MultiSourceReasoning",
+        "difficulty::hard",
+        "split::train"
+      ],
+      "type": "Multi-Source Reasoning",
+      "difficulty": "hard",
+      "target_seconds": 165,
+      "source": "original-hardgen-v1",
+      "split": "train",
+      "sources": {
+        "Shipping policy": "A customer qualifies for free expedited shipping only if they are a Premier member AND their order subtotal is at least $75, measured after any discounts are applied and before tax.",
+        "Order record": "The customer is a Premier member. The order subtotal before discounts is $90. A 20% loyalty discount is applied at checkout, and tax is added afterward."
+      },
+      "stem": "Based on the two sources, does this order qualify for free expedited shipping?",
+      "choices": [
+        "A) Yes, because the customer is a Premier member.",
+        "B) Yes, because the pre-discount subtotal of $90 is at least $75.",
+        "C) No, because the customer is not a Premier member.",
+        "D) Cannot be determined from the information given.",
+        "E) No, because the post-discount subtotal is $72, which is below $75."
+      ],
+      "answer": "E",
+      "explanation": "The threshold is measured after discounts: $90 * (1 - 0.20) = $72, which is below $75, so the order does not qualify despite Premier membership. Trap B uses the pre-discount figure; the policy explicitly says 'after any discounts.'",
+      "paraphrases": []
+    },
+    {
+      "id": "DI-GI-101",
+      "section": "Data Insights",
+      "topic": "Graphics Interpretation",
+      "tags": [
+        "DataInsights::GraphicsInterpretation",
+        "difficulty::hard",
+        "split::train"
+      ],
+      "type": "Graphics Interpretation",
+      "difficulty": "hard",
+      "target_seconds": 165,
+      "source": "original-hardgen-v1",
+      "split": "train",
+      "graphic_description": "A grouped bar chart shows a startup's quarterly revenue and total cost, both in thousands of dollars, for one year. Q1: revenue 100, cost 90. Q2: revenue 140, cost 120. Q3: revenue 180, cost 170. Q4: revenue 240, cost 210.",
+      "stem": "Profit margin is profit (revenue minus cost) as a percent of revenue. Based on the chart, in which quarter was the profit margin the highest?",
+      "choices": [
+        "A) Q1",
+        "B) Q2",
+        "C) Q3",
+        "D) Q4",
+        "E) Q2 and Q4 tied"
+      ],
+      "answer": "B",
+      "explanation": "Margins: Q1 10/100=10.0%, Q2 20/140=14.3%, Q3 10/180=5.6%, Q4 30/240=12.5%. Q2 is highest. Trap: Q4 has the largest absolute profit ($30k) and highest revenue, but not the highest margin.",
+      "paraphrases": []
     }
   ],
   "memory_cards": [
