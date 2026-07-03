@@ -112,7 +112,36 @@
             "E) 110%"
           ],
           "answer": "B",
-          "explanation": "1.10 x 0.90 = 0.99 = 99%. Opposite equal percent changes do not cancel."
+          "explanation": "1.10 x 0.90 = 0.99 = 99%. Opposite equal percent changes do not cancel.",
+          "parent_id": "Q-PS-001"
+        },
+        {
+          "id": "Q-PS-001-p2",
+          "parent_id": "Q-PS-001",
+          "stem": "A gym's monthly membership fee is first raised by 50%, and then the raised fee is lowered by 40%. The final fee is what percent of the original fee?",
+          "choices": [
+            "A) 85%",
+            "B) 90%",
+            "C) 100%",
+            "D) 110%",
+            "E) 120%"
+          ],
+          "answer": "B",
+          "explanation": "Start with 100. After a 50% increase the fee is 100 x 1.50 = 150. After a 40% decrease the fee is 150 x 0.60 = 90. So the final fee is 90% of the original. Distractors: A) 85% comes from wrongly averaging or mis-subtracting; C) 100% assumes the changes cancel; D) 110% adds the percents (100 + 50 - 40) as if they applied to the same base; E) 120% applies the 40% decrease to the original 100 (100 + 50 - 40% of... ) or otherwise ignores the larger base for the decrease."
+        },
+        {
+          "id": "Q-PS-001-p3",
+          "parent_id": "Q-PS-001",
+          "stem": "The number of daily visitors to a website first drops by 25%, and then the reduced number rises by 40%. The final number of visitors is what percent of the original number?",
+          "choices": [
+            "A) 100%",
+            "B) 103%",
+            "C) 104%",
+            "D) 105%",
+            "E) 115%"
+          ],
+          "answer": "D",
+          "explanation": "Start with 100. After a 25% decrease the count is 100 x 0.75 = 75. After a 40% increase the count is 75 x 1.40 = 105. So the final number is 105% of the original. Distractors: A) 100% assumes the changes offset; B) 103% and C) 104% come from arithmetic slips in multiplying 75 x 1.40; E) 115% adds the percents (100 - 25 + 40) as if both applied to the original base."
         }
       ]
     },
@@ -152,7 +181,36 @@
             "E) $5.00"
           ],
           "answer": "B",
-          "explanation": "2m+c=7 and m+2c=8. From the first, c=7-2m. Substitute: m+2(7-2m)=8, so -3m=-6, m=2 and c=3."
+          "explanation": "2m+c=7 and m+2c=8. From the first, c=7-2m. Substitute: m+2(7-2m)=8, so -3m=-6, m=2 and c=3.",
+          "parent_id": "Q-PS-002"
+        },
+        {
+          "id": "Q-PS-002-p2",
+          "parent_id": "Q-PS-002",
+          "stem": "At a farm stand, 4 apples and 3 oranges cost $4.90, while 2 apples and 5 oranges cost $4.20. What is the cost of one orange?",
+          "choices": [
+            "A) $0.35",
+            "B) $0.50",
+            "C) $0.65",
+            "D) $0.85",
+            "E) $1.10"
+          ],
+          "answer": "B",
+          "explanation": "Let a = apple price and o = orange price. Then 4a + 3o = 4.90 and 2a + 5o = 4.20. Multiply the second equation by 2 to match apple coefficients: 4a + 10o = 8.40. Subtract the first equation: 7o = 3.50, so o = $0.50 (B). Distractor A ($0.35) comes from subtracting the two original equations to get 2a - 2o = 0.70, dividing by 2 to get a - o = 0.35, and mislabeling that difference as the orange price. Distractor C ($0.65) is the average of the apple and orange prices, a sign of guessing a midpoint. Distractor D ($0.85) is the apple price, found by solving for the wrong variable. Distractor E ($1.10) results from adding the two equations (6a + 8o = 9.10) and dividing the total by 8 as if it were pure orange terms."
+        },
+        {
+          "id": "Q-PS-002-p3",
+          "parent_id": "Q-PS-002",
+          "stem": "For a museum, 5 adult tickets and 2 child tickets cost $74, while 3 adult tickets and 4 child tickets cost $64. What is the cost of one child ticket?",
+          "choices": [
+            "A) $5.00",
+            "B) $6.00",
+            "C) $10.00",
+            "D) $7.00",
+            "E) $12.00"
+          ],
+          "answer": "D",
+          "explanation": "Let a = adult price and c = child price. Then 5a + 2c = 74 and 3a + 4c = 64. Multiply the first equation by 2 to match child coefficients: 10a + 4c = 148. Subtract the second equation: 7a = 84, so a = $12, then 5(12) + 2c = 74 gives 2c = 14 and c = $7 (D). Distractor E ($12) is the adult price, obtained by solving for the wrong variable. Distractor A ($5.00) comes from subtracting the original equations (2a - 2c = 10) to get a - c = 5 and mislabeling that difference as the child price. Distractor C ($10.00) is that same difference of 10 taken directly without dividing by 2. Distractor B ($6.00) results from dividing the child-equation total 64 by a wrongly assumed 4 adults plus... treating 12/2 as the child price by halving the adult value."
         }
       ]
     },
@@ -192,7 +250,36 @@
             "E) 100"
           ],
           "answer": "B",
-          "explanation": "200 = 2^3 x 5^2. k must contain 2^2 (2a>=3 gives a>=2) and 5^1. So k must be divisible by 4 x 5 = 20."
+          "explanation": "200 = 2^3 x 5^2. k must contain 2^2 (2a>=3 gives a>=2) and 5^1. So k must be divisible by 4 x 5 = 20.",
+          "parent_id": "Q-PS-003"
+        },
+        {
+          "id": "Q-PS-003-p2",
+          "parent_id": "Q-PS-003",
+          "stem": "If k is a positive integer and k squared is divisible by 200, what is the largest integer that must be a divisor of k?",
+          "choices": [
+            "A) 10",
+            "B) 20",
+            "C) 200",
+            "D) 40",
+            "E) 100"
+          ],
+          "answer": "B",
+          "explanation": "Factor 200 = 2^3 * 5^2. Since k^2 is a perfect square, every prime in its factorization must appear to an even power. To be divisible by 2^3, k^2 needs at least 2^4 (the smallest even power that is >= 3), so k needs 2^2. To be divisible by 5^2, k^2 needs 5^2, so k needs 5^1. Thus k must be divisible by 2^2 * 5 = 20, and the smallest valid k is 20 (20^2 = 400 = 2*200), so 20 is the largest integer that must divide k. (A) 10 comes from just halving the given exponents by flooring: 2^1 * 5^1. (D) 40 = 2^3 * 5 keeps the full power of 2 instead of taking the square-root exponent. (E) 100 = 2^2 * 5^2 keeps the full power of 5 instead of halving it. (C) 200 wrongly assumes k itself must be divisible by 200."
+        },
+        {
+          "id": "Q-PS-003-p3",
+          "parent_id": "Q-PS-003",
+          "stem": "The positive integer m is such that m squared is a multiple of 540. What is the greatest integer that must divide m?",
+          "choices": [
+            "A) 90",
+            "B) 30",
+            "C) 45",
+            "D) 180",
+            "E) 270"
+          ],
+          "answer": "A",
+          "explanation": "Factor 540 = 2^2 * 3^3 * 5^1. Because m^2 is a perfect square, each prime must appear to an even power. For divisibility by 2^2, m^2 needs 2^2, so m needs 2^1. For 3^3, m^2 needs at least 3^4 (smallest even power >= 3), so m needs 3^2. For 5^1, m^2 needs at least 5^2, so m needs 5^1. Hence m must be divisible by 2^1 * 3^2 * 5^1 = 90, and the smallest valid m is 90 (90^2 = 8100 = 15*540), making 90 the greatest integer that must divide m. (B) 30 = 2*3*5 comes from flooring every exponent to the nearest lower half instead of rounding the odd ones up. (C) 45 = 3^2 * 5 drops the required factor of 2. (D) 180 = 2^2 * 3^2 * 5 keeps the full 2^2 rather than the square-root power 2^1. (E) 270 = 2 * 3^3 * 5 keeps the full 3^3 instead of taking 3^2."
         }
       ]
     },
@@ -232,7 +319,36 @@
             "E) Sick days are tracked by the HR department."
           ],
           "answer": "A",
-          "explanation": "A separate change in the same year (vaccination program) is a competing cause for fewer sick days."
+          "explanation": "A separate change in the same year (vaccination program) is a competing cause for fewer sick days.",
+          "parent_id": "V-CR-001"
+        },
+        {
+          "id": "V-CR-001-p2",
+          "parent_id": "V-CR-001",
+          "stem": "Two years ago, the Maple Grove Public Library began keeping its branches open until 10 p.m. instead of closing at 6 p.m. Over the following year, the total number of books checked out rose by 25%. The library's director concluded that the extended evening hours caused the increase in checkouts and has proposed extending hours at every branch in the county. Which of the following, if true, most seriously weakens the director's conclusion?",
+          "choices": [
+            "A) During the same year, the library eliminated all late-return fines, a change that library surveys had long identified as a major deterrent to borrowing.",
+            "B) Patrons who visit the library in the evening tend to check out more books per visit than patrons who visit in the morning.",
+            "C) The extended hours required the library to hire additional evening staff, increasing its annual operating costs.",
+            "D) A neighboring county that also extended its library hours saw a similar rise in book checkouts.",
+            "E) Most library patrons reported that they were satisfied with the new evening hours."
+          ],
+          "answer": "A",
+          "explanation": "The director's argument is causal: extended hours caused the 25% rise in checkouts. The strongest weakener identifies an alternative cause operating during the same period. (A) reveals that the library simultaneously eliminated late-return fines, a change already known to strongly discourage borrowing; this confounding factor could account for the increase independent of the hours, so it most seriously weakens the causal conclusion. (B) is a trap that, if anything, supports the conclusion by explaining why evening access is productive. (C) addresses cost, not whether hours caused more checkouts, so it is irrelevant to the causal claim. (D) strengthens the conclusion by showing the effect recurs where the same cause is present. (E) reports satisfaction, which does not bear on whether hours drove the checkout increase."
+        },
+        {
+          "id": "V-CR-001-p3",
+          "parent_id": "V-CR-001",
+          "stem": "Six months ago, the Corriveau Manufacturing plant replaced the worn flooring on its assembly line with a new slip-resistant surface. In the six months since, the number of workplace injuries on the assembly line dropped by 40% compared with the previous six months. The plant's safety manager concluded that the new flooring was responsible for the drop and recommends installing it in the company's other three plants. Which of the following, if true, most seriously weakens the safety manager's conclusion?",
+          "choices": [
+            "A) The new slip-resistant flooring is more expensive to install and maintain than the flooring it replaced.",
+            "B) Injuries in the plant's warehouse, where the flooring was not replaced, remained roughly constant over the same period.",
+            "C) At the same time the flooring was installed, the plant introduced a mandatory daily safety briefing and required all assembly-line workers to complete a new hazard-training program.",
+            "D) Workers on the assembly line reported that the new flooring felt more comfortable to stand on during long shifts.",
+            "E) A competing manufacturer that installed similar flooring later reported a comparable decline in injuries."
+          ],
+          "answer": "C",
+          "explanation": "The argument is causal: the new flooring caused the 40% drop in injuries. The best weakener supplies an alternative cause that occurred simultaneously. (C) states that the plant introduced mandatory safety briefings and a new hazard-training program at the same time, either of which could account for the fewer injuries independent of the flooring, most seriously weakening the causal conclusion. (A) concerns cost, not whether the flooring caused fewer injuries, so it is irrelevant to the causal claim. (B) is a trap that actually strengthens the conclusion by acting as a control: the unchanged area saw no drop, suggesting the flooring change mattered. (D) offers a plausible mechanism and mildly supports rather than weakens the conclusion. (E) strengthens the conclusion by showing the effect recurs where the same cause is present."
         }
       ]
     },
@@ -272,7 +388,36 @@
             "E) The flights are always full."
           ],
           "answer": "A",
-          "explanation": "Profit rises only if the lost revenue from departing passengers does not exceed the meal-cost savings."
+          "explanation": "Profit rises only if the lost revenue from departing passengers does not exceed the meal-cost savings.",
+          "parent_id": "V-CR-002"
+        },
+        {
+          "id": "V-CR-002-p2",
+          "parent_id": "V-CR-002",
+          "stem": "Meridian Bakeries intends to increase its earnings by switching from its current premium flour to a generic flour that costs 20% less per bag. Since the generic flour is cheaper, the company's managers predict that earnings will rise. The plan relies on which of the following assumptions?",
+          "choices": [
+            "A) The generic flour is milled by a supplier located closer to Meridian's factory than the current supplier.",
+            "B) The generic flour is the least expensive flour that Meridian could purchase.",
+            "C) Using the generic flour will not lower the quality of the baked goods enough to reduce revenue by more than the amount saved on flour.",
+            "D) Meridian's competitors will not begin using the same generic flour.",
+            "E) The premium flour Meridian currently uses is the most costly ingredient in its products."
+          ],
+          "answer": "C",
+          "explanation": "The argument assumes cheaper inputs lead directly to higher earnings. This holds ONLY if the cost savings are not wiped out by a countervailing effect (lower quality reducing sales/revenue). Negating C -- the quality drop reduces revenue by MORE than the savings -- destroys the conclusion, so C is a required assumption. (A) Supplier location is irrelevant to whether the switch raises earnings; a common 'plausible-sounding but off-topic' distractor. (B) Whether it is the absolute cheapest option is not needed -- the plan only requires that this cheaper flour raises earnings, an extreme/irrelevant claim. (D) Competitor behavior mirrors the source card's tempting-but-wrong 'rivals will react' distractor; the earnings gain from lower costs does not depend on rivals' input choices. (E) Whether flour is the single most costly ingredient is not required -- any real cost reduction can raise earnings if revenue holds; a scope-shift distractor."
+        },
+        {
+          "id": "V-CR-002-p3",
+          "parent_id": "V-CR-002",
+          "stem": "HarborView Hotel plans to boost its annual profit by replacing the daily linen-cleaning service it currently outsources with an in-house laundry that would cut cleaning costs by 30%. Because the in-house option is cheaper, the hotel's owner expects profit to grow. Which of the following is an assumption on which the plan depends?",
+          "choices": [
+            "A) Operating the in-house laundry will not create service problems that reduce guest bookings by enough to cancel out the cost savings.",
+            "B) The outsourced cleaning service is the single largest expense the hotel currently pays.",
+            "C) No other hotel in the area has built an in-house laundry.",
+            "D) The in-house laundry will use less water than the outsourced service used.",
+            "E) The outsourced cleaning contract was scheduled to expire within the year."
+          ],
+          "answer": "A",
+          "explanation": "The plan assumes lower cleaning costs translate into higher profit. That requires that the switch not trigger a countervailing loss (e.g., worse or slower linen service driving away guests) large enough to erase the savings. Negating A -- bookings fall by enough to offset the savings -- collapses the argument, making A the necessary assumption. (B) Being the largest expense is not required; even a modest cost cut can raise profit if revenue is unaffected -- a scope-shift distractor. (C) Whether rival hotels have done the same is irrelevant to whether HarborView's own costs and profit improve; this echoes the source's tempting 'competitor' distractor. (D) Lower water use is a plausible operational detail but does not bear on whether profit rises; an off-topic 'sounds relevant' distractor. (E) The timing of the old contract's expiration does not affect whether the cheaper method yields higher profit; a temporal-detail distractor."
         }
       ]
     },
@@ -313,7 +458,38 @@
             "E) the main cause of poor exam performance."
           ],
           "answer": "A",
-          "explanation": "Same inference, reworded: the study frames felt confidence as a poor proxy for actual retention."
+          "explanation": "Same inference, reworded: the study frames felt confidence as a poor proxy for actual retention.",
+          "parent_id": "V-RC-001"
+        },
+        {
+          "id": "V-RC-001-p2",
+          "parent_id": "V-RC-001",
+          "stem": "The passage suggests that gym members' tendency to keep favoring steady-state cardio is best explained by which of the following?",
+          "choices": [
+            "A) Members feel more worn out after steady-state sessions, and they treat that feeling of fatigue as a sign of an effective workout, even though it tracks poorly with actual fitness gains.",
+            "B) Steady-state cardio produces greater improvements in cardiovascular fitness than interval training does.",
+            "C) Interval training requires more total minutes per session than steady-state cardio.",
+            "D) The trial measured cardiovascular fitness only on the final day of the program.",
+            "E) Perceived exertion and measured fitness improvement are completely unrelated to each other."
+          ],
+          "answer": "A",
+          "explanation": "The passage explains the members' continued preference through a mismatch between a subjective feeling (fatigue) and the objective outcome (fitness gains): members read strong fatigue as evidence of a good workout, but that feeling does not match actual results. This mirrors the source card's confidence-vs-retention mismatch reasoning. A restates this cause. B contradicts the passage, which says interval training produced the larger fitness gains. C introduces a time claim the passage does not make (and the passage says steady-state sessions were longer, not interval ones). D is a testing-methodology red herring not stated in the passage. E overstates the relationship as 'completely unrelated,' whereas the passage only says the felt cue can be misleading, not that the two are entirely independent.",
+          "passage": "A fitness study compared two training approaches over eight weeks. One group did high-intensity interval training; the other did longer, steady-state cardio at a moderate pace. By the end of the program, the interval group had improved its measured cardiovascular fitness considerably more than the steady-state group. However, members in the steady-state group generally finished their sessions feeling more physically drained. Researchers proposed that members interpret this greater sense of fatigue as proof that a workout is working, and that this belief helps explain why so many continue to choose steady-state cardio despite its smaller fitness benefits."
+        },
+        {
+          "id": "V-RC-001-p3",
+          "parent_id": "V-RC-001",
+          "stem": "The passage suggests that shoppers' continued reliance on printed coupons is best explained by which of the following?",
+          "choices": [
+            "A) Printed coupons deliver larger total savings than the app-based discounts do.",
+            "B) Downloading and applying the app-based discounts takes longer than clipping printed coupons.",
+            "C) Because handing over a physical coupon at checkout produces a visible, tangible moment of saving, shoppers overestimate how much they are saving with coupons relative to the app, even though the app saves them more.",
+            "D) The survey recorded shoppers' savings only during the first week of the study.",
+            "E) The amount a shopper saves and how much a shopper believes they saved are entirely independent."
+          ],
+          "answer": "C",
+          "explanation": "The passage explains the behavior through a gap between a vivid felt experience (the tangible moment of using a coupon) and the actual monetary outcome (the app saves more): the salient experience inflates perceived savings, which sustains the coupon habit. This parallels the source's confidence-vs-retention mismatch. C captures this cause. A contradicts the passage, which states the app produced greater savings. B adds an unstated time-cost claim. D is a methodology red herring not supported by the passage. E overstates the link as 'entirely independent,' while the passage claims only that the felt sense of saving is misleading, not that perceived and actual savings have no relationship at all.",
+          "passage": "A retailer tested whether shoppers saved more using traditional printed coupons or the store's new app-based discounts, which apply automatically at checkout. Over a month, shoppers who relied on the app-based discounts saved noticeably more money overall than those who used printed coupons. Even so, shoppers using printed coupons reported feeling that they were getting better deals. Analysts suggested that the physical act of presenting a coupon creates a memorable, concrete impression of saving money, and that this impression, rather than the actual totals, may explain why many shoppers keep preferring printed coupons."
         }
       ]
     },
@@ -353,7 +529,8 @@
             "E) Statements (1) and (2) TOGETHER are NOT sufficient."
           ],
           "answer": "B",
-          "explanation": "(1) only says y is not 0. (2) y^3<0 forces y<0. So (2) alone is sufficient."
+          "explanation": "(1) only says y is not 0. (2) y^3<0 forces y<0. So (2) alone is sufficient.",
+          "parent_id": "DI-DS-001"
         }
       ]
     },
@@ -399,7 +576,8 @@
             "Adult": 80,
             "Child": 70
           },
-          "explanation": "a + c = 150 and 10a + 6c = 1220. Substitute: 10a + 6(150 - a) = 1220, 4a + 900 = 1220, 4a = 320, a = 80 and c = 70."
+          "explanation": "a + c = 150 and 10a + 6c = 1220. Substitute: 10a + 6(150 - a) = 1220, 4a + 900 = 1220, 4a = 320, a = 80 and c = 70.",
+          "parent_id": "DI-TPA-001"
         }
       ]
     },
@@ -439,7 +617,36 @@
             "E) 1"
           ],
           "answer": "D",
-          "explanation": "Common denominator 12: 9/12 - 2/12 + 4/12 = 11/12."
+          "explanation": "Common denominator 12: 9/12 - 2/12 + 4/12 = 11/12.",
+          "parent_id": "Q-PS-004"
+        },
+        {
+          "id": "Q-PS-004-p2",
+          "parent_id": "Q-PS-004",
+          "stem": "What is the value of 3/4 - 1/6 + 1/3 ?",
+          "choices": [
+            "A) 11/12",
+            "B) 3/4",
+            "C) 7/12",
+            "D) 5/6",
+            "E) 1/2"
+          ],
+          "answer": "A",
+          "explanation": "Use a common denominator of 12: 3/4 = 9/12, 1/6 = 2/12, 1/3 = 4/12. So 9/12 - 2/12 + 4/12 = 11/12 (choice A). Distractor B (3/4) comes from ignoring the -1/6 and +1/3 as if they cancel term-by-term. Distractor C (7/12) comes from subtracting instead of adding the last term: 9/12 - 2/12 - 4/12 = 3/12, or mis-combining to 7/12. Distractor D (5/6 = 10/12) comes from treating 1/6 as 1/12 (using 1 instead of 2 in the numerator): 9/12 - 1/12 + 4/12 = 12/12, or a similar off-by-one slip landing at 10/12. Distractor E (1/2 = 6/12) comes from adding all three numerators over 12 incorrectly or dropping a term entirely."
+        },
+        {
+          "id": "Q-PS-004-p3",
+          "parent_id": "Q-PS-004",
+          "stem": "What is the value of 5/6 - 1/4 + 1/3 ?",
+          "choices": [
+            "A) 3/4",
+            "B) 11/12",
+            "C) 1/2",
+            "D) 5/12",
+            "E) 7/12"
+          ],
+          "answer": "B",
+          "explanation": "Use a common denominator of 12: 5/6 = 10/12, 1/4 = 3/12, 1/3 = 4/12. So 10/12 - 3/12 + 4/12 = 11/12 (choice B). Distractor A (3/4 = 9/12) comes from subtracting the last term instead of adding: 10/12 - 3/12 - 4/12 would be 3/12, but a common slip of 10/12 - 3/12 + 2/12 gives 9/12 by halving 1/3. Distractor C (1/2 = 6/12) comes from computing 10/12 - 3/12 - 1/12, dropping or mis-signing a term. Distractor D (5/12) comes from adding then subtracting in the wrong order or converting 5/6 to 8/12 by using denominator error. Distractor E (7/12) comes from 10/12 - 3/12 = 7/12 and then forgetting to add the +1/3 term."
         }
       ]
     },
@@ -479,7 +686,36 @@
             "E) 49"
           ],
           "answer": "C",
-          "explanation": "cats/dogs = 4/7. Dogs are 7 parts = 28, so 1 part = 4 and cats = 4 parts = 16. (Check: 16/28 = 4/7.)"
+          "explanation": "cats/dogs = 4/7. Dogs are 7 parts = 28, so 1 part = 4 and cats = 4 parts = 16. (Check: 16/28 = 4/7.)",
+          "parent_id": "Q-PS-005"
+        },
+        {
+          "id": "Q-PS-005-p2",
+          "parent_id": "Q-PS-005",
+          "stem": "At a small bakery, the ratio of croissants to muffins baked each morning is 4 to 7. If the bakery makes 63 muffins one morning, how many croissants does it make?",
+          "choices": [
+            "A) 27",
+            "B) 36",
+            "C) 42",
+            "D) 110",
+            "E) 441"
+          ],
+          "answer": "B",
+          "explanation": "Set up the proportion croissants/muffins = 4/7. With 63 muffins, each ratio unit equals 63/7 = 9, so croissants = 4 x 9 = 36. Distractor A (27) applies the multiplier to 3 instead of 4 (misreads the ratio). C (42) reverses the ratio, using 7/... incorrectly or computes 6 x 7. D (110) adds all parts incorrectly. E (441) multiplies 63 x 7 (multiplies instead of dividing to find the unit)."
+        },
+        {
+          "id": "Q-PS-005-p3",
+          "parent_id": "Q-PS-005",
+          "stem": "In a parking lot, the ratio of cars to motorcycles is 6 to 2. If there are 18 cars in the lot, how many motorcycles are there?",
+          "choices": [
+            "A) 6",
+            "B) 9",
+            "C) 24",
+            "D) 54",
+            "E) 36"
+          ],
+          "answer": "A",
+          "explanation": "Simplify the ratio cars:motorcycles = 6:2 = 3:1. With 18 cars, each unit of the reduced ratio equals 18/3 = 6, so motorcycles = 1 x 6 = 6. Distractor B (9) divides 18 by 2 (uses the raw ratio number as a divisor incorrectly). C (24) adds 18 + 6 or misreads to add parts. D (54) multiplies 18 x 3 (inverts the operation). E (36) computes 18 x 2 (multiplies by the wrong ratio term instead of scaling down)."
         }
       ]
     },
@@ -519,7 +755,36 @@
             "E) 243"
           ],
           "answer": "C",
-          "explanation": "3^y = 27 = 3^3, so y = 3. 3^(y+1) = 3^4 = 81. (Or 3^y * 3 = 27 * 3 = 81.)"
+          "explanation": "3^y = 27 = 3^3, so y = 3. 3^(y+1) = 3^4 = 81. (Or 3^y * 3 = 27 * 3 = 81.)",
+          "parent_id": "Q-PS-006"
+        },
+        {
+          "id": "Q-PS-006-p2",
+          "parent_id": "Q-PS-006",
+          "stem": "If 3^k = 81, what is the value of 3^(k+1) ?",
+          "choices": [
+            "A) 84",
+            "B) 162",
+            "C) 243",
+            "D) 729",
+            "E) 27"
+          ],
+          "answer": "C",
+          "explanation": "Since 3^4 = 81, we have k = 4. Then 3^(k+1) = 3^5 = 243. Equivalently, 3^(k+1) = 3^k * 3 = 81 * 3 = 243. Distractor A (84) comes from adding 3 instead of multiplying (81 + 3). Distractor B (162) comes from multiplying by 2 instead of 3 (81 * 2), a mistaken interpretation of the +1 exponent. Distractor D (729) comes from computing 3^(k+2) = 3^6 (adding 2 to the exponent instead of 1). Distractor E (27) comes from computing 3^(k-1) = 3^3 (subtracting instead of adding)."
+        },
+        {
+          "id": "Q-PS-006-p3",
+          "parent_id": "Q-PS-006",
+          "stem": "If 5^m = 25, what is the value of 5^(m+3) ?",
+          "choices": [
+            "A) 3125",
+            "B) 40",
+            "C) 125",
+            "D) 625",
+            "E) 15625"
+          ],
+          "answer": "A",
+          "explanation": "Since 5^2 = 25, we have m = 2. Then 5^(m+3) = 5^5 = 3125. Equivalently, 5^(m+3) = 5^m * 5^3 = 25 * 125 = 3125. Distractor B (40) comes from adding instead of multiplying (25 + 3*5, or 25 + 15). Distractor C (125) comes from computing only 5^3 and ignoring the 5^m factor, or misreading as 5^(m+1)=5^3. Distractor D (625) comes from computing 5^(m+2) = 5^4 (adding 2 to the exponent instead of 3). Distractor E (15625) comes from computing 5^(m+4) = 5^6 (adding 4 instead of 3, an off-by-one error)."
         }
       ]
     },
@@ -559,7 +824,36 @@
             "E) 88"
           ],
           "answer": "D",
-          "explanation": "Average 82 over 4 scores means a total of 328. The known three sum to 245, so s = 328 - 245 = 83."
+          "explanation": "Average 82 over 4 scores means a total of 328. The known three sum to 245, so s = 328 - 245 = 83.",
+          "parent_id": "Q-PS-007"
+        },
+        {
+          "id": "Q-PS-007-p2",
+          "parent_id": "Q-PS-007",
+          "stem": "The seven numbers 6, 9, 11, 11, 14, 17, and y have an arithmetic mean of 12. What is the value of y?",
+          "choices": [
+            "A) 4",
+            "B) 16",
+            "C) 11",
+            "D) 12",
+            "E) 14"
+          ],
+          "answer": "B",
+          "explanation": "The mean of the seven numbers is 12, so their total is 12 x 7 = 84. The six known numbers sum to 6 + 9 + 11 + 11 + 14 + 17 = 68. Therefore y = 84 - 68 = 16. Distractor A (4) comes from dividing by 6 instead of 7 (12 x 6 - 68). Distractor C (11) is the median of the known values. Distractor D (12) mistakes the mean itself for the answer. Distractor E (14) results from an arithmetic slip in summing the known values (using 70 instead of 68)."
+        },
+        {
+          "id": "Q-PS-007-p3",
+          "parent_id": "Q-PS-007",
+          "stem": "A student's first 6 quiz scores have an arithmetic mean of 78. After taking a 7th quiz, the mean of all 7 scores rises to 80. What did the student score on the 7th quiz?",
+          "choices": [
+            "A) 80",
+            "B) 90",
+            "C) 92",
+            "D) 14",
+            "E) 12"
+          ],
+          "answer": "C",
+          "explanation": "The total of the first 6 scores is 78 x 6 = 468. To have a mean of 80 across 7 scores, the new total must be 80 x 7 = 560. The 7th score is therefore 560 - 468 = 92. Distractor A (80) mistakes the new average for the 7th score. Distractor B (90) comes from adding the 2-point rise to every one of the six prior quizzes (78 + 6 x 2). Distractor D (14) uses 80 x 7 - 78 x 7, wrongly applying 7 quizzes to the old average. Distractor E (12) uses 80 x 6 - 78 x 6, forgetting to account for the 7th quiz in the new total."
         }
       ]
     },
@@ -599,7 +893,8 @@
             "E) 19"
           ],
           "answer": "B",
-          "explanation": "Sorted, the two middle values are 6 and 6, so the median is 6. Range = 21 - 2 = 19. 19 - 6 = 13."
+          "explanation": "Sorted, the two middle values are 6 and 6, so the median is 6. Range = 21 - 2 = 19. 19 - 6 = 13.",
+          "parent_id": "Q-PS-008"
         }
       ]
     },
@@ -639,7 +934,36 @@
             "E) 15"
           ],
           "answer": "A",
-          "explanation": "Factor: (x + 5)(x - 3) = 0, so x = -5 or x = 3. Only -5 is listed."
+          "explanation": "Factor: (x + 5)(x - 3) = 0, so x = -5 or x = 3. Only -5 is listed.",
+          "parent_id": "Q-PS-009"
+        },
+        {
+          "id": "Q-PS-009-p2",
+          "parent_id": "Q-PS-009",
+          "stem": "If x^2 - 7x + 12 = 0, which of the following could be the value of x?",
+          "choices": [
+            "A) -4",
+            "B) 3",
+            "C) -3",
+            "D) 2",
+            "E) 7"
+          ],
+          "answer": "B",
+          "explanation": "Factor x^2 - 7x + 12 = (x - 3)(x - 4) = 0, so the roots are x = 3 and x = 4. Of the answer choices, only 3 is a root, so B is correct. Distractors: A) -4 flips the sign of the root 4 (forgetting that (x - 4) = 0 gives x = +4); C) -3 flips the sign of the root 3; D) 2 comes from mis-factoring as (x - 2)(x - ...) or matching only part of the constant term; E) 7 uses the sum of the roots (the coefficient b = 7) instead of a root itself."
+        },
+        {
+          "id": "Q-PS-009-p3",
+          "parent_id": "Q-PS-009",
+          "stem": "If 2x^2 + x - 6 = 0, which of the following could be the value of x?",
+          "choices": [
+            "A) 6",
+            "B) -2",
+            "C) 2",
+            "D) 3",
+            "E) -3"
+          ],
+          "answer": "B",
+          "explanation": "Factor 2x^2 + x - 6 = (2x - 3)(x + 2) = 0, giving x = 3/2 or x = -2. Only -2 appears among the choices, so B is correct. Distractors: A) 6 uses the constant term (6) as a root, a common misread; C) 2 flips the sign of the correct root -2; D) 3 takes only the numerator of the fractional root 3/2, ignoring the leading coefficient; E) -3 comes from mis-splitting the middle term or mishandling signs when factoring."
         }
       ]
     },
@@ -679,7 +1003,36 @@
             "E) 9"
           ],
           "answer": "C",
-          "explanation": "|n + 2| <= 3 means -3 <= n + 2 <= 3, i.e., -5 <= n <= 1. The integers -5,-4,-3,-2,-1,0,1 number 7."
+          "explanation": "|n + 2| <= 3 means -3 <= n + 2 <= 3, i.e., -5 <= n <= 1. The integers -5,-4,-3,-2,-1,0,1 number 7.",
+          "parent_id": "Q-PS-010"
+        },
+        {
+          "id": "Q-PS-010-p2",
+          "parent_id": "Q-PS-010",
+          "stem": "How many integer values of x satisfy the inequality |2x + 5| ≤ 9 ?",
+          "choices": [
+            "A) 5",
+            "B) 8",
+            "C) 9",
+            "D) 14",
+            "E) 10"
+          ],
+          "answer": "E",
+          "explanation": "|2x + 5| ≤ 9 means -9 ≤ 2x + 5 ≤ 9. Subtract 5: -14 ≤ 2x ≤ 4. Divide by 2: -7 ≤ x ≤ 2. The integers from -7 to 2 inclusive number 2 - (-7) + 1 = 10, so the answer is E. Distractor D (14) uses the interval width in the 2x-line (from -14 to 4 is width 18, or mis-taking half-differences) without dividing correctly. C (9) drops one endpoint (off-by-one). B (8) excludes both endpoints, treating ≤ as <. A (5) counts only one side of 0 or mishandles the negative branch."
+        },
+        {
+          "id": "Q-PS-010-p3",
+          "parent_id": "Q-PS-010",
+          "stem": "A quality inspector accepts a bolt only if its length L (in millimeters, restricted to whole-millimeter values) makes |L - 6| < 5 true. How many whole-millimeter lengths does the inspector accept?",
+          "choices": [
+            "A) 9",
+            "B) 10",
+            "C) 11",
+            "D) 5",
+            "E) 8"
+          ],
+          "answer": "A",
+          "explanation": "|L - 6| < 5 means -5 < L - 6 < 5, i.e. 1 < L < 11. Because the inequality is strict, the endpoints 1 and 11 are excluded, leaving the integers 2, 3, 4, 5, 6, 7, 8, 9, 10 — that is 9 values, so the answer is A. Distractor C (11) wrongly includes both endpoints 1 and 11 (treating < as ≤). B (10) includes exactly one endpoint (off-by-one). E (8) undercounts by dropping an interior value or excluding an extra endpoint. D (5) counts only the values on one side of the center 6."
         }
       ]
     },
@@ -719,7 +1072,36 @@
             "E) 16"
           ],
           "answer": "C",
-          "explanation": "g(2) = 4 + 8 - 5 = 7. g(0) = 0 + 0 - 5 = -5. g(2) - g(0) = 7 - (-5) = 12."
+          "explanation": "g(2) = 4 + 8 - 5 = 7. g(0) = 0 + 0 - 5 = -5. g(2) - g(0) = 7 - (-5) = 12.",
+          "parent_id": "Q-PS-011"
+        },
+        {
+          "id": "Q-PS-011-p2",
+          "parent_id": "Q-PS-011",
+          "stem": "A shipping company models the cost, in dollars, of preparing a package as g(x) = 3x^2 - 2x + 4, where x is the package's weight in kilograms. How much more does it cost to prepare a 4-kilogram package than a 2-kilogram package?",
+          "choices": [
+            "A) 27",
+            "B) 32",
+            "C) 36",
+            "D) 40",
+            "E) 56"
+          ],
+          "answer": "B",
+          "explanation": "g(4) = 3(16) - 2(4) + 4 = 48 - 8 + 4 = 44. g(2) = 3(4) - 2(2) + 4 = 12 - 4 + 4 = 12. The difference is 44 - 12 = 32, choice B. Distractor A (27) comes from a general miscount of only the squared-term contribution combined with a slip; C (36) results from using only the squared term, 3(16 - 4) = 36, and dropping the linear term; D (40) comes from a sign error on the linear term, treating it as +2x; E (56) results from adding g(4) + g(2) instead of subtracting."
+        },
+        {
+          "id": "Q-PS-011-p3",
+          "parent_id": "Q-PS-011",
+          "stem": "For a certain species of plant, its height in centimeters after t weeks is given by h(t) = t^2 + 5t - 2. By how many centimeters does the plant grow between the end of week 3 and the end of week 6?",
+          "choices": [
+            "A) 22",
+            "B) 27",
+            "C) 42",
+            "D) 57",
+            "E) 86"
+          ],
+          "answer": "C",
+          "explanation": "h(6) = 36 + 30 - 2 = 64. h(3) = 9 + 15 - 2 = 22. The growth is 64 - 22 = 42, choice C. Distractor A (22) comes from computing h(6 - 3) = h(3) instead of h(6) - h(3); B (27) results from using only the squared term, 36 - 9 = 27, and dropping the linear term; D (57) comes from taking the squared-term difference (27) and adding only the week-6 linear value 5(6) = 30; E (86) results from adding h(6) + h(3) instead of subtracting."
         }
       ]
     },
@@ -759,7 +1141,36 @@
             "E) 37.5"
           ],
           "answer": "B",
-          "explanation": "Time out = 120/40 = 3 h; back = 120/30 = 4 h. Total 240 mi / 7 h = 34.29, about 34.3 mph."
+          "explanation": "Time out = 120/40 = 3 h; back = 120/30 = 4 h. Total 240 mi / 7 h = 34.29, about 34.3 mph.",
+          "parent_id": "Q-PS-012"
+        },
+        {
+          "id": "Q-PS-012-p2",
+          "parent_id": "Q-PS-012",
+          "stem": "A delivery drone flies 240 kilometers to a warehouse at an average speed of 40 kilometers per hour, then flies the same 240 kilometers back at an average speed of 30 kilometers per hour. What is the drone's average speed for the entire round trip, in kilometers per hour?",
+          "choices": [
+            "A) 33.75",
+            "B) 34.29",
+            "C) 35.00",
+            "D) 36.00",
+            "E) 37.50"
+          ],
+          "answer": "B",
+          "explanation": "Average speed for the round trip is total distance divided by total time, not the average of the two speeds. Total distance = 2*240 = 480 km. Time out = 240/40 = 6 h; time back = 240/30 = 8 h; total time = 14 h. Average speed = 480/14 = 34.29 km/h, choice B. Distractor A (33.75) comes from weighting the two speeds by time instead of distance. Distractor C (35.00) is the arithmetic mean (40+30)/2, the classic error of averaging the speeds directly. Distractor D (36.00) comes from wrongly using (40+30)/2 then nudging, or 480/13.33 from a time-computation slip. Distractor E (37.50) comes from dividing total distance by only the shorter (out-leg) time contribution or averaging 40 with a mistaken 35."
+        },
+        {
+          "id": "Q-PS-012-p3",
+          "parent_id": "Q-PS-012",
+          "stem": "During a training ride, a cyclist covers a 120-mile course at an average speed of 24 miles per hour, then rides the same 120-mile course back at an average speed of 16 miles per hour. What is the cyclist's average speed for the entire out-and-back ride, in miles per hour?",
+          "choices": [
+            "A) 18.0",
+            "B) 19.2",
+            "C) 19.6",
+            "D) 20.0",
+            "E) 21.0"
+          ],
+          "answer": "B",
+          "explanation": "Average speed equals total distance over total time. Total distance = 2*120 = 240 miles. Time out = 120/24 = 5 h; time back = 120/16 = 7.5 h; total time = 12.5 h. Average speed = 240/12.5 = 19.2 mph, choice B. Distractor A (18.0) comes from averaging 24 and 16 as (24+16)/2=20 then subtracting a fudge, or from dividing distance by an overstated total time. Distractor C (19.6) is the geometric mean sqrt(24*16), a tempting but incorrect shortcut. Distractor D (20.0) is the arithmetic mean (24+16)/2, the classic mistake of averaging the speeds directly. Distractor E (21.0) comes from weighting the speeds toward the faster leg or from a total-time miscalculation."
         }
       ]
     },
@@ -799,7 +1210,22 @@
             "E) 9.0"
           ],
           "answer": "B",
-          "explanation": "Rate = 1/3 + 1/6 = 2/6 + 1/6 = 3/6 = 1/2 wall per hour. Time = 1/(1/2) = 2 hours."
+          "explanation": "Rate = 1/3 + 1/6 = 2/6 + 1/6 = 3/6 = 1/2 wall per hour. Time = 1/(1/2) = 2 hours.",
+          "parent_id": "Q-PS-013"
+        },
+        {
+          "id": "Q-PS-013-p2",
+          "parent_id": "Q-PS-013",
+          "stem": "Working alone, painter Rosa can paint a large mural in 9 hours, and painter Miguel can paint the same mural in 18 hours. If they work together at their individual constant rates, how many hours does it take them to paint the mural?",
+          "choices": [
+            "A) 4.5",
+            "B) 5.0",
+            "C) 6.0",
+            "D) 9.0",
+            "E) 13.5"
+          ],
+          "answer": "C",
+          "explanation": "Combined rate = 1/9 + 1/18 = 2/18 + 1/18 = 3/18 = 1/6 mural per hour, so time = 6 hours (C). Distractors map to common mistakes: 13.5 (E) averages the two times (9+18)/2; 9.0 (D) just uses the faster painter's time alone; 4.5 (A) halves the faster time; 5.0 (B) is a rounded 'a bit less than the faster time' guess without computing rates."
         }
       ]
     },
@@ -839,7 +1265,36 @@
             "E) $480"
           ],
           "answer": "C",
-          "explanation": "Simple interest = 1500 x 0.08 x 2 = $240."
+          "explanation": "Simple interest = 1500 x 0.08 x 2 = $240.",
+          "parent_id": "Q-PS-014"
+        },
+        {
+          "id": "Q-PS-014-p2",
+          "parent_id": "Q-PS-014",
+          "stem": "Marisol opens a savings account with an initial deposit of $3,500 that earns 6% simple annual interest. If she makes no further deposits or withdrawals, what is the total balance in the account after 4 years?",
+          "choices": [
+            "A) $3,710",
+            "B) $4,340",
+            "C) $4,418.67",
+            "D) $840",
+            "E) $3,584"
+          ],
+          "answer": "B",
+          "explanation": "Simple interest = principal x rate x time = 3500 x 0.06 x 4 = $840. Total = 3500 + 840 = $4,340 (B). A) $3,710 adds only one year of interest (3500 + 3500x0.06). C) $4,418.67 applies compound interest, 3500x1.06^4. D) $840 gives interest only, forgetting to add the principal. E) $3,584 misreads 6% as 0.6% (3500 + 3500x0.006x4)."
+        },
+        {
+          "id": "Q-PS-014-p3",
+          "parent_id": "Q-PS-014",
+          "stem": "A bond is purchased for $4,800 and pays 7% simple annual interest. Assuming all interest is left to accumulate, what is the total value of the investment after 5 years?",
+          "choices": [
+            "A) $5,136",
+            "B) $6,144",
+            "C) $6,732.25",
+            "D) $6,480",
+            "E) $1,680"
+          ],
+          "answer": "D",
+          "explanation": "Simple interest = 4800 x 0.07 x 5 = $1,680. Total = 4800 + 1680 = $6,480 (D). A) $5,136 adds only one year of interest (4800 + 4800x0.07). B) $6,144 uses 4 years instead of 5. C) $6,732.25 applies compound interest, 4800x1.07^5. E) $1,680 gives interest only, omitting the principal."
         }
       ]
     },
@@ -879,7 +1334,36 @@
             "E) $255"
           ],
           "answer": "C",
-          "explanation": "Sale price = 85% of original: 0.85 x original = 204, so original = 204 / 0.85 = $240."
+          "explanation": "Sale price = 85% of original: 0.85 x original = 204, so original = 204 / 0.85 = $240.",
+          "parent_id": "Q-PS-015"
+        },
+        {
+          "id": "Q-PS-015-p2",
+          "parent_id": "Q-PS-015",
+          "stem": "A bookstore marks down a backpack by 30%. If the sale price is $84, what was the backpack's original price?",
+          "choices": [
+            "A) $109.20",
+            "B) $112",
+            "C) $120",
+            "D) $114",
+            "E) $280"
+          ],
+          "answer": "C",
+          "explanation": "A 30% discount means the sale price is 70% of the original: 0.70 x original = 84, so original = 84 / 0.70 = $120. Distractor A ($109.20) adds 30% to the sale price (84 x 1.30). Distractor B ($112) wrongly divides by 0.75, using a 25% rate instead of 30%. Distractor D ($114) adds a flat $30 to the sale price. Distractor E ($280) divides by the discount rate 0.30 instead of the retained fraction 0.70."
+        },
+        {
+          "id": "Q-PS-015-p3",
+          "parent_id": "Q-PS-015",
+          "stem": "During a clearance event, a jacket is sold at 40% off its list price for $96. What was the jacket's list price?",
+          "choices": [
+            "A) $134.40",
+            "B) $160",
+            "C) $136",
+            "D) $240",
+            "E) $57.60"
+          ],
+          "answer": "B",
+          "explanation": "A 40% discount means the sale price is 60% of the list price: 0.60 x list = 96, so list = 96 / 0.60 = $160. Distractor A ($134.40) adds 40% to the sale price (96 x 1.40). Distractor C ($136) adds a flat $40 to the sale price. Distractor D ($240) divides by the discount rate 0.40 instead of the retained fraction 0.60. Distractor E ($57.60) takes 60% of the sale price (96 x 0.60) rather than dividing."
         }
       ]
     },
@@ -919,7 +1403,36 @@
             "E) 42"
           ],
           "answer": "D",
-          "explanation": "Divisors of 18: 1, 2, 3, 6, 9, 18. Sum = 39."
+          "explanation": "Divisors of 18: 1, 2, 3, 6, 9, 18. Sum = 39.",
+          "parent_id": "Q-PS-016"
+        },
+        {
+          "id": "Q-PS-016-p2",
+          "parent_id": "Q-PS-016",
+          "stem": "A gardener is arranging 18 identical tulip bulbs into equal rows so that every row holds the same number of bulbs with none left over. Each possible number of bulbs per row is written once on a slip of paper. What is the sum of all the distinct numbers written on the slips?",
+          "choices": [
+            "A) 21",
+            "B) 34",
+            "C) 39",
+            "D) 41",
+            "E) 45"
+          ],
+          "answer": "C",
+          "explanation": "The number of bulbs per row must be a positive factor of 18. The distinct positive factors of 18 are 1, 2, 3, 6, 9, and 18. Their sum is 1+2+3+6+9+18 = 39, so the answer is C. Distractor A (21) sums only the proper divisors and forgets to include 18 itself. Distractor B (34) drops the factor 9 (a common oversight since 18 = 2 x 9). Distractor D (41) mistakenly excludes 1 while adding an extra amount. Distractor E (45) adds an invalid divisor or double-counts. Only the full list of six distinct factors gives 39."
+        },
+        {
+          "id": "Q-PS-016-p3",
+          "parent_id": "Q-PS-016",
+          "stem": "A vending machine can dispense a batch of 20 snacks only in package sizes that divide the batch evenly, leaving no snacks over. If each valid package size is listed exactly once, what is the sum of all the listed package sizes?",
+          "choices": [
+            "A) 22",
+            "B) 42",
+            "C) 41",
+            "D) 48",
+            "E) 62"
+          ],
+          "answer": "B",
+          "explanation": "A valid package size must be a positive factor of 20. The distinct positive factors of 20 are 1, 2, 4, 5, 10, and 20. Their sum is 1+2+4+5+10+20 = 42, so the answer is B. Distractor A (22) sums only the proper divisors and omits 20 itself. Distractor C (41) forgets to include the factor 1. Distractor D (48) mistakenly includes 8, which is not a factor of 20. Distractor E (62) double-counts 20. Only the correct list of six distinct factors totals 42."
         }
       ]
     },
@@ -959,7 +1472,36 @@
             "E) 84"
           ],
           "answer": "D",
-          "explanation": "Let tens = t, units = 2t. Original = 10t + 2t = 12t. Reversed = 10(2t) + t = 21t. Reversed - original = 9t = 36, so t = 4. Original = 48; reverse 84; 84 - 48 = 36."
+          "explanation": "Let tens = t, units = 2t. Original = 10t + 2t = 12t. Reversed = 10(2t) + t = 21t. Reversed - original = 9t = 36, so t = 4. Original = 48; reverse 84; 84 - 48 = 36.",
+          "parent_id": "Q-PS-017"
+        },
+        {
+          "id": "Q-PS-017-p2",
+          "parent_id": "Q-PS-017",
+          "stem": "In a two-digit number, the units digit is 3 more than the tens digit, and the sum of the two digits is 11. When the digits are reversed, the resulting number is 27 greater than the original number. What is the original number?",
+          "choices": [
+            "A) 47",
+            "B) 74",
+            "C) 36",
+            "D) 58",
+            "E) 25"
+          ],
+          "answer": "A",
+          "explanation": "Let the tens digit be t and units digit u. Given u = t + 3 and t + u = 11, so 2t + 3 = 11, giving t = 4 and u = 7. The number is 47. Check: reversing gives 74, which is 74 - 47 = 27 greater. Distractor B) 74 is the reversed number (the 'new' number rather than the original). C) 36 comes from misreading the digit sum as 9 (2t+3=9 -> t=3, u=6). D) 58 comes from misreading the digit sum as 13 (2t+3=13 -> t=5, u=8). E) 25 comes from misreading the digit sum as 7 (2t+3=7 -> t=2, u=5). All distractors preserve u = t + 3 but use a wrong digit-sum value."
+        },
+        {
+          "id": "Q-PS-017-p3",
+          "parent_id": "Q-PS-017",
+          "stem": "A two-digit number has a tens digit that is three times its units digit. When the digits are reversed, the new number is 54 less than the original number. What is the original number?",
+          "choices": [
+            "A) 39",
+            "B) 62",
+            "C) 84",
+            "D) 31",
+            "E) 93"
+          ],
+          "answer": "E",
+          "explanation": "Let the tens digit be t and units digit u. Reversing changes the number by 9(t - u); since the new number is 54 less than the original, the original is larger, so 9(t - u) = 54, giving t - u = 6. With t = 3u, we get 3u - u = 6, so u = 3 and t = 9. The number is 93. Check: reversing gives 39, and 93 - 39 = 54. Distractor A) 39 is the reversed number. B) 62 keeps t = 3u but treats the difference as 36 (t - u = 4 -> u = 2, t = 6). C) 84 uses the source-style relation tens = 2 x units with a difference of 36 (u = 4, t = 8). D) 31 comes from swapping the relation to units = 3 x tens combined with a wrong difference (t = 3, u = 1 taken as t = 3 x u misapplied)."
         }
       ]
     },
@@ -999,7 +1541,36 @@
             "E) 49"
           ],
           "answer": "E",
-          "explanation": "blue/white = 3/7. Scale factor = 21/3 = 7, so white = 7 x 7 = 49 liters."
+          "explanation": "blue/white = 3/7. Scale factor = 21/3 = 7, so white = 7 x 7 = 49 liters.",
+          "parent_id": "Q-PS-018"
+        },
+        {
+          "id": "Q-PS-018-p2",
+          "parent_id": "Q-PS-018",
+          "stem": "A wall paint is mixed with blue tint and white base in the ratio 3 to 8. If a painter uses 24 quarts of white base, how many quarts of blue tint are needed?",
+          "choices": [
+            "A) 3",
+            "B) 9",
+            "C) 14",
+            "D) 16",
+            "E) 64"
+          ],
+          "answer": "B",
+          "explanation": "The ratio blue:white = 3:8. The 24 quarts of white correspond to the 8 parts, so one part equals 24 / 8 = 3 quarts. Blue is 3 parts, so blue = 3 x 3 = 9 quarts (choice B). Distractors: A) 3 stops at the per-part value and forgets to multiply by blue's 3 parts; C) 14 adds the leftover part difference (9 + (8-3)) to the correct answer; D) 16 subtracts the larger ratio number from the given quantity (24 - 8); E) 64 inverts the ratio, computing 24 x 8 / 3."
+        },
+        {
+          "id": "Q-PS-018-p3",
+          "parent_id": "Q-PS-018",
+          "stem": "A garden fertilizer blends nitrogen and potassium in the ratio 7 to 4. If a batch contains 28 kilograms of nitrogen, how many kilograms of potassium does it contain?",
+          "choices": [
+            "A) 4",
+            "B) 19",
+            "C) 21",
+            "D) 16",
+            "E) 49"
+          ],
+          "answer": "D",
+          "explanation": "The ratio nitrogen:potassium = 7:4. The 28 kg of nitrogen correspond to the 7 parts, so one part equals 28 / 7 = 4 kg. Potassium is 4 parts, so potassium = 4 x 4 = 16 kg (choice D). Distractors: A) 4 stops at the per-part value and forgets to multiply by potassium's 4 parts; B) 19 adds the part difference (16 + (7-4)) to the correct answer; C) 21 subtracts a ratio number from the given quantity (28 - 7); E) 49 inverts the ratio, computing 28 x 7 / 4."
         }
       ]
     },
@@ -1039,7 +1610,36 @@
             "E) sqrt(20)"
           ],
           "answer": "A",
-          "explanation": "sqrt(18) = 3*sqrt(2); numerator = 3*sqrt(2) + sqrt(2) = 4*sqrt(2). Divide by sqrt(2): 4."
+          "explanation": "sqrt(18) = 3*sqrt(2); numerator = 3*sqrt(2) + sqrt(2) = 4*sqrt(2). Divide by sqrt(2): 4.",
+          "parent_id": "Q-PS-019"
+        },
+        {
+          "id": "Q-PS-019-p2",
+          "parent_id": "Q-PS-019",
+          "stem": "What is the value of (sqrt(75) + sqrt(12)) / sqrt(3) ?",
+          "choices": [
+            "A) 21",
+            "B) 7*sqrt(3)",
+            "C) 7",
+            "D) sqrt(29)",
+            "E) 10"
+          ],
+          "answer": "C",
+          "explanation": "Simplify each radical: sqrt(75) = 5*sqrt(3) and sqrt(12) = 2*sqrt(3). Their sum is 7*sqrt(3). Dividing by sqrt(3) gives 7*sqrt(3)/sqrt(3) = 7. (A) 21 comes from multiplying the coefficient sum 7 by 3 instead of dividing out sqrt(3). (B) 7*sqrt(3) stops after adding but forgets to divide by sqrt(3). (D) sqrt(29) comes from wrongly combining under one root as sqrt((75+12)/3) = sqrt(29). (E) 10 comes from multiplying the coefficients 5 and 2 instead of adding them."
+        },
+        {
+          "id": "Q-PS-019-p3",
+          "parent_id": "Q-PS-019",
+          "stem": "What is the value of (sqrt(98) + sqrt(72)) / sqrt(2) ?",
+          "choices": [
+            "A) 13*sqrt(2)",
+            "B) 13",
+            "C) sqrt(85)",
+            "D) 1",
+            "E) 42"
+          ],
+          "answer": "B",
+          "explanation": "Simplify each radical: sqrt(98) = 7*sqrt(2) and sqrt(72) = 6*sqrt(2). Their sum is 13*sqrt(2). Dividing by sqrt(2) gives 13*sqrt(2)/sqrt(2) = 13. (A) 13*sqrt(2) stops after adding but forgets to divide by sqrt(2). (C) sqrt(85) comes from wrongly combining under one root as sqrt((98+72)/2) = sqrt(85). (D) 1 comes from subtracting the coefficients (7 - 6) instead of adding them. (E) 42 comes from multiplying the coefficients 7 and 6 instead of adding them."
         }
       ]
     },
@@ -1079,7 +1679,36 @@
             "E) 8"
           ],
           "answer": "D",
-          "explanation": "Base 3: 9^x = 3^(2x), 27^(x-2) = 3^(3x-6). Set 2x = 3x - 6, so x = 6."
+          "explanation": "Base 3: 9^x = 3^(2x), 27^(x-2) = 3^(3x-6). Set 2x = 3x - 6, so x = 6.",
+          "parent_id": "Q-PS-020"
+        },
+        {
+          "id": "Q-PS-020-p2",
+          "parent_id": "Q-PS-020",
+          "stem": "If 9^(x+2) = 27^(x-1), what is the value of x?",
+          "choices": [
+            "A) 1",
+            "B) 5",
+            "C) 6",
+            "D) 7",
+            "E) 10"
+          ],
+          "answer": "D",
+          "explanation": "Rewrite both sides with base 3: 9 = 3^2 and 27 = 3^3, so 9^(x+2) = 3^(2(x+2)) and 27^(x-1) = 3^(3(x-1)). Setting exponents equal gives 2(x+2) = 3(x-1), i.e. 2x+4 = 3x-3, so x = 7 (D). Distractors: B) 5 comes from under-distributing the 2 as 2x+2 = 3x-3; A) 1 comes from a sign error 2x+4 = 3x+3; C) 6 comes from an arithmetic slip 2x+4 = 3x-2; E) 10 comes from swapping the base exponents to 3(x+2) = 2(x-1) then mishandling signs."
+        },
+        {
+          "id": "Q-PS-020-p3",
+          "parent_id": "Q-PS-020",
+          "stem": "If 4^(2x) = 8^(x+2), what is the value of x?",
+          "choices": [
+            "A) 1",
+            "B) 2",
+            "C) 3",
+            "D) 4",
+            "E) 6"
+          ],
+          "answer": "E",
+          "explanation": "Rewrite both sides with base 2: 4 = 2^2 so 4^(2x) = 2^(2*2x) = 2^(4x), and 8 = 2^3 so 8^(x+2) = 2^(3(x+2)) = 2^(3x+6). Setting exponents equal gives 4x = 3x+6, so x = 6 (E). Distractors: B) 2 comes from dropping the coefficient when converting 4 (setting 2x = x+2) or treating 8 as 2^2; A) 1 comes from swapping the bases to 3(2x) = 2(x+2); D) 4 comes from failing to distribute the exponent 3 over (x+2) as 4x = 3x+... = 8/2; C) 3 comes from an arithmetic slip after halving."
         }
       ]
     },
@@ -1119,7 +1748,36 @@
             "E) 36"
           ],
           "answer": "C",
-          "explanation": "5/8 - 1/4 = 5/8 - 2/8 = 3/8 of capacity equals 9 liters, so capacity = 9 / (3/8) = 24 liters."
+          "explanation": "5/8 - 1/4 = 5/8 - 2/8 = 3/8 of capacity equals 9 liters, so capacity = 9 / (3/8) = 24 liters.",
+          "parent_id": "Q-PS-021"
+        },
+        {
+          "id": "Q-PS-021-p2",
+          "parent_id": "Q-PS-021",
+          "stem": "A grain hopper is 1/6 full. After 20 kilograms of grain are poured in, the hopper is 5/6 full. What is the total capacity of the hopper, in kilograms?",
+          "choices": [
+            "A) 20",
+            "B) 24",
+            "C) 30",
+            "D) 40",
+            "E) 120"
+          ],
+          "answer": "C",
+          "explanation": "The 20 kg added raised the level from 1/6 full to 5/6 full, a change of 5/6 - 1/6 = 4/6 = 2/3 of capacity. So capacity C satisfies (2/3)C = 20, giving C = 20 / (2/3) = 30 kg. Distractors: A) 20 treats the amount added as if it were the whole capacity (1/6 + 5/6 = 1 error); B) 24 divides by the final fraction, 20/(5/6); D) 40 mis-simplifies 4/6 as 1/2 and computes 20/(1/2); E) 120 divides by the initial fraction, 20/(1/6)."
+        },
+        {
+          "id": "Q-PS-021-p3",
+          "parent_id": "Q-PS-021",
+          "stem": "A reservoir is 1/4 full. After 30 million gallons of water flow in, the reservoir is 5/8 full. What is the total capacity of the reservoir, in millions of gallons?",
+          "choices": [
+            "A) 40",
+            "B) 48",
+            "C) 80",
+            "D) 60",
+            "E) 120"
+          ],
+          "answer": "C",
+          "explanation": "The 30 million gallons raised the level from 1/4 full to 5/8 full. Converting 1/4 = 2/8, the change is 5/8 - 2/8 = 3/8 of capacity. So (3/8)C = 30, giving C = 30 / (3/8) = 80 million gallons. Distractors: A) 40 halves the correct value; B) 48 divides by the final fraction, 30/(5/8); D) 60 forgets to convert 1/4 to 2/8 and treats the change as 5/8 - 1/4 = ... miscomputed as 4/8 = 1/2, giving 30/(1/2); E) 120 divides by the initial fraction, 30/(1/4)."
         }
       ]
     },
@@ -1159,7 +1817,36 @@
             "E) The gym has a large parking lot."
           ],
           "answer": "A",
-          "explanation": "Evidence that the new members enrolled specifically for the new classes ties the cause to the effect."
+          "explanation": "Evidence that the new members enrolled specifically for the new classes ties the cause to the effect.",
+          "parent_id": "V-CR-003"
+        },
+        {
+          "id": "V-CR-003-p2",
+          "parent_id": "V-CR-003",
+          "stem": "A city library extended its evening hours by staying open until 9 p.m. on weekdays, and the following week its total visitor count rose by 18%. The head librarian argues that the extended hours were responsible for the jump in visitors. Which of the following, if true, most strengthens the librarian's argument?",
+          "choices": [
+            "A) A neighboring town's library also recently extended its evening hours.",
+            "B) The library spent additional money on staff wages to cover the later hours.",
+            "C) Turnstile logs showed that the entire increase in visitors occurred during the newly added 5 p.m. to 9 p.m. period, which previously did not exist.",
+            "D) The library has served the community for more than forty years.",
+            "E) The library did not add any new books to its collection during that week."
+          ],
+          "answer": "C",
+          "explanation": "The librarian claims the extended evening hours caused the 18% rise in visitors. To strengthen a causal claim, we want evidence that ties the effect specifically to the cause. (C) is correct: showing that the entire increase happened precisely during the newly created evening window directly links the extra visitors to the extension, ruling out the idea that daytime traffic simply grew. (A) is a wrong-direction distractor — a competitor doing the same thing does not show THIS library's extension caused ITS increase, and could even suggest a broader trend. (B) mentions a cost of the change but says nothing about whether it drew visitors; cost is irrelevant to causation. (D) cites the library's longevity, an appeal to unrelated background that offers no link to the recent change. (E) rules out one alternative cause (new books) but only weakly and narrowly; it does not affirmatively connect visitors to the evening hours the way (C) does, and many other alternative causes remain. The answer letter (C) differs from the source card's (E)."
+        },
+        {
+          "id": "V-CR-003-p3",
+          "parent_id": "V-CR-003",
+          "stem": "A regional airline began offering free in-flight Wi-Fi on all its routes, and over the next quarter its bookings increased by 9%. A company executive concludes that adding free Wi-Fi is what caused the rise in bookings. Which of the following, if true, most strengthens the executive's conclusion?",
+          "choices": [
+            "A) Post-flight passenger reviews that quarter overwhelmingly praised the free Wi-Fi as their main reason for choosing the airline.",
+            "B) Installing the Wi-Fi equipment required a significant one-time investment by the airline.",
+            "C) A rival airline introduced free Wi-Fi on some of its routes during the same quarter.",
+            "D) The airline has operated in the region for over two decades.",
+            "E) The airline kept its ticket prices unchanged throughout the quarter."
+          ],
+          "answer": "A",
+          "explanation": "The executive claims free Wi-Fi caused the 9% booking increase. Strengthening a causal claim means supplying evidence that the proposed cause actually motivated the effect. (A) is correct: reviews in which passengers overwhelmingly cite the free Wi-Fi as their main reason for choosing the airline directly connect the new feature to the increased bookings. (B) describes the cost of the change, which is irrelevant to whether it drove bookings. (C) is a wrong-direction distractor — a rival offering the same feature does not show THIS airline's Wi-Fi caused ITS bookings and hints at a market-wide trend that could be the real cause. (D) is an appeal to the airline's longevity, unrelated background that does not link the recent change to the increase. (E) rules out a price cut as an alternative explanation, which is only weakly supportive; it removes one competing cause but does not affirmatively tie bookings to the Wi-Fi the way (A) does, and other alternative causes remain unaddressed. The answer letter (A) differs from the source card's (E)."
         }
       ]
     },
@@ -1199,7 +1886,36 @@
             "E) Most seniors are in the chess club."
           ],
           "answer": "A",
-          "explanation": "Chain: chess club member -> senior -> parking permit. So every chess club member has a permit."
+          "explanation": "Chain: chess club member -> senior -> parking permit. So every chess club member has a permit.",
+          "parent_id": "V-CR-004"
+        },
+        {
+          "id": "V-CR-004-p2",
+          "parent_id": "V-CR-004",
+          "stem": "Every apartment in the Harborview complex that faces the courtyard has a balcony. Every apartment with a balcony is inspected by the fire marshal each spring. Which of the following must be true based on the statements above?",
+          "choices": [
+            "A) Every apartment in the Harborview complex that faces the courtyard is inspected by the fire marshal each spring.",
+            "B) Only apartments that face the courtyard have balconies.",
+            "C) Apartments that do not face the courtyard are not inspected by the fire marshal.",
+            "D) Most apartments in the Harborview complex have balconies.",
+            "E) Every apartment in the Harborview complex is inspected by the fire marshal each spring."
+          ],
+          "answer": "A",
+          "explanation": "This is a transitive (hypothetical syllogism) inference identical in structure to the source. Premise 1: courtyard-facing -> has balcony. Premise 2: has balcony -> inspected each spring. Chaining these yields: courtyard-facing -> inspected each spring, which is exactly (A). (A) is CORRECT. (B) is an illicit conversion of premise 1 (assumes 'balcony -> courtyard-facing'); the premises never say courtyard-facing is the only source of balconies. (C) commits the denial-of-the-antecedent fallacy: non-courtyard apartments might still have balconies (and thus be inspected), and inspection could occur for other reasons. (D) introduces an unsupported quantity ('most'); the premises give no proportions. (E) over-generalizes from courtyard-facing apartments to ALL apartments in the complex, which the premises do not license. The correct letter is A, differing from the source's E."
+        },
+        {
+          "id": "V-CR-004-p3",
+          "parent_id": "V-CR-004",
+          "stem": "All employees at Larkspur Analytics who joined the company as interns hold a security clearance. Every employee who holds a security clearance is required to complete annual data-privacy training. Which of the following must be true based on the statements above?",
+          "choices": [
+            "A) Only employees who joined as interns hold a security clearance.",
+            "B) Employees who did not join as interns are exempt from data-privacy training.",
+            "C) Every employee at Larkspur Analytics who joined as an intern is required to complete annual data-privacy training.",
+            "D) Most employees at Larkspur Analytics hold a security clearance.",
+            "E) Every employee at Larkspur Analytics is required to complete annual data-privacy training."
+          ],
+          "answer": "C",
+          "explanation": "Same transitive-inference structure as the source. Premise 1: joined-as-intern -> holds clearance. Premise 2: holds clearance -> must complete annual training. Chaining yields: joined-as-intern -> must complete annual training, which is exactly (C). (C) is CORRECT. (A) is an illicit conversion of premise 1 (assumes clearance implies joined-as-intern); non-interns could also hold clearances. (B) commits denial of the antecedent: non-interns could still hold clearances (and thus need training), and the premises never restrict who must train. (D) introduces an unsupported quantity ('most'); no proportions are given. (E) over-generalizes from interns-turned-employees to ALL employees, which the premises do not support. The correct letter is C, differing from the source's E."
         }
       ]
     },
@@ -1239,7 +1955,36 @@
             "E) how many books the library owns."
           ],
           "answer": "A",
-          "explanation": "Wait times fall only if the waiting patrons actually shift to e-books; their willingness/ability is the decisive unknown."
+          "explanation": "Wait times fall only if the waiting patrons actually shift to e-books; their willingness/ability is the decisive unknown.",
+          "parent_id": "V-CR-005"
+        },
+        {
+          "id": "V-CR-005-p2",
+          "parent_id": "V-CR-005",
+          "stem": "A regional hospital plans to shorten patient wait times in its emergency department by opening a walk-in urgent-care clinic next door, reasoning that if 30% of current ER visitors go to the clinic instead, the ER's peak-hour crowding will ease significantly. Answering which of the following questions would be most useful in evaluating whether the plan will reduce peak-hour crowding in the ER?",
+          "choices": [
+            "A) Whether the urgent-care clinic will accept the same insurance plans that the ER accepts.",
+            "B) Whether patients who could be diverted to the clinic tend to arrive during the ER's peak hours or mostly at other times of day.",
+            "C) How much it will cost the hospital to staff and equip the new clinic.",
+            "D) Whether patients treated at urgent-care clinics report shorter recovery times than comparable ER patients.",
+            "E) Whether other hospitals in the region have opened similar adjacent clinics."
+          ],
+          "answer": "B",
+          "explanation": "This is an 'evaluate the argument' question. The plan assumes that diverting 30% of ER visitors will ease PEAK-HOUR crowding. That assumption only holds if the divertible patients actually show up during peak hours. If the patients who can go to urgent care mostly arrive at off-peak times, removing them does nothing for peak-hour crowding even though total ER volume drops. So (B) directly tests the mechanism linking the action to the stated goal: a 'peak hours' answer eases the plan, an 'off-peak' answer undermines it. This mirrors the source card's key insight (whether the diverted load is concentrated where the problem is). Correct answer is B, differing from the source's E. (A) is a feasibility/access detail: even if insurance matches, it says nothing about whether peak-hour crowding falls — a common 'plausible but off-goal' trap. (C) is cost, irrelevant to whether crowding is reduced — the classic budget distractor. (D) shifts the criterion to recovery outcomes rather than the argued goal of peak-hour crowding — wrong metric. (E) is a comparison to other hospitals that reveals nothing about this ER's peak-hour dynamics — the 'what others do' distractor."
+        },
+        {
+          "id": "V-CR-005-p3",
+          "parent_id": "V-CR-005",
+          "stem": "A university plans to reduce overcrowding in its dining hall at lunchtime by launching a mobile-ordering app for grab-and-go meals, claiming that if 25% of students order through the app, the lunch-hour crush in the dining hall will drop sharply. Answering which of the following questions would be most useful in evaluating whether the plan will reduce the lunch-hour crush?",
+          "choices": [
+            "A) Whether the students likely to use the app would otherwise have eaten in the dining hall during the lunch hour, or would have skipped it or eaten elsewhere anyway.",
+            "B) How many students currently own smartphones capable of running the app.",
+            "C) Whether students prefer hot meals to the cold grab-and-go options the app will offer.",
+            "D) How much the university will pay the vendor that develops the app.",
+            "E) Whether students who use meal-ordering apps tend to earn higher grades."
+          ],
+          "answer": "A",
+          "explanation": "This is an 'evaluate the argument' question. The plan assumes that the 25% who use the app are precisely the people who would otherwise have added to the lunch-hour crush inside the dining hall. If those app users would have skipped the dining hall or eaten elsewhere regardless, then diverting them removes no one from the actual crush, and the plan fails to achieve its goal. So (A) tests the crucial link between the action (25% use the app) and the outcome (fewer people in the lunch-hour crush): a 'yes, they'd have eaten there' answer supports the plan; a 'no, they'd have skipped it' answer breaks it. This parallels the source card's insight about whether the shifted group actually overlaps with the congestion being targeted. Correct answer is A, differing from the source's E. (B) is a feasibility precondition (device ownership) — it might affect uptake but doesn't test whether reducing app users reduces the crush; a common 'necessary-but-not-decisive' trap. (C) is a preference detail that speaks to adoption appeal, not to whether the crush falls — off-goal. (D) is cost, irrelevant to the crowding outcome — the budget distractor. (E) links app use to grades, an entirely different metric than dining-hall crowding — wrong criterion."
         }
       ]
     },
@@ -1279,7 +2024,8 @@
             "E) The price cut applied only to evening shows."
           ],
           "answer": "A",
-          "explanation": "With attendance flat, a lower price means lower revenue (price x quantity), explaining the drop."
+          "explanation": "With attendance flat, a lower price means lower revenue (price x quantity), explaining the drop.",
+          "parent_id": "V-CR-006"
         }
       ]
     },
@@ -1319,7 +2065,8 @@
             "E) a point that appears to support the opposing view but is then outweighed by the argument."
           ],
           "answer": "E",
-          "explanation": "The boldface seems to back the air-quality worry but is then outweighed by the closure of dirtier plants."
+          "explanation": "The boldface seems to back the air-quality worry but is then outweighed by the closure of dirtier plants.",
+          "parent_id": "V-CR-007"
         }
       ]
     },
@@ -1359,7 +2106,8 @@
             "E) The generic comes in the same color."
           ],
           "answer": "B",
-          "explanation": "Cutting cost 'without reducing effectiveness' requires that the generic is as effective; negating that defeats the plan."
+          "explanation": "Cutting cost 'without reducing effectiveness' requires that the generic is as effective; negating that defeats the plan.",
+          "parent_id": "V-CR-008"
         }
       ]
     },
@@ -1399,7 +2147,8 @@
             "E) The brand has a popular logo."
           ],
           "answer": "A",
-          "explanation": "Refreshing taste does not imply nutrition, so the survey fails to support the nutrition claim."
+          "explanation": "Refreshing taste does not imply nutrition, so the survey fails to support the nutrition claim.",
+          "parent_id": "V-CR-009"
         }
       ]
     },
@@ -1440,7 +2189,8 @@
             "E) distinguishing stability of an ecosystem as a whole from the stability of its individual species, and noting why that distinction matters."
           ],
           "answer": "E",
-          "explanation": "Same main idea, reworded: whole-system stability differs from species-level stability, and the gap has conservation implications."
+          "explanation": "Same main idea, reworded: whole-system stability differs from species-level stability, and the gap has conservation implications.",
+          "parent_id": "V-RC-002"
         }
       ]
     },
@@ -1481,7 +2231,8 @@
             "E) grew at exactly the same rate."
           ],
           "answer": "B",
-          "explanation": "The text says individual species 'fluctuated wildly, with some nearly disappearing and others surging.'"
+          "explanation": "The text says individual species 'fluctuated wildly, with some nearly disappearing and others surging.'",
+          "parent_id": "V-RC-003"
         }
       ]
     },
@@ -1522,7 +2273,8 @@
             "E) support the claim that overall stability can hide instability at the species level."
           ],
           "answer": "E",
-          "explanation": "The swings are offered as evidence for the masking claim, not to dispute biomass steadiness."
+          "explanation": "The swings are offered as evidence for the masking claim, not to dispute biomass steadiness.",
+          "parent_id": "V-RC-004"
         }
       ]
     },
@@ -1563,7 +2315,8 @@
             "E) celebratory."
           ],
           "answer": "B",
-          "explanation": "The author qualifies rather than rejects the claim, signaling cautious, incomplete-not-wrong criticism."
+          "explanation": "The author qualifies rather than rejects the claim, signaling cautious, incomplete-not-wrong criticism.",
+          "parent_id": "V-RC-005"
         }
       ]
     },
@@ -1603,7 +2356,8 @@
             "E) Statements (1) and (2) TOGETHER are NOT sufficient."
           ],
           "answer": "A",
-          "explanation": "(1) 2n = 18 gives n = 9 -- sufficient. (2) 'n < 20' allows many values -- insufficient. Answer A."
+          "explanation": "(1) 2n = 18 gives n = 9 -- sufficient. (2) 'n < 20' allows many values -- insufficient. Answer A.",
+          "parent_id": "DI-DS-006"
         }
       ]
     },
@@ -1643,7 +2397,8 @@
             "E) Statements (1) and (2) TOGETHER are NOT sufficient."
           ],
           "answer": "A",
-          "explanation": "(1) The only prime strictly between 14 and 18 is 17, so p = 17 -- sufficient. (2) 'p > 10' has many values -- insufficient. Answer A."
+          "explanation": "(1) The only prime strictly between 14 and 18 is 17, so p = 17 -- sufficient. (2) 'p > 10' has many values -- insufficient. Answer A.",
+          "parent_id": "DI-DS-002"
         }
       ]
     },
@@ -1683,7 +2438,8 @@
             "E) Statements (1) and (2) TOGETHER are NOT sufficient."
           ],
           "answer": "D",
-          "explanation": "(1) m^2 odd forces m odd -- sufficient. (2) 5m odd (5 is odd) forces m odd -- sufficient. Answer D."
+          "explanation": "(1) m^2 odd forces m odd -- sufficient. (2) 5m odd (5 is odd) forces m odd -- sufficient. Answer D.",
+          "parent_id": "DI-DS-003"
         }
       ]
     },
@@ -1723,7 +2479,8 @@
             "E) Statements (1) and (2) TOGETHER are NOT sufficient."
           ],
           "answer": "C",
-          "explanation": "Let red = r, green = g. (1) r + g = 60 alone is insufficient; (2) g = 2r alone is insufficient. Together: r + 2r = 60, r = 20. Answer C."
+          "explanation": "Let red = r, green = g. (1) r + g = 60 alone is insufficient; (2) g = 2r alone is insufficient. Together: r + 2r = 60, r = 20. Answer C.",
+          "parent_id": "DI-DS-004"
         }
       ]
     },
@@ -1763,7 +2520,8 @@
             "E) Statements (1) and (2) TOGETHER are NOT sufficient."
           ],
           "answer": "A",
-          "explanation": "(1) a - 5 > b - 5 gives a > b -- sufficient. (2) a^2 > b^2 only gives |a| > |b|, ambiguous in sign -- insufficient. Answer A."
+          "explanation": "(1) a - 5 > b - 5 gives a > b -- sufficient. (2) a^2 > b^2 only gives |a| > |b|, ambiguous in sign -- insufficient. Answer A.",
+          "parent_id": "DI-DS-005"
         }
       ]
     },
@@ -1809,7 +2567,8 @@
             "BlendP": 12,
             "BlendQ": 8
           },
-          "explanation": "p + q = 20 and 5p + 8q = 124. Substitute p = 20 - q: 5(20 - q) + 8q = 124, 100 + 3q = 124, 3q = 24, q = 8, p = 12. Check: 5(12) + 8(8) = 60 + 64 = 124."
+          "explanation": "p + q = 20 and 5p + 8q = 124. Substitute p = 20 - q: 5(20 - q) + 8q = 124, 100 + 3q = 124, 3q = 24, q = 8, p = 12. Check: 5(12) + 8(8) = 60 + 64 = 124.",
+          "parent_id": "DI-TPA-002"
         }
       ]
     },
@@ -1855,7 +2614,8 @@
             "T": 6,
             "PagesB": 360
           },
-          "explanation": "Combined rate = 40 + 60 = 100 pages/hour. T = 600 / 100 = 6 hours. Printer B = 60 x 6 = 360. Check: A = 40 x 6 = 240; 240 + 360 = 600."
+          "explanation": "Combined rate = 40 + 60 = 100 pages/hour. T = 600 / 100 = 6 hours. Printer B = 60 x 6 = 360. Check: A = 40 x 6 = 240; 240 + 360 = 600.",
+          "parent_id": "DI-TPA-003"
         }
       ]
     },
@@ -1899,7 +2659,8 @@
             "E) No, because item C is out of stock, so not all items are in stock."
           ],
           "answer": "E",
-          "explanation": "Both conditions are required. The time condition is met, but item C is out of stock, so 'all items in stock' fails and the order ships the next business day."
+          "explanation": "Both conditions are required. The time condition is met, but item C is out of stock, so 'all items in stock' fails and the order ships the next business day.",
+          "parent_id": "DI-MSR-001"
         }
       ]
     },
@@ -1968,7 +2729,8 @@
             "E) No region decreased"
           ],
           "answer": "B",
-          "explanation": "Only South decreased: (180 - 200)/200 = -10%. North, East increased; West was flat. So South had the only (largest) decrease."
+          "explanation": "Only South decreased: (180 - 200)/200 = -10%. North, East increased; West was flat. So South had the only (largest) decrease.",
+          "parent_id": "DI-TA-001"
         }
       ]
     },
@@ -2009,7 +2771,8 @@
             "E) May and Jun"
           ],
           "answer": "E",
-          "explanation": "The two decreases are Feb->Mar (-5) and May->Jun (-12). The larger drop is 12, from May to June, so the answer is E."
+          "explanation": "The two decreases are Feb->Mar (-5) and May->Jun (-12). The larger drop is 12, from May to June, so the answer is E.",
+          "parent_id": "DI-GI-001"
         }
       ]
     },
@@ -2037,7 +2800,36 @@
       ],
       "answer": "D",
       "explanation": "Multiply the factors: 1.30 x 0.70 x 1.30 = 1.183 = 118.3%. Trap: the rises and fall do NOT cancel (100% is the 'they cancel' error); 91% ignores March.",
-      "paraphrases": []
+      "paraphrases": [
+        {
+          "id": "Q-PS-101-p1",
+          "stem": "A stock rose 20% in one month, fell 20% the next, then rose 20% the month after. The final price is approximately what percent of the starting price?",
+          "choices": [
+            "A) 96.0%",
+            "B) 104.0%",
+            "C) 115.2%",
+            "D) 120.0%",
+            "E) 128.0%"
+          ],
+          "answer": "C",
+          "explanation": "1.20 x 0.80 x 1.20 = 1.152 = 115.2%. The changes do not cancel.",
+          "parent_id": "Q-PS-101"
+        },
+        {
+          "id": "Q-PS-101-p2",
+          "stem": "A share price rose 50% and then fell 50%. The final price is what percent of the original?",
+          "choices": [
+            "A) 50%",
+            "B) 75%",
+            "C) 100%",
+            "D) 125%",
+            "E) 150%"
+          ],
+          "answer": "B",
+          "explanation": "1.50 x 0.50 = 0.75 = 75%. A rise then equal-percent fall loses value.",
+          "parent_id": "Q-PS-101"
+        }
+      ]
     },
     {
       "id": "Q-PS-102",
@@ -2115,7 +2907,36 @@
       ],
       "answer": "C",
       "explanation": "Squaring (valid for absolute values): (2x-5)^2 < (x+4)^2 -> 3x^2 - 28x + 9 < 0 -> (3x-1)(x-9) < 0 -> 1/3 < x < 9. Integers 1 through 8 = 8 values. Trap: 9 wrongly includes x=9 (gives equality, not <).",
-      "paraphrases": []
+      "paraphrases": [
+        {
+          "id": "Q-PS-104-p1",
+          "stem": "How many integer values of x satisfy |3x - 7| < |x + 5| ?",
+          "choices": [
+            "A) 5",
+            "B) 6",
+            "C) 7",
+            "D) 8",
+            "E) 9"
+          ],
+          "answer": "A",
+          "explanation": "Squaring gives 8x^2 - 52x + 24 < 0 -> 1/2 < x < 6 -> integers 1..5 = 5.",
+          "parent_id": "Q-PS-104"
+        },
+        {
+          "id": "Q-PS-104-p2",
+          "stem": "How many integer values of x satisfy |2x - 3| < |x - 6| ?",
+          "choices": [
+            "A) 4",
+            "B) 5",
+            "C) 6",
+            "D) 7",
+            "E) 8"
+          ],
+          "answer": "B",
+          "explanation": "Squaring gives 3x^2 - 27 < 0 -> -3 < x < 3 -> integers -2..2 = 5.",
+          "parent_id": "Q-PS-104"
+        }
+      ]
     },
     {
       "id": "Q-PS-105",
@@ -2141,7 +2962,36 @@
       ],
       "answer": "B",
       "explanation": "(x-y)(x+y)=45. The factor pairs (d,e) with d<e and d*e=45 are (1,45),(3,15),(5,9); each gives integer x=(d+e)/2, y=(e-d)/2: (23,22),(9,6),(7,2). So 3 pairs. Trap: 6 double-counts by treating (x-y,x+y) order as separate.",
-      "paraphrases": []
+      "paraphrases": [
+        {
+          "id": "Q-PS-105-p1",
+          "stem": "If x and y are positive integers and x^2 - y^2 = 16, how many ordered pairs (x, y) satisfy the equation?",
+          "choices": [
+            "A) 1",
+            "B) 2",
+            "C) 3",
+            "D) 4",
+            "E) 5"
+          ],
+          "answer": "A",
+          "explanation": "(x-y)(x+y)=16 with equal parity: only (2,8) gives positive integers (5,3). So 1 pair.",
+          "parent_id": "Q-PS-105"
+        },
+        {
+          "id": "Q-PS-105-p2",
+          "stem": "If x and y are positive integers and x^2 - y^2 = 24, how many ordered pairs (x, y) satisfy the equation?",
+          "choices": [
+            "A) 1",
+            "B) 2",
+            "C) 3",
+            "D) 4",
+            "E) 5"
+          ],
+          "answer": "B",
+          "explanation": "(x-y)(x+y)=24 with equal parity: (2,12)->(7,5) and (4,6)->(5,1). So 2 pairs.",
+          "parent_id": "Q-PS-105"
+        }
+      ]
     },
     {
       "id": "Q-PS-106",
