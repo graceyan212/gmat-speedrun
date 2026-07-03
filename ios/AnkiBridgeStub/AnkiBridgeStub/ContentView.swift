@@ -17,12 +17,33 @@ final class ReviewViewModel: ObservableObject {
     @Published var answeredCount = 0
 
     // Sync settings + status. `serverURL` must carry a trailing slash
-    // (rslib's sync client does `Url::join("sync/")`).
-    @Published var serverURL = ""
-    @Published var syncUser = ""
-    @Published var syncPass = ""
+    // (rslib's sync client does `Url::join("sync/")`). Settings persist across
+    // launches so auto-sync-on-launch works. (UserDefaults, not Keychain — fine
+    // for a self-hosted demo credential.)
+    @Published var serverURL = UserDefaults.standard.string(forKey: "gmat.serverURL") ?? "" {
+        didSet { UserDefaults.standard.set(serverURL, forKey: "gmat.serverURL") }
+    }
+    @Published var syncUser = UserDefaults.standard.string(forKey: "gmat.syncUser") ?? "" {
+        didSet { UserDefaults.standard.set(syncUser, forKey: "gmat.syncUser") }
+    }
+    @Published var syncPass = UserDefaults.standard.string(forKey: "gmat.syncPass") ?? "" {
+        didSet { UserDefaults.standard.set(syncPass, forKey: "gmat.syncPass") }
+    }
     @Published var syncStatus = ""
     @Published var isSyncing = false
+
+    /// True once a server URL + credentials are configured.
+    private var syncConfigured: Bool {
+        !serverURL.isEmpty && !syncUser.isEmpty && !syncPass.isEmpty
+    }
+
+    /// Fire a background sync *only* if configured — used on launch and after
+    /// each answer so reviews propagate without a manual tap. No-op when
+    /// unconfigured, and `syncNow()` itself skips if a sync is already running.
+    func autoSync() {
+        guard syncConfigured else { return }
+        syncNow()
+    }
 
     private let engine = AnkiEngine()
 
@@ -40,6 +61,7 @@ final class ReviewViewModel: ObservableObject {
                     } else {
                         self.phase = .finished
                     }
+                    self.autoSync()  // pull remote changes on launch (if configured)
                 }
             } catch {
                 await MainActor.run { self.phase = .error("\(error)") }
@@ -62,6 +84,7 @@ final class ReviewViewModel: ObservableObject {
                         self.card = nil
                         self.phase = .finished
                     }
+                    self.autoSync()  // push this review up after every answer (if configured)
                 }
             } catch {
                 await MainActor.run { self.phase = .error("\(error)") }
