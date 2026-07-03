@@ -2012,6 +2012,240 @@
           "explanation": "The two decreases are Feb->Mar (-5) and May->Jun (-12). The larger drop is 12, from May to June, so the answer is E."
         }
       ]
+    },
+    {
+      "id": "Q-PS-101",
+      "section": "Quantitative Reasoning",
+      "topic": "Arithmetic: percents",
+      "tags": [
+        "Quant::Arithmetic::Percents",
+        "difficulty::hard",
+        "split::train"
+      ],
+      "type": "Problem Solving",
+      "difficulty": "hard",
+      "target_seconds": 150,
+      "source": "original-hardgen-v1",
+      "split": "train",
+      "stem": "A stock's price rose 30% in January, then fell 30% in February, then rose 30% in March. After these three changes, the price is approximately what percent of its price at the start of January?",
+      "choices": [
+        "A) 91.0%",
+        "B) 100.0%",
+        "C) 109.0%",
+        "D) 118.3%",
+        "E) 130.0%"
+      ],
+      "answer": "D",
+      "explanation": "Multiply the factors: 1.30 x 0.70 x 1.30 = 1.183 = 118.3%. Trap: the rises and fall do NOT cancel (100% is the 'they cancel' error); 91% ignores March.",
+      "paraphrases": []
+    },
+    {
+      "id": "Q-PS-102",
+      "section": "Quantitative Reasoning",
+      "topic": "Arithmetic: ratios and proportions",
+      "tags": [
+        "Quant::Arithmetic::RatiosProportions",
+        "difficulty::hard",
+        "split::train"
+      ],
+      "type": "Problem Solving",
+      "difficulty": "hard",
+      "target_seconds": 165,
+      "source": "original-hardgen-v1",
+      "split": "train",
+      "stem": "In a tank, the ratio of water to alcohol is 5:3. Sixteen liters of the mixture is drained and replaced with pure water, after which the ratio of water to alcohol is 7:3. How many liters of alcohol are in the final mixture?",
+      "choices": [
+        "A) 6",
+        "B) 24",
+        "C) 30",
+        "D) 48",
+        "E) 56"
+      ],
+      "answer": "B",
+      "explanation": "Let total = T. Alcohol removed = 16*(3/8) = 6, so final alcohol = 3T/8 - 6, which must equal 3T/10 (the 7:3 mix). 3T/8 - 3T/10 = 6 -> 3T/40 = 6 -> T = 80. Final alcohol = 3(80)/10 = 24. Traps: 6 (only what's removed), 30 (initial alcohol), 56 (final water).",
+      "paraphrases": []
+    },
+    {
+      "id": "Q-PS-103",
+      "section": "Quantitative Reasoning",
+      "topic": "Arithmetic: statistics (mean, median, range, standard deviation)",
+      "tags": [
+        "Quant::Arithmetic::Statistics",
+        "difficulty::hard",
+        "split::train"
+      ],
+      "type": "Problem Solving",
+      "difficulty": "hard",
+      "target_seconds": 150,
+      "source": "original-hardgen-v1",
+      "split": "train",
+      "stem": "A set of 5 distinct positive integers has a mean of 20 and a median of 18. What is the greatest possible value of the largest integer in the set?",
+      "choices": [
+        "A) 40",
+        "B) 44",
+        "C) 58",
+        "D) 60",
+        "E) 62"
+      ],
+      "answer": "D",
+      "explanation": "Sum = 100; the middle (3rd) value is 18. To maximize the largest, minimize the rest: the two below are 1 and 2, and the fourth (distinct, above 18) is 19. Largest = 100 - (1+2+18+19) = 60. Trap: 62 forgets the fourth value must exceed 18 and be distinct.",
+      "paraphrases": []
+    },
+    {
+      "id": "Q-PS-104",
+      "section": "Quantitative Reasoning",
+      "topic": "Algebra: inequalities and absolute value",
+      "tags": [
+        "Quant::Algebra::Inequalities",
+        "difficulty::hard",
+        "split::train"
+      ],
+      "type": "Problem Solving",
+      "difficulty": "hard",
+      "target_seconds": 165,
+      "source": "original-hardgen-v1",
+      "split": "train",
+      "stem": "How many integer values of x satisfy |2x - 5| < |x + 4| ?",
+      "choices": [
+        "A) 6",
+        "B) 7",
+        "C) 8",
+        "D) 9",
+        "E) 10"
+      ],
+      "answer": "C",
+      "explanation": "Squaring (valid for absolute values): (2x-5)^2 < (x+4)^2 -> 3x^2 - 28x + 9 < 0 -> (3x-1)(x-9) < 0 -> 1/3 < x < 9. Integers 1 through 8 = 8 values. Trap: 9 wrongly includes x=9 (gives equality, not <).",
+      "paraphrases": []
+    },
+    {
+      "id": "Q-PS-105",
+      "section": "Quantitative Reasoning",
+      "topic": "Algebra: quadratic equations and factoring",
+      "tags": [
+        "Quant::Algebra::Quadratics",
+        "difficulty::hard",
+        "split::train"
+      ],
+      "type": "Problem Solving",
+      "difficulty": "hard",
+      "target_seconds": 150,
+      "source": "original-hardgen-v1",
+      "split": "train",
+      "stem": "If x and y are positive integers and x^2 - y^2 = 45, how many ordered pairs (x, y) satisfy the equation?",
+      "choices": [
+        "A) 2",
+        "B) 3",
+        "C) 4",
+        "D) 5",
+        "E) 6"
+      ],
+      "answer": "B",
+      "explanation": "(x-y)(x+y)=45. The factor pairs (d,e) with d<e and d*e=45 are (1,45),(3,15),(5,9); each gives integer x=(d+e)/2, y=(e-d)/2: (23,22),(9,6),(7,2). So 3 pairs. Trap: 6 double-counts by treating (x-y,x+y) order as separate.",
+      "paraphrases": []
+    },
+    {
+      "id": "Q-PS-106",
+      "section": "Quantitative Reasoning",
+      "topic": "Arithmetic: fractions and decimals",
+      "tags": [
+        "Quant::Arithmetic::FractionsDecimals",
+        "difficulty::hard",
+        "split::train"
+      ],
+      "type": "Problem Solving",
+      "difficulty": "hard",
+      "target_seconds": 150,
+      "source": "original-hardgen-v1",
+      "split": "train",
+      "stem": "If 1/x + 1/y = 1/4, where x and y are positive integers with x < y, how many such ordered pairs (x, y) exist?",
+      "choices": [
+        "A) 2",
+        "B) 3",
+        "C) 4",
+        "D) 5",
+        "E) 6"
+      ],
+      "answer": "A",
+      "explanation": "Clearing gives (x-4)(y-4)=16. Since x>4, take positive factor pairs of 16 with x-4 < y-4: (1,16)->(5,20) and (2,8)->(6,12). The pair (4,4)->(8,8) is excluded because x<y. So 2 pairs. Trap: 3 wrongly counts x=y.",
+      "paraphrases": []
+    },
+    {
+      "id": "Q-CR-101",
+      "section": "Verbal Reasoning",
+      "topic": "Critical Reasoning: weaken",
+      "tags": [
+        "Verbal::CriticalReasoning::Weaken",
+        "difficulty::hard",
+        "split::train"
+      ],
+      "type": "Critical Reasoning",
+      "difficulty": "hard",
+      "target_seconds": 150,
+      "source": "original-hardgen-v1",
+      "split": "train",
+      "stem": "Last year Millbrook installed brighter LED streetlights throughout its downtown; nighttime traffic accidents downtown then fell 15% from the prior year. Concluding the lights caused the drop, the city plans to install them in every district. Which of the following, if true, most seriously weakens the city's reasoning?",
+      "choices": [
+        "A) The new LED lights consume about 40% less electricity than the lamps they replaced.",
+        "B) Surveyed downtown residents report feeling safer walking at night since the installation.",
+        "C) Daytime traffic accidents downtown were essentially unchanged over the same period.",
+        "D) The LED lights have a rated lifespan roughly four times that of the old lamps.",
+        "E) In the same year, the city also lowered the downtown nighttime speed limit and increased police patrols there, each of which independently reduces accidents."
+      ],
+      "answer": "E",
+      "explanation": "E introduces confounding causes acting on the same place and time, so the accident drop need not be due to the lights - directly undermining the causal claim behind a citywide rollout. A/B/D are irrelevant to accident causation; C, by holding daytime steady, slightly SUPPORTS a nighttime-lighting effect (a classic seems-relevant-but-wrong-direction trap).",
+      "paraphrases": []
+    },
+    {
+      "id": "Q-CR-102",
+      "section": "Verbal Reasoning",
+      "topic": "Critical Reasoning: strengthen",
+      "tags": [
+        "Verbal::CriticalReasoning::Strengthen",
+        "difficulty::hard",
+        "split::train"
+      ],
+      "type": "Critical Reasoning",
+      "difficulty": "hard",
+      "target_seconds": 150,
+      "source": "original-hardgen-v1",
+      "split": "train",
+      "stem": "A manufacturer asserts that its new ergonomic keyboard reduces typing-related wrist strain. As evidence, it notes that employees at a firm who adopted the keyboard reported 25% fewer wrist complaints over the following three months. Which of the following, if true, most strengthens the manufacturer's claim?",
+      "choices": [
+        "A) During the study the firm randomly chose which employees switched keyboards, and only those who switched showed a decline in wrist complaints.",
+        "B) The new keyboard received a prominent industry award for its visual design.",
+        "C) Wrist complaints are among the most frequently reported issues in office jobs.",
+        "D) Employees were able to buy the keyboard for home use at a discount.",
+        "E) Most employees said they found the new keyboard more attractive than their old one."
+      ],
+      "answer": "A",
+      "explanation": "A adds a randomized control showing the decline tracks only with switching, ruling out confounds (e.g., seasonal change, general ergonomics campaigns) - the strongest support for a causal claim. B/D/E concern appeal or price, not strain; C is background that neither supports nor undercuts causation.",
+      "paraphrases": []
+    },
+    {
+      "id": "Q-CR-103",
+      "section": "Verbal Reasoning",
+      "topic": "Critical Reasoning: inference",
+      "tags": [
+        "Verbal::CriticalReasoning::Inference",
+        "difficulty::hard",
+        "split::train"
+      ],
+      "type": "Critical Reasoning",
+      "difficulty": "hard",
+      "target_seconds": 150,
+      "source": "original-hardgen-v1",
+      "split": "train",
+      "stem": "At Ridgeline College this year, every applicant who scored above 90 on the entrance exam was admitted. Some applicants who scored below 70 were also admitted, through a separate portfolio review. No applicant who scored from 70 to 90 was admitted. If all of these statements are true, which of the following must also be true?",
+      "choices": [
+        "A) Every applicant who scored below 70 was admitted.",
+        "B) Most admitted applicants scored above 90.",
+        "C) Every admitted applicant either scored above 90 or scored below 70.",
+        "D) An applicant who scored 85 could still have been admitted by portfolio review.",
+        "E) Applicants who scored above 90 did not submit a portfolio."
+      ],
+      "answer": "C",
+      "explanation": "Anyone admitted cannot be in the 70-90 band (none there were admitted), so they scored above 90 or below 70 - exactly C. A overstates ('some', not all, below-70 were admitted); B assumes unknown proportions; D contradicts the 70-90 rule; E is unstated (a high scorer might also have submitted a portfolio).",
+      "paraphrases": []
     }
   ],
   "memory_cards": [
