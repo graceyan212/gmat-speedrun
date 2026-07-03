@@ -1,0 +1,342 @@
+{
+  "DI-DS-001": {
+    "ai_difficulty": 45,
+    "ai_difficulty_reason": "DS sign logic: x^2>0 insufficient, x^3>0 sign-preserving so (2) alone sufficient; odd/even-power trap plus DS-format load on a single concept.",
+    "rubric_version": "1.0"
+  },
+  "DI-DS-002": {
+    "ai_difficulty": 34,
+    "ai_difficulty_reason": "34 - single-concept DS but must test 33-39 for composites to confirm 37 is the lone prime; (2) 'odd' clearly insufficient, no engineered trap.",
+    "rubric_version": "1.0"
+  },
+  "DI-DS-003": {
+    "ai_difficulty": 50,
+    "ai_difficulty_reason": "50 - parity reasoning on both statements (k^2 even and 3k even each force k even); answer D, and the trap is wrongly ruling one insufficient, tempting A/B.",
+    "rubric_version": "1.0"
+  },
+  "DI-DS-004": {
+    "ai_difficulty": 42,
+    "ai_difficulty_reason": "42 - classic 2-equation DS (p+c=48, c=3p); each alone insufficient, together unique -> C; distractors D/A bait over-crediting a single statement.",
+    "rubric_version": "1.0"
+  },
+  "DI-DS-005": {
+    "ai_difficulty": 58,
+    "ai_difficulty_reason": "58 - (1) trivially reduces to x>y but (2) x^2>y^2 needs the negative counterexample (x=-3,y=1); C/D are engineered traps for solvers who skip sign cases.",
+    "rubric_version": "1.0"
+  },
+  "DI-DS-006": {
+    "ai_difficulty": 16,
+    "ai_difficulty_reason": "18 - trivial 1-step linear solve (x+4=11 -> x=7); (1) obviously sufficient, (2) plainly a range; only DS-format familiarity adds any load.",
+    "rubric_version": "1.0"
+  },
+  "DI-GI-001": {
+    "ai_difficulty": 40,
+    "ai_difficulty_reason": "40 - straightforward single-concept: five consecutive differences, pick max positive; only trap is large negative swings that are decreases, not increases.",
+    "rubric_version": "1.0"
+  },
+  "DI-GI-101": {
+    "ai_difficulty": 75,
+    "ai_difficulty_reason": "Graphics interp: read 4 quarters' revenue/cost, compute margin=profit/revenue each; 165s. Q4 has largest absolute profit ($30k) and revenue - the (D)/(E) traps - but Q2's 14.3% margin wins; ratio-vs-absolute confusion + 4 divisions.",
+    "rubric_version": "1.0"
+  },
+  "DI-MSR-001": {
+    "ai_difficulty": 40,
+    "ai_difficulty_reason": "40 - synthesize two sources and apply an AND-condition (before 2 PM AND all in stock); answer D, distractors B/E dangle irrelevant out-of-stock item C not in this order.",
+    "rubric_version": "1.0"
+  },
+  "DI-MSR-101": {
+    "ai_difficulty": 76,
+    "ai_difficulty_reason": "MSR conditional check across two sources; 165s. Must apply 'subtotal after discounts' rule: 90*0.8=72<75, so (E). Traps B (pre-discount $90) and A (Premier alone) satisfy one clause only - careful two-condition parsing is decisive.",
+    "rubric_version": "1.0"
+  },
+  "DI-TA-001": {
+    "ai_difficulty": 48,
+    "ai_difficulty_reason": "48 - moderate multi-step: compute 4-5 percent-change fractions and compare; South is a decrease (sign trap) and (E) 'tied' distractor, but each computation is light.",
+    "rubric_version": "1.0"
+  },
+  "DI-TA-101": {
+    "ai_difficulty": 74,
+    "ai_difficulty_reason": "Table analysis: compute net = units*price*(1-return) across 4 rows and compare; 165s, 4-way arithmetic. Gamma has highest gross (12,000) - the trap (D) - but 20% returns drop it below Beta (11,400); heavy computation plus distractor.",
+    "rubric_version": "1.0"
+  },
+  "DI-TPA-001": {
+    "ai_difficulty": 52,
+    "ai_difficulty_reason": "52 - set up and solve 2x2 system (a+c=200, 12a+8c=2080); Two-Part format adds separate-column selection overhead, but arithmetic is clean.",
+    "rubric_version": "1.0"
+  },
+  "DI-TPA-002": {
+    "ai_difficulty": 46,
+    "ai_difficulty_reason": "46 - set up and solve 2x2 system (x+y=30, 4x+9y=200) via substitution; light arithmetic, two-column select limits guessing but no real trap.",
+    "rubric_version": "1.0"
+  },
+  "DI-TPA-003": {
+    "ai_difficulty": 62,
+    "ai_difficulty_reason": "62 - combined-rate solve (480/50=9.6) yielding a non-integer H that contradicts the 'same whole number of hours' red-herring wording; then 30*9.6=288 for column two.",
+    "rubric_version": "1.0"
+  },
+  "Q-CR-101": {
+    "ai_difficulty": 62,
+    "ai_difficulty_reason": "62 - classic confounding-cause weaken; E cites concurrent speed-limit/patrol changes, but distractor C (daytime accidents unchanged) actually strengthens the causal claim, catching the reversed-reasoning error.",
+    "rubric_version": "1.0"
+  },
+  "Q-CR-102": {
+    "ai_difficulty": 60,
+    "ai_difficulty_reason": "60 - strengthen via ruling out selection bias; A supplies the randomized controlled comparison while B/E dangle irrelevant 'attractiveness/award' appeal-distractors that mimic support.",
+    "rubric_version": "1.0"
+  },
+  "Q-CR-103": {
+    "ai_difficulty": 68,
+    "ai_difficulty_reason": "68 - formal-logic inference synthesizing three score-band conditionals; C is the only forced truth, and D is the trap (score 85 sits in the explicitly excluded 70-90 band).",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-001": {
+    "ai_difficulty": 30,
+    "ai_difficulty_reason": "2-step sequential percent (0.80x1.25); trap choice A/E from additively netting +5% instead of multiplying, but clean single-concept.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-002": {
+    "ai_difficulty": 45,
+    "ai_difficulty_reason": "2x2 linear system solved by elimination, 3 steps with clean integers; distractors are the notebook price and adjacent values, no deep trap.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-003": {
+    "ai_difficulty": 72,
+    "ai_difficulty_reason": "n^2 divisible by 72=2^3*3^2 requires even-exponent-in-a-square reasoning to force n divisible by 12; classic must-divide trap where (D)24 and (E)36 look right.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-004": {
+    "ai_difficulty": 30,
+    "ai_difficulty_reason": "30 - single-concept fraction add/subtract over LCD 12 (8+3-6)/12; choices A/B/D/E are near-miss fractions but no real trap.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-005": {
+    "ai_difficulty": 26,
+    "ai_difficulty_reason": "26 - one-step proportion, blue 40/5=8 per part x3=24; E)64 catches misuse of total, A)15 wrong scaling, but concept is trivial.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-006": {
+    "ai_difficulty": 34,
+    "ai_difficulty_reason": "34 - two quick steps: solve 2^x=32 (x=5) then 2^7=128; A)34 traps additive error, C)96 partial, single exponent concept.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-007": {
+    "ai_difficulty": 30,
+    "ai_difficulty_reason": "30 - one-step mean equation: sum must be 45, known 4 add to 30, x=15; distractors weak, no combined concepts.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-008": {
+    "ai_difficulty": 38,
+    "ai_difficulty_reason": "38 - combines two stats concepts (median=7, range=11) then subtract for 4; A)2 traps range-median swap, mild parsing of r-m.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-009": {
+    "ai_difficulty": 36,
+    "ai_difficulty_reason": "36 - single factoring step (x-2)(x-3), 'could be' picks D)2; A)-3/B)-2 engineered as sign-error traps on the roots.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-010": {
+    "ai_difficulty": 44,
+    "ai_difficulty_reason": "44 - expand |x-3|<4 to -1<x<7 then count integers 0..6 =7; strict-inequality endpoints make B)6 and D)8 classic off-by-one traps.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-011": {
+    "ai_difficulty": 35,
+    "ai_difficulty_reason": "2 clean function evaluations then subtract (f(3)=10, f(1)=0); single concept, small-number arithmetic, no engineered trap.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-012": {
+    "ai_difficulty": 58,
+    "ai_difficulty_reason": "Round-trip average speed: harmonic-mean concept with the naive (60+45)/2=52.5 planted as trap (C); correct 51.4 needs total-distance/total-time reasoning.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-013": {
+    "ai_difficulty": 45,
+    "ai_difficulty_reason": "Standard combined-work rate 1/6+1/4=5/12 -> 2.4; single concept, moderate fraction math, near-miss distractor 2.5 (C).",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-014": {
+    "ai_difficulty": 28,
+    "ai_difficulty_reason": "One simple-interest formula (2000+3x100=2300); light math, only mild trap in D ($2315) hinting at compounding.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-015": {
+    "ai_difficulty": 35,
+    "ai_difficulty_reason": "Single-step reverse percent 0.75x=90 -> 120; common-error trap A ($108 = 90x1.2) for adding the discount back instead of dividing.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-016": {
+    "ai_difficulty": 25,
+    "ai_difficulty_reason": "Enumerate factors of 12 and sum (1+2+3+4+6+12=28); one concept, only risk is dropping a factor.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-017": {
+    "ai_difficulty": 62,
+    "ai_difficulty_reason": "Digit-reversal word problem: translate tens=2xunits and reversed=27 less into 9u=27 -> 63; multi-step setup with digit-trap distractors 42/84 that also fit the ratio.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-018": {
+    "ai_difficulty": 30,
+    "ai_difficulty_reason": "1-step ratio scale factor (15/5=3, sugar=2x3=6); single concept, quick mental math; distractors D=7.5 and B=5 catch wrong-direction/wrong-scale errors.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-019": {
+    "ai_difficulty": 44,
+    "ai_difficulty_reason": "2-3 step radical simplify (50=5v2, 8=2v2, sum 7v2 over v2 =7); single concept; trap D=sqrt(58) rewards adding under-root, A=5 drops a term.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-020": {
+    "ai_difficulty": 46,
+    "ai_difficulty_reason": "Common-base exponent solve 4^x=8^(x-1) -> 2x=3x-3 -> x=3; multi-step but one concept, clean linear finish, low computation weight.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-021": {
+    "ai_difficulty": 38,
+    "ai_difficulty_reason": "2-step fraction reasoning: 12L = 1/5 of capacity -> 60; single concept, light arithmetic; distractors C=48/A=24 catch mis-scaled fractions.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-101": {
+    "ai_difficulty": 58,
+    "ai_difficulty_reason": "58 - single percents concept but engineered distractors: (B) 100% is the 'rises/fall cancel' trap, (A) 91% ignores March; must multiply 1.3x0.7x1.3=1.183.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-102": {
+    "ai_difficulty": 78,
+    "ai_difficulty_reason": "78 - heavy multi-step ratio mixture: alcohol removed 16x3/8, set 3T/8-6=3T/10, solve T=80; choices (A)6/(C)30/(E)56 each catch a partial-computation error.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-103": {
+    "ai_difficulty": 68,
+    "ai_difficulty_reason": "68 - multi-step optimization: fix sum=100 and median=18, minimize others to (1,2,18,19); (E)62 is the trap that forgets the 4th value must be distinct and exceed 18.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-104": {
+    "ai_difficulty": 72,
+    "ai_difficulty_reason": "72 - multi-step abs-value inequality: square, factor (3x-1)(x-9)<0 -> 1/3<x<9, count integers 1-8=8; (D)9 is the strict-vs-equality boundary trap.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-105": {
+    "ai_difficulty": 66,
+    "ai_difficulty_reason": "66 - multi-step factoring/counting: (x-y)(x+y)=45 gives 3 valid factor pairs; (E)6 is the ordered-pair double-count trap, and parity of factors must be checked.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-106": {
+    "ai_difficulty": 82,
+    "ai_difficulty_reason": "82 - non-obvious (x-4)(y-4)=16 transform then factor-pair count under x<y; answer is only 2, and the natural overcount to 3 (counting the x=y=8 case or symmetric pair) is the engineered trap.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-107": {
+    "ai_difficulty": 46,
+    "ai_difficulty_reason": "46 - single-step prime factorization: 12^3 = 2^6*3^3 gives x=6,y=3,x+y=9; only trap is misreading 12=2^2*3, otherwise light computation.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-108": {
+    "ai_difficulty": 44,
+    "ai_difficulty_reason": "44 - standard 2x2 linear system (3n+2p=13, 2n+5p=16) then combine to n+p=5; multi-step but routine, distractors are nearby integer sums.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-109": {
+    "ai_difficulty": 60,
+    "ai_difficulty_reason": "60 - two-phase work-rate: both fill 5/9 in 2 hrs, B alone clears remaining 4/9 at 1/9/hr = 4 hrs, total 6; the phase change and fraction bookkeeping is the main hurdle.",
+    "rubric_version": "1.0"
+  },
+  "Q-PS-110": {
+    "ai_difficulty": 55,
+    "ai_difficulty_reason": "55 - must-be-true integer property: n^2 = 1 mod 8 forces n odd (all odd squares are 1 mod 8); light computation but hinges on recalling/deriving the odd-square rule, with C/D/E as plausible property distractors.",
+    "rubric_version": "1.0"
+  },
+  "V-CR-001": {
+    "ai_difficulty": 52,
+    "ai_difficulty_reason": "Weaken by alternative cause (E, same-period speed limit + cameras); (C) two-cities and (A) daytime-control are engineered near-misses raising distractor load.",
+    "rubric_version": "1.0"
+  },
+  "V-CR-002": {
+    "ai_difficulty": 55,
+    "ai_difficulty_reason": "Assumption via defender/negation (E: cost savings not offset by lost sales); (C) most-expensive and (D) taste are seductive wrong choices; multi-consideration profit logic.",
+    "rubric_version": "1.0"
+  },
+  "V-CR-003": {
+    "ai_difficulty": 52,
+    "ai_difficulty_reason": "Strengthen causal claim: must pick direct mechanism evidence (E) over confound-removal (C/D); moderate multi-step CR with engineered near-answer distractors.",
+    "rubric_version": "1.0"
+  },
+  "V-CR-004": {
+    "ai_difficulty": 50,
+    "ai_difficulty_reason": "Inference chaining two universals (pre-2020->diesel->retrofit=E); moderate; distractors A overreach, B/C reversal traps on conditional logic.",
+    "rubric_version": "1.0"
+  },
+  "V-CR-005": {
+    "ai_difficulty": 64,
+    "ai_difficulty_reason": "Evaluate question hinging on subtle distribution-of-remote-days insight (E); longest target 135s, hard tag; strong distractors that seem topical but miss congestion mechanism.",
+    "rubric_version": "1.0"
+  },
+  "V-CR-006": {
+    "ai_difficulty": 48,
+    "ai_difficulty_reason": "Paradox resolved via revenue=price x quantity (E, flat unit sales); moderate CR, one insight; other choices plainly fail to touch revenue.",
+    "rubric_version": "1.0"
+  },
+  "V-CR-007": {
+    "ai_difficulty": 66,
+    "ai_difficulty_reason": "Boldface/role CR (hardest CR type): must map the bold line as a seemingly-pro-critics point later rebutted; (E) 'restates critics' conclusion' and (C) 'evidence for conclusion' are engineered near-traps; 135s target.",
+    "rubric_version": "1.0"
+  },
+  "V-CR-008": {
+    "ai_difficulty": 44,
+    "ai_difficulty_reason": "Single-concept required-assumption via negation test, but stem's 'without lowering pass rates' telegraphs (A); distractors B-E are plainly irrelevant, so no real trap despite 135s 'hard' tag.",
+    "rubric_version": "1.0"
+  },
+  "V-CR-009": {
+    "ai_difficulty": 24,
+    "ai_difficulty_reason": "One-step weaken: sever the eating-speed->healthier link; (E) states it outright and the other four don't touch the leap; 90s, minimal parsing.",
+    "rubric_version": "1.0"
+  },
+  "V-CR-104": {
+    "ai_difficulty": 70,
+    "ai_difficulty_reason": "CR paradox (fewer cars, same speed); 150s. (B) resolves via a simultaneous lane-capacity cut, but A/C/E are all consistent-with-the-toll decoys engineered to look relevant; must spot that only a capacity change touches speed.",
+    "rubric_version": "1.0"
+  },
+  "V-RC-001": {
+    "ai_difficulty": 48,
+    "ai_difficulty_reason": "RC inference restating the passage's confidence-vs-retention mismatch (E); (A)/(D) are contradiction traps and (C) a detail misread, but passage is short and single-idea.",
+    "rubric_version": "1.0"
+  },
+  "V-RC-002": {
+    "ai_difficulty": 40,
+    "ai_difficulty_reason": "Main-idea on a short passage; correct (B) must capture both halves (masking + conservation), with A/C as distortion traps and D/E as scope; moderate single-concept.",
+    "rubric_version": "1.0"
+  },
+  "V-RC-003": {
+    "ai_difficulty": 30,
+    "ai_difficulty_reason": "Detail lookup: answer (A) paraphrases 'steadier total biomass...fluctuated wildly' almost verbatim; distractors are extreme/contradictory (lost all, no change), so quick to eliminate.",
+    "rubric_version": "1.0"
+  },
+  "V-RC-004": {
+    "ai_difficulty": 55,
+    "ai_difficulty_reason": "Function/purpose question: must map the rise-and-fall detail to its role as evidence for the 'masking' claim; (A) overstatement and (E) biomass-contradiction are real traps; 120s multi-step inference.",
+    "rubric_version": "1.0"
+  },
+  "V-RC-005": {
+    "ai_difficulty": 40,
+    "ai_difficulty_reason": "Tone/attitude: pick qualified skepticism from 'complicate'/'can mask'; (C) 'outright dismissal' is the too-strong trap and B/D/E are wrong-direction; moderate single-concept.",
+    "rubric_version": "1.0"
+  },
+  "V-RC-101": {
+    "ai_difficulty": 66,
+    "ai_difficulty_reason": "RC main-idea over a dense 2-turn econ passage; 150s. (E) requires holding the 'not variety but comparison-cost' distinction while (A)/(D) overstate and (B)/(C) misread the tools finding as engineered traps.",
+    "rubric_version": "1.0"
+  },
+  "V-RC-102": {
+    "ai_difficulty": 48,
+    "ai_difficulty_reason": "RC detail question mapping near-verbatim to the passage's 'tools lower comparison cost' clause; single locate step, 135s. Distractors B/C/D/E are unmentioned moderators, easy to eliminate; moderate mainly from passage density.",
+    "rubric_version": "1.0"
+  },
+  "V-RC-103": {
+    "ai_difficulty": 68,
+    "ai_difficulty_reason": "RC inference on historians' 'older view'; must parse the hedge 'not simply mistaken' to pick 'partly accurate but incomplete' (A) over the strong trap (B, fully overturned) and the reversal (D); 150s, subtle degree-of-claim reasoning.",
+    "rubric_version": "1.0"
+  },
+  "V-RC-104": {
+    "ai_difficulty": 63,
+    "ai_difficulty_reason": "RC tone/attitude toward recent scholarship; 135s. (B) 'sympathetic but careful' requires weighing endorsement vs hedging; A/D too negative, C ignores hedging, E denies engagement - standard tone traps, moderate-hard.",
+    "rubric_version": "1.0"
+  }
+}
