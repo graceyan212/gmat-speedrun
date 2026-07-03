@@ -257,11 +257,12 @@ struct ContentView: View {
         HStack(alignment: .center) {
             // Left: geometric mark + GMAT wordmark.
             HStack(spacing: 10) {
-                BauhausMark(size: 22)
+                BauhausMark(size: 18)
                 Text("GMAT")
-                    .font(BauhausTheme.futura(size: 24, weight: .bold))
-                    .tracking(4)
+                    .font(BauhausTheme.futura(size: 20, weight: .bold))
+                    .tracking(2)
                     .foregroundColor(BauhausTheme.ink)
+                    .fixedSize()
             }
 
             Spacer()
@@ -272,14 +273,15 @@ struct ContentView: View {
                 showingScores = true
             } label: {
                 Text("SCORES")
-                    .font(BauhausTheme.futura(size: 13, weight: .bold))
-                    .tracking(2)
+                    .font(BauhausTheme.futura(size: 12, weight: .bold))
+                    .tracking(1.5)
+                    .fixedSize()
                     .foregroundColor(BauhausTheme.paper)
-                    .padding(.horizontal, 10)
+                    .padding(.horizontal, 8)
                     .padding(.vertical, 5)
                     .background(BauhausTheme.ink)
             }
-            .padding(.trailing, 10)
+            .padding(.trailing, 8)
 
             // Sync button: opens the server-settings sheet, and doubles as a
             // status readout via the ink label underneath.
@@ -288,16 +290,17 @@ struct ContentView: View {
             } label: {
                 VStack(alignment: .trailing, spacing: 2) {
                     Text(vm.isSyncing ? "SYNCING…" : "SYNC")
-                        .font(BauhausTheme.futura(size: 13, weight: .bold))
-                        .tracking(2)
+                        .font(BauhausTheme.futura(size: 12, weight: .bold))
+                        .tracking(1.5)
+                        .fixedSize()
                         .foregroundColor(BauhausTheme.paper)
-                        .padding(.horizontal, 10)
+                        .padding(.horizontal, 8)
                         .padding(.vertical, 5)
                         .background(BauhausTheme.blue)
                 }
             }
             .disabled(vm.isSyncing)
-            .padding(.trailing, 14)
+            .padding(.trailing, 10)
 
             // Right: answered count (tabular) with an uppercase ANSWERED label.
             VStack(alignment: .trailing, spacing: 0) {
@@ -307,6 +310,7 @@ struct ContentView: View {
                 Text("ANSWERED")
                     .font(BauhausTheme.futura(size: 10, weight: .bold))
                     .tracking(2)
+                    .fixedSize()
                     .foregroundColor(BauhausTheme.ink)
             }
         }

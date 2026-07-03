@@ -175,6 +175,23 @@ int anki_select_deck_by_name(int64_t backend_ptr, const char *deck_name);
 int anki_next_card(int64_t backend_ptr, uint8_t **out_data, uintptr_t *out_len);
 
 /**
+ * Compute the three GMAT scores (memory / performance / readiness) and return
+ * them as a JSON blob (caller frees with `anki_free_response`). Scoped to the
+ * whole collection (the phone/desktop use a single GMAT deck).
+ *
+ * Output JSON: {"memory":SV,"performance":SV,"readiness":SV} where each SV is
+ * {"abstained":bool,"score":f,"low":f,"high":f,"unit":"pct|gmat",
+ *  "confidence":"","reasons":[..],"missing":[..]}.
+ *
+ * # Safety
+ * - `backend_ptr` must be from `anki_open_backend` with a collection open.
+ * - `out_data`/`out_len` receive the JSON bytes; free with `anki_free_response`.
+ *
+ * Returns 0 on success, 1 on backend error, -1 on FFI error.
+ */
+int anki_get_scores(int64_t backend_ptr, uint8_t **out_data, uintptr_t *out_len);
+
+/**
  * Answer the given card with a rating, rebuilding the CardAnswer from the
  * SchedulingStates rslib returned for that card in the prior `anki_next_card`.
  *
