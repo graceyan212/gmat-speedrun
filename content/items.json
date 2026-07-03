@@ -112,7 +112,8 @@
             "E) 110%"
           ],
           "answer": "B",
-          "explanation": "1.10 x 0.90 = 0.99 = 99%. Opposite equal percent changes do not cancel."
+          "explanation": "1.10 x 0.90 = 0.99 = 99%. Opposite equal percent changes do not cancel.",
+          "parent_id": "Q-PS-001"
         }
       ]
     },
@@ -152,7 +153,8 @@
             "E) $5.00"
           ],
           "answer": "B",
-          "explanation": "2m+c=7 and m+2c=8. From the first, c=7-2m. Substitute: m+2(7-2m)=8, so -3m=-6, m=2 and c=3."
+          "explanation": "2m+c=7 and m+2c=8. From the first, c=7-2m. Substitute: m+2(7-2m)=8, so -3m=-6, m=2 and c=3.",
+          "parent_id": "Q-PS-002"
         }
       ]
     },
@@ -192,7 +194,8 @@
             "E) 100"
           ],
           "answer": "B",
-          "explanation": "200 = 2^3 x 5^2. k must contain 2^2 (2a>=3 gives a>=2) and 5^1. So k must be divisible by 4 x 5 = 20."
+          "explanation": "200 = 2^3 x 5^2. k must contain 2^2 (2a>=3 gives a>=2) and 5^1. So k must be divisible by 4 x 5 = 20.",
+          "parent_id": "Q-PS-003"
         }
       ]
     },
@@ -232,7 +235,8 @@
             "E) Sick days are tracked by the HR department."
           ],
           "answer": "A",
-          "explanation": "A separate change in the same year (vaccination program) is a competing cause for fewer sick days."
+          "explanation": "A separate change in the same year (vaccination program) is a competing cause for fewer sick days.",
+          "parent_id": "V-CR-001"
         }
       ]
     },
@@ -272,7 +276,8 @@
             "E) The flights are always full."
           ],
           "answer": "A",
-          "explanation": "Profit rises only if the lost revenue from departing passengers does not exceed the meal-cost savings."
+          "explanation": "Profit rises only if the lost revenue from departing passengers does not exceed the meal-cost savings.",
+          "parent_id": "V-CR-002"
         }
       ]
     },
@@ -313,7 +318,8 @@
             "E) the main cause of poor exam performance."
           ],
           "answer": "A",
-          "explanation": "Same inference, reworded: the study frames felt confidence as a poor proxy for actual retention."
+          "explanation": "Same inference, reworded: the study frames felt confidence as a poor proxy for actual retention.",
+          "parent_id": "V-RC-001"
         }
       ]
     },
@@ -353,7 +359,8 @@
             "E) Statements (1) and (2) TOGETHER are NOT sufficient."
           ],
           "answer": "B",
-          "explanation": "(1) only says y is not 0. (2) y^3<0 forces y<0. So (2) alone is sufficient."
+          "explanation": "(1) only says y is not 0. (2) y^3<0 forces y<0. So (2) alone is sufficient.",
+          "parent_id": "DI-DS-001"
         }
       ]
     },
@@ -399,7 +406,8 @@
             "Adult": 80,
             "Child": 70
           },
-          "explanation": "a + c = 150 and 10a + 6c = 1220. Substitute: 10a + 6(150 - a) = 1220, 4a + 900 = 1220, 4a = 320, a = 80 and c = 70."
+          "explanation": "a + c = 150 and 10a + 6c = 1220. Substitute: 10a + 6(150 - a) = 1220, 4a + 900 = 1220, 4a = 320, a = 80 and c = 70.",
+          "parent_id": "DI-TPA-001"
         }
       ]
     },
@@ -439,7 +447,8 @@
             "E) 1"
           ],
           "answer": "D",
-          "explanation": "Common denominator 12: 9/12 - 2/12 + 4/12 = 11/12."
+          "explanation": "Common denominator 12: 9/12 - 2/12 + 4/12 = 11/12.",
+          "parent_id": "Q-PS-004"
         }
       ]
     },
@@ -479,7 +488,8 @@
             "E) 49"
           ],
           "answer": "C",
-          "explanation": "cats/dogs = 4/7. Dogs are 7 parts = 28, so 1 part = 4 and cats = 4 parts = 16. (Check: 16/28 = 4/7.)"
+          "explanation": "cats/dogs = 4/7. Dogs are 7 parts = 28, so 1 part = 4 and cats = 4 parts = 16. (Check: 16/28 = 4/7.)",
+          "parent_id": "Q-PS-005"
         }
       ]
     },
@@ -519,7 +529,8 @@
             "E) 243"
           ],
           "answer": "C",
-          "explanation": "3^y = 27 = 3^3, so y = 3. 3^(y+1) = 3^4 = 81. (Or 3^y * 3 = 27 * 3 = 81.)"
+          "explanation": "3^y = 27 = 3^3, so y = 3. 3^(y+1) = 3^4 = 81. (Or 3^y * 3 = 27 * 3 = 81.)",
+          "parent_id": "Q-PS-006"
         }
       ]
     },
@@ -559,7 +570,8 @@
             "E) 88"
           ],
           "answer": "D",
-          "explanation": "Average 82 over 4 scores means a total of 328. The known three sum to 245, so s = 328 - 245 = 83."
+          "explanation": "Average 82 over 4 scores means a total of 328. The known three sum to 245, so s = 328 - 245 = 83.",
+          "parent_id": "Q-PS-007"
         }
       ]
     },
@@ -599,7 +611,8 @@
             "E) 19"
           ],
           "answer": "B",
-          "explanation": "Sorted, the two middle values are 6 and 6, so the median is 6. Range = 21 - 2 = 19. 19 - 6 = 13."
+          "explanation": "Sorted, the two middle values are 6 and 6, so the median is 6. Range = 21 - 2 = 19. 19 - 6 = 13.",
+          "parent_id": "Q-PS-008"
         }
       ]
     },
@@ -639,7 +652,8 @@
             "E) 15"
           ],
           "answer": "A",
-          "explanation": "Factor: (x + 5)(x - 3) = 0, so x = -5 or x = 3. Only -5 is listed."
+          "explanation": "Factor: (x + 5)(x - 3) = 0, so x = -5 or x = 3. Only -5 is listed.",
+          "parent_id": "Q-PS-009"
         }
       ]
     },
@@ -679,7 +693,8 @@
             "E) 9"
           ],
           "answer": "C",
-          "explanation": "|n + 2| <= 3 means -3 <= n + 2 <= 3, i.e., -5 <= n <= 1. The integers -5,-4,-3,-2,-1,0,1 number 7."
+          "explanation": "|n + 2| <= 3 means -3 <= n + 2 <= 3, i.e., -5 <= n <= 1. The integers -5,-4,-3,-2,-1,0,1 number 7.",
+          "parent_id": "Q-PS-010"
         }
       ]
     },
@@ -719,7 +734,8 @@
             "E) 16"
           ],
           "answer": "C",
-          "explanation": "g(2) = 4 + 8 - 5 = 7. g(0) = 0 + 0 - 5 = -5. g(2) - g(0) = 7 - (-5) = 12."
+          "explanation": "g(2) = 4 + 8 - 5 = 7. g(0) = 0 + 0 - 5 = -5. g(2) - g(0) = 7 - (-5) = 12.",
+          "parent_id": "Q-PS-011"
         }
       ]
     },
@@ -759,7 +775,8 @@
             "E) 37.5"
           ],
           "answer": "B",
-          "explanation": "Time out = 120/40 = 3 h; back = 120/30 = 4 h. Total 240 mi / 7 h = 34.29, about 34.3 mph."
+          "explanation": "Time out = 120/40 = 3 h; back = 120/30 = 4 h. Total 240 mi / 7 h = 34.29, about 34.3 mph.",
+          "parent_id": "Q-PS-012"
         }
       ]
     },
@@ -799,7 +816,8 @@
             "E) 9.0"
           ],
           "answer": "B",
-          "explanation": "Rate = 1/3 + 1/6 = 2/6 + 1/6 = 3/6 = 1/2 wall per hour. Time = 1/(1/2) = 2 hours."
+          "explanation": "Rate = 1/3 + 1/6 = 2/6 + 1/6 = 3/6 = 1/2 wall per hour. Time = 1/(1/2) = 2 hours.",
+          "parent_id": "Q-PS-013"
         }
       ]
     },
@@ -839,7 +857,8 @@
             "E) $480"
           ],
           "answer": "C",
-          "explanation": "Simple interest = 1500 x 0.08 x 2 = $240."
+          "explanation": "Simple interest = 1500 x 0.08 x 2 = $240.",
+          "parent_id": "Q-PS-014"
         }
       ]
     },
@@ -879,7 +898,8 @@
             "E) $255"
           ],
           "answer": "C",
-          "explanation": "Sale price = 85% of original: 0.85 x original = 204, so original = 204 / 0.85 = $240."
+          "explanation": "Sale price = 85% of original: 0.85 x original = 204, so original = 204 / 0.85 = $240.",
+          "parent_id": "Q-PS-015"
         }
       ]
     },
@@ -919,7 +939,8 @@
             "E) 42"
           ],
           "answer": "D",
-          "explanation": "Divisors of 18: 1, 2, 3, 6, 9, 18. Sum = 39."
+          "explanation": "Divisors of 18: 1, 2, 3, 6, 9, 18. Sum = 39.",
+          "parent_id": "Q-PS-016"
         }
       ]
     },
@@ -959,7 +980,8 @@
             "E) 84"
           ],
           "answer": "D",
-          "explanation": "Let tens = t, units = 2t. Original = 10t + 2t = 12t. Reversed = 10(2t) + t = 21t. Reversed - original = 9t = 36, so t = 4. Original = 48; reverse 84; 84 - 48 = 36."
+          "explanation": "Let tens = t, units = 2t. Original = 10t + 2t = 12t. Reversed = 10(2t) + t = 21t. Reversed - original = 9t = 36, so t = 4. Original = 48; reverse 84; 84 - 48 = 36.",
+          "parent_id": "Q-PS-017"
         }
       ]
     },
@@ -999,7 +1021,8 @@
             "E) 49"
           ],
           "answer": "E",
-          "explanation": "blue/white = 3/7. Scale factor = 21/3 = 7, so white = 7 x 7 = 49 liters."
+          "explanation": "blue/white = 3/7. Scale factor = 21/3 = 7, so white = 7 x 7 = 49 liters.",
+          "parent_id": "Q-PS-018"
         }
       ]
     },
@@ -1039,7 +1062,8 @@
             "E) sqrt(20)"
           ],
           "answer": "A",
-          "explanation": "sqrt(18) = 3*sqrt(2); numerator = 3*sqrt(2) + sqrt(2) = 4*sqrt(2). Divide by sqrt(2): 4."
+          "explanation": "sqrt(18) = 3*sqrt(2); numerator = 3*sqrt(2) + sqrt(2) = 4*sqrt(2). Divide by sqrt(2): 4.",
+          "parent_id": "Q-PS-019"
         }
       ]
     },
@@ -1079,7 +1103,8 @@
             "E) 8"
           ],
           "answer": "D",
-          "explanation": "Base 3: 9^x = 3^(2x), 27^(x-2) = 3^(3x-6). Set 2x = 3x - 6, so x = 6."
+          "explanation": "Base 3: 9^x = 3^(2x), 27^(x-2) = 3^(3x-6). Set 2x = 3x - 6, so x = 6.",
+          "parent_id": "Q-PS-020"
         }
       ]
     },
@@ -1119,7 +1144,8 @@
             "E) 36"
           ],
           "answer": "C",
-          "explanation": "5/8 - 1/4 = 5/8 - 2/8 = 3/8 of capacity equals 9 liters, so capacity = 9 / (3/8) = 24 liters."
+          "explanation": "5/8 - 1/4 = 5/8 - 2/8 = 3/8 of capacity equals 9 liters, so capacity = 9 / (3/8) = 24 liters.",
+          "parent_id": "Q-PS-021"
         }
       ]
     },
@@ -1159,7 +1185,8 @@
             "E) The gym has a large parking lot."
           ],
           "answer": "A",
-          "explanation": "Evidence that the new members enrolled specifically for the new classes ties the cause to the effect."
+          "explanation": "Evidence that the new members enrolled specifically for the new classes ties the cause to the effect.",
+          "parent_id": "V-CR-003"
         }
       ]
     },
@@ -1199,7 +1226,8 @@
             "E) Most seniors are in the chess club."
           ],
           "answer": "A",
-          "explanation": "Chain: chess club member -> senior -> parking permit. So every chess club member has a permit."
+          "explanation": "Chain: chess club member -> senior -> parking permit. So every chess club member has a permit.",
+          "parent_id": "V-CR-004"
         }
       ]
     },
@@ -1239,7 +1267,8 @@
             "E) how many books the library owns."
           ],
           "answer": "A",
-          "explanation": "Wait times fall only if the waiting patrons actually shift to e-books; their willingness/ability is the decisive unknown."
+          "explanation": "Wait times fall only if the waiting patrons actually shift to e-books; their willingness/ability is the decisive unknown.",
+          "parent_id": "V-CR-005"
         }
       ]
     },
@@ -1279,7 +1308,8 @@
             "E) The price cut applied only to evening shows."
           ],
           "answer": "A",
-          "explanation": "With attendance flat, a lower price means lower revenue (price x quantity), explaining the drop."
+          "explanation": "With attendance flat, a lower price means lower revenue (price x quantity), explaining the drop.",
+          "parent_id": "V-CR-006"
         }
       ]
     },
@@ -1319,7 +1349,8 @@
             "E) a point that appears to support the opposing view but is then outweighed by the argument."
           ],
           "answer": "E",
-          "explanation": "The boldface seems to back the air-quality worry but is then outweighed by the closure of dirtier plants."
+          "explanation": "The boldface seems to back the air-quality worry but is then outweighed by the closure of dirtier plants.",
+          "parent_id": "V-CR-007"
         }
       ]
     },
@@ -1359,7 +1390,8 @@
             "E) The generic comes in the same color."
           ],
           "answer": "B",
-          "explanation": "Cutting cost 'without reducing effectiveness' requires that the generic is as effective; negating that defeats the plan."
+          "explanation": "Cutting cost 'without reducing effectiveness' requires that the generic is as effective; negating that defeats the plan.",
+          "parent_id": "V-CR-008"
         }
       ]
     },
@@ -1399,7 +1431,8 @@
             "E) The brand has a popular logo."
           ],
           "answer": "A",
-          "explanation": "Refreshing taste does not imply nutrition, so the survey fails to support the nutrition claim."
+          "explanation": "Refreshing taste does not imply nutrition, so the survey fails to support the nutrition claim.",
+          "parent_id": "V-CR-009"
         }
       ]
     },
@@ -1440,7 +1473,8 @@
             "E) distinguishing stability of an ecosystem as a whole from the stability of its individual species, and noting why that distinction matters."
           ],
           "answer": "E",
-          "explanation": "Same main idea, reworded: whole-system stability differs from species-level stability, and the gap has conservation implications."
+          "explanation": "Same main idea, reworded: whole-system stability differs from species-level stability, and the gap has conservation implications.",
+          "parent_id": "V-RC-002"
         }
       ]
     },
@@ -1481,7 +1515,8 @@
             "E) grew at exactly the same rate."
           ],
           "answer": "B",
-          "explanation": "The text says individual species 'fluctuated wildly, with some nearly disappearing and others surging.'"
+          "explanation": "The text says individual species 'fluctuated wildly, with some nearly disappearing and others surging.'",
+          "parent_id": "V-RC-003"
         }
       ]
     },
@@ -1522,7 +1557,8 @@
             "E) support the claim that overall stability can hide instability at the species level."
           ],
           "answer": "E",
-          "explanation": "The swings are offered as evidence for the masking claim, not to dispute biomass steadiness."
+          "explanation": "The swings are offered as evidence for the masking claim, not to dispute biomass steadiness.",
+          "parent_id": "V-RC-004"
         }
       ]
     },
@@ -1563,7 +1599,8 @@
             "E) celebratory."
           ],
           "answer": "B",
-          "explanation": "The author qualifies rather than rejects the claim, signaling cautious, incomplete-not-wrong criticism."
+          "explanation": "The author qualifies rather than rejects the claim, signaling cautious, incomplete-not-wrong criticism.",
+          "parent_id": "V-RC-005"
         }
       ]
     },
@@ -1603,7 +1640,8 @@
             "E) Statements (1) and (2) TOGETHER are NOT sufficient."
           ],
           "answer": "A",
-          "explanation": "(1) 2n = 18 gives n = 9 -- sufficient. (2) 'n < 20' allows many values -- insufficient. Answer A."
+          "explanation": "(1) 2n = 18 gives n = 9 -- sufficient. (2) 'n < 20' allows many values -- insufficient. Answer A.",
+          "parent_id": "DI-DS-006"
         }
       ]
     },
@@ -1643,7 +1681,8 @@
             "E) Statements (1) and (2) TOGETHER are NOT sufficient."
           ],
           "answer": "A",
-          "explanation": "(1) The only prime strictly between 14 and 18 is 17, so p = 17 -- sufficient. (2) 'p > 10' has many values -- insufficient. Answer A."
+          "explanation": "(1) The only prime strictly between 14 and 18 is 17, so p = 17 -- sufficient. (2) 'p > 10' has many values -- insufficient. Answer A.",
+          "parent_id": "DI-DS-002"
         }
       ]
     },
@@ -1683,7 +1722,8 @@
             "E) Statements (1) and (2) TOGETHER are NOT sufficient."
           ],
           "answer": "D",
-          "explanation": "(1) m^2 odd forces m odd -- sufficient. (2) 5m odd (5 is odd) forces m odd -- sufficient. Answer D."
+          "explanation": "(1) m^2 odd forces m odd -- sufficient. (2) 5m odd (5 is odd) forces m odd -- sufficient. Answer D.",
+          "parent_id": "DI-DS-003"
         }
       ]
     },
@@ -1723,7 +1763,8 @@
             "E) Statements (1) and (2) TOGETHER are NOT sufficient."
           ],
           "answer": "C",
-          "explanation": "Let red = r, green = g. (1) r + g = 60 alone is insufficient; (2) g = 2r alone is insufficient. Together: r + 2r = 60, r = 20. Answer C."
+          "explanation": "Let red = r, green = g. (1) r + g = 60 alone is insufficient; (2) g = 2r alone is insufficient. Together: r + 2r = 60, r = 20. Answer C.",
+          "parent_id": "DI-DS-004"
         }
       ]
     },
@@ -1763,7 +1804,8 @@
             "E) Statements (1) and (2) TOGETHER are NOT sufficient."
           ],
           "answer": "A",
-          "explanation": "(1) a - 5 > b - 5 gives a > b -- sufficient. (2) a^2 > b^2 only gives |a| > |b|, ambiguous in sign -- insufficient. Answer A."
+          "explanation": "(1) a - 5 > b - 5 gives a > b -- sufficient. (2) a^2 > b^2 only gives |a| > |b|, ambiguous in sign -- insufficient. Answer A.",
+          "parent_id": "DI-DS-005"
         }
       ]
     },
@@ -1809,7 +1851,8 @@
             "BlendP": 12,
             "BlendQ": 8
           },
-          "explanation": "p + q = 20 and 5p + 8q = 124. Substitute p = 20 - q: 5(20 - q) + 8q = 124, 100 + 3q = 124, 3q = 24, q = 8, p = 12. Check: 5(12) + 8(8) = 60 + 64 = 124."
+          "explanation": "p + q = 20 and 5p + 8q = 124. Substitute p = 20 - q: 5(20 - q) + 8q = 124, 100 + 3q = 124, 3q = 24, q = 8, p = 12. Check: 5(12) + 8(8) = 60 + 64 = 124.",
+          "parent_id": "DI-TPA-002"
         }
       ]
     },
@@ -1855,7 +1898,8 @@
             "T": 6,
             "PagesB": 360
           },
-          "explanation": "Combined rate = 40 + 60 = 100 pages/hour. T = 600 / 100 = 6 hours. Printer B = 60 x 6 = 360. Check: A = 40 x 6 = 240; 240 + 360 = 600."
+          "explanation": "Combined rate = 40 + 60 = 100 pages/hour. T = 600 / 100 = 6 hours. Printer B = 60 x 6 = 360. Check: A = 40 x 6 = 240; 240 + 360 = 600.",
+          "parent_id": "DI-TPA-003"
         }
       ]
     },
@@ -1899,7 +1943,8 @@
             "E) No, because item C is out of stock, so not all items are in stock."
           ],
           "answer": "E",
-          "explanation": "Both conditions are required. The time condition is met, but item C is out of stock, so 'all items in stock' fails and the order ships the next business day."
+          "explanation": "Both conditions are required. The time condition is met, but item C is out of stock, so 'all items in stock' fails and the order ships the next business day.",
+          "parent_id": "DI-MSR-001"
         }
       ]
     },
@@ -1968,7 +2013,8 @@
             "E) No region decreased"
           ],
           "answer": "B",
-          "explanation": "Only South decreased: (180 - 200)/200 = -10%. North, East increased; West was flat. So South had the only (largest) decrease."
+          "explanation": "Only South decreased: (180 - 200)/200 = -10%. North, East increased; West was flat. So South had the only (largest) decrease.",
+          "parent_id": "DI-TA-001"
         }
       ]
     },
@@ -2009,7 +2055,8 @@
             "E) May and Jun"
           ],
           "answer": "E",
-          "explanation": "The two decreases are Feb->Mar (-5) and May->Jun (-12). The larger drop is 12, from May to June, so the answer is E."
+          "explanation": "The two decreases are Feb->Mar (-5) and May->Jun (-12). The larger drop is 12, from May to June, so the answer is E.",
+          "parent_id": "DI-GI-001"
         }
       ]
     },
@@ -2037,7 +2084,36 @@
       ],
       "answer": "D",
       "explanation": "Multiply the factors: 1.30 x 0.70 x 1.30 = 1.183 = 118.3%. Trap: the rises and fall do NOT cancel (100% is the 'they cancel' error); 91% ignores March.",
-      "paraphrases": []
+      "paraphrases": [
+        {
+          "id": "Q-PS-101-p1",
+          "stem": "A stock rose 20% in one month, fell 20% the next, then rose 20% the month after. The final price is approximately what percent of the starting price?",
+          "choices": [
+            "A) 96.0%",
+            "B) 104.0%",
+            "C) 115.2%",
+            "D) 120.0%",
+            "E) 128.0%"
+          ],
+          "answer": "C",
+          "explanation": "1.20 x 0.80 x 1.20 = 1.152 = 115.2%. The changes do not cancel.",
+          "parent_id": "Q-PS-101"
+        },
+        {
+          "id": "Q-PS-101-p2",
+          "stem": "A share price rose 50% and then fell 50%. The final price is what percent of the original?",
+          "choices": [
+            "A) 50%",
+            "B) 75%",
+            "C) 100%",
+            "D) 125%",
+            "E) 150%"
+          ],
+          "answer": "B",
+          "explanation": "1.50 x 0.50 = 0.75 = 75%. A rise then equal-percent fall loses value.",
+          "parent_id": "Q-PS-101"
+        }
+      ]
     },
     {
       "id": "Q-PS-102",
@@ -2115,7 +2191,36 @@
       ],
       "answer": "C",
       "explanation": "Squaring (valid for absolute values): (2x-5)^2 < (x+4)^2 -> 3x^2 - 28x + 9 < 0 -> (3x-1)(x-9) < 0 -> 1/3 < x < 9. Integers 1 through 8 = 8 values. Trap: 9 wrongly includes x=9 (gives equality, not <).",
-      "paraphrases": []
+      "paraphrases": [
+        {
+          "id": "Q-PS-104-p1",
+          "stem": "How many integer values of x satisfy |3x - 7| < |x + 5| ?",
+          "choices": [
+            "A) 5",
+            "B) 6",
+            "C) 7",
+            "D) 8",
+            "E) 9"
+          ],
+          "answer": "A",
+          "explanation": "Squaring gives 8x^2 - 52x + 24 < 0 -> 1/2 < x < 6 -> integers 1..5 = 5.",
+          "parent_id": "Q-PS-104"
+        },
+        {
+          "id": "Q-PS-104-p2",
+          "stem": "How many integer values of x satisfy |2x - 3| < |x - 6| ?",
+          "choices": [
+            "A) 4",
+            "B) 5",
+            "C) 6",
+            "D) 7",
+            "E) 8"
+          ],
+          "answer": "B",
+          "explanation": "Squaring gives 3x^2 - 27 < 0 -> -3 < x < 3 -> integers -2..2 = 5.",
+          "parent_id": "Q-PS-104"
+        }
+      ]
     },
     {
       "id": "Q-PS-105",
@@ -2141,7 +2246,36 @@
       ],
       "answer": "B",
       "explanation": "(x-y)(x+y)=45. The factor pairs (d,e) with d<e and d*e=45 are (1,45),(3,15),(5,9); each gives integer x=(d+e)/2, y=(e-d)/2: (23,22),(9,6),(7,2). So 3 pairs. Trap: 6 double-counts by treating (x-y,x+y) order as separate.",
-      "paraphrases": []
+      "paraphrases": [
+        {
+          "id": "Q-PS-105-p1",
+          "stem": "If x and y are positive integers and x^2 - y^2 = 16, how many ordered pairs (x, y) satisfy the equation?",
+          "choices": [
+            "A) 1",
+            "B) 2",
+            "C) 3",
+            "D) 4",
+            "E) 5"
+          ],
+          "answer": "A",
+          "explanation": "(x-y)(x+y)=16 with equal parity: only (2,8) gives positive integers (5,3). So 1 pair.",
+          "parent_id": "Q-PS-105"
+        },
+        {
+          "id": "Q-PS-105-p2",
+          "stem": "If x and y are positive integers and x^2 - y^2 = 24, how many ordered pairs (x, y) satisfy the equation?",
+          "choices": [
+            "A) 1",
+            "B) 2",
+            "C) 3",
+            "D) 4",
+            "E) 5"
+          ],
+          "answer": "B",
+          "explanation": "(x-y)(x+y)=24 with equal parity: (2,12)->(7,5) and (4,6)->(5,1). So 2 pairs.",
+          "parent_id": "Q-PS-105"
+        }
+      ]
     },
     {
       "id": "Q-PS-106",
