@@ -1,0 +1,37 @@
+[
+  {
+    "query_id": "Q-PS-102",
+    "ranked": ["Q-PS-005", "Q-PS-018", "Q-PS-021"],
+    "rationale": "Q-PS-005: both set a ratio's parts equal to a known quantity and scale to solve for an unknown amount (ratio-parts / proportion method)."
+  },
+  {
+    "query_id": "Q-PS-103",
+    "ranked": ["Q-PS-007", "Q-PS-008", "DI-TPA-001"],
+    "rationale": "Q-PS-007: both convert the arithmetic mean into a fixed sum constraint and solve for a value under that constraint (mean-as-sum reasoning)."
+  },
+  {
+    "query_id": "Q-PS-104",
+    "ranked": ["Q-PS-010", "Q-PS-105", "Q-PS-106"],
+    "rationale": "Q-PS-010: both solve an absolute-value inequality by converting it to a bounded interval and counting the integers strictly inside it."
+  },
+  {
+    "query_id": "Q-PS-105",
+    "ranked": ["Q-PS-106", "Q-PS-009", "Q-PS-016"],
+    "rationale": "Q-PS-106: both factor the equation into a product equal to a constant and count integer factor pairs subject to an ordering/distinctness constraint (Diophantine factor-pair counting)."
+  },
+  {
+    "query_id": "Q-PS-106",
+    "ranked": ["Q-PS-105", "Q-PS-016", "Q-PS-003"],
+    "rationale": "Q-PS-105: both clear/rearrange into a product equal to a constant and enumerate integer factor pairs to count valid solutions (Diophantine factor-pair counting)."
+  },
+  {
+    "query_id": "Q-PS-107",
+    "ranked": ["Q-PS-020", "Q-PS-006", "Q-PS-003"],
+    "rationale": "Q-PS-020: both rewrite the terms with a common prime base and equate exponents to solve for the unknowns (prime-factorization / equate-exponents method)."
+  },
+  {
+    "query_id": "Q-PS-108",
+    "ranked": ["Q-PS-002", "DI-TPA-002", "DI-TPA-001"],
+    "rationale": "Q-PS-002: both solve a 2x2 system of linear equations by elimination to find the unit prices (linear-system elimination)."
+  }
+]

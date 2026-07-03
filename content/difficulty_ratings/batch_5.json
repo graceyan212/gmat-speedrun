@@ -1,0 +1,42 @@
+[
+  {
+    "id": "DI-DS-006",
+    "ai_difficulty": 16,
+    "ai_difficulty_reason": "18 - trivial 1-step linear solve (x+4=11 -> x=7); (1) obviously sufficient, (2) plainly a range; only DS-format familiarity adds any load."
+  },
+  {
+    "id": "DI-DS-002",
+    "ai_difficulty": 34,
+    "ai_difficulty_reason": "34 - single-concept DS but must test 33-39 for composites to confirm 37 is the lone prime; (2) 'odd' clearly insufficient, no engineered trap."
+  },
+  {
+    "id": "DI-DS-003",
+    "ai_difficulty": 50,
+    "ai_difficulty_reason": "50 - parity reasoning on both statements (k^2 even and 3k even each force k even); answer D, and the trap is wrongly ruling one insufficient, tempting A/B."
+  },
+  {
+    "id": "DI-DS-004",
+    "ai_difficulty": 42,
+    "ai_difficulty_reason": "42 - classic 2-equation DS (p+c=48, c=3p); each alone insufficient, together unique -> C; distractors D/A bait over-crediting a single statement."
+  },
+  {
+    "id": "DI-DS-005",
+    "ai_difficulty": 58,
+    "ai_difficulty_reason": "58 - (1) trivially reduces to x>y but (2) x^2>y^2 needs the negative counterexample (x=-3,y=1); C/D are engineered traps for solvers who skip sign cases."
+  },
+  {
+    "id": "DI-TPA-002",
+    "ai_difficulty": 46,
+    "ai_difficulty_reason": "46 - set up and solve 2x2 system (x+y=30, 4x+9y=200) via substitution; light arithmetic, two-column select limits guessing but no real trap."
+  },
+  {
+    "id": "DI-TPA-003",
+    "ai_difficulty": 62,
+    "ai_difficulty_reason": "62 - combined-rate solve (480/50=9.6) yielding a non-integer H that contradicts the 'same whole number of hours' red-herring wording; then 30*9.6=288 for column two."
+  },
+  {
+    "id": "DI-MSR-001",
+    "ai_difficulty": 40,
+    "ai_difficulty_reason": "40 - synthesize two sources and apply an AND-condition (before 2 PM AND all in stock); answer D, distractors B/E dangle irrelevant out-of-stock item C not in this order."
+  }
+]

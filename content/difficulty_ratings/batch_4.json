@@ -1,0 +1,37 @@
+[
+  {
+    "id": "V-CR-007",
+    "ai_difficulty": 66,
+    "ai_difficulty_reason": "Boldface/role CR (hardest CR type): must map the bold line as a seemingly-pro-critics point later rebutted; (E) 'restates critics' conclusion' and (C) 'evidence for conclusion' are engineered near-traps; 135s target."
+  },
+  {
+    "id": "V-CR-008",
+    "ai_difficulty": 44,
+    "ai_difficulty_reason": "Single-concept required-assumption via negation test, but stem's 'without lowering pass rates' telegraphs (A); distractors B-E are plainly irrelevant, so no real trap despite 135s 'hard' tag."
+  },
+  {
+    "id": "V-CR-009",
+    "ai_difficulty": 24,
+    "ai_difficulty_reason": "One-step weaken: sever the eating-speed->healthier link; (E) states it outright and the other four don't touch the leap; 90s, minimal parsing."
+  },
+  {
+    "id": "V-RC-002",
+    "ai_difficulty": 40,
+    "ai_difficulty_reason": "Main-idea on a short passage; correct (B) must capture both halves (masking + conservation), with A/C as distortion traps and D/E as scope; moderate single-concept."
+  },
+  {
+    "id": "V-RC-003",
+    "ai_difficulty": 30,
+    "ai_difficulty_reason": "Detail lookup: answer (A) paraphrases 'steadier total biomass...fluctuated wildly' almost verbatim; distractors are extreme/contradictory (lost all, no change), so quick to eliminate."
+  },
+  {
+    "id": "V-RC-004",
+    "ai_difficulty": 55,
+    "ai_difficulty_reason": "Function/purpose question: must map the rise-and-fall detail to its role as evidence for the 'masking' claim; (A) overstatement and (E) biomass-contradiction are real traps; 120s multi-step inference."
+  },
+  {
+    "id": "V-RC-005",
+    "ai_difficulty": 40,
+    "ai_difficulty_reason": "Tone/attitude: pick qualified skepticism from 'complicate'/'can mask'; (C) 'outright dismissal' is the too-strong trap and B/D/E are wrong-direction; moderate single-concept."
+  }
+]

@@ -1,0 +1,37 @@
+[
+  {
+    "query_id": "Q-PS-003",
+    "ranked": ["Q-PS-107", "Q-PS-110", "Q-PS-016"],
+    "rationale": "Same method: prime-factorize the number and reason about the exponents of each prime (2 and 3) to determine divisibility, matching Q-PS-107's 12^3 = 2^6 * 3^3 exponent decomposition."
+  },
+  {
+    "query_id": "Q-PS-004",
+    "ranked": ["Q-PS-021", "Q-PS-106", "Q-PS-005"],
+    "rationale": "Same method: combine fractions over a common denominator to compute a fractional part/difference of a whole, as in Q-PS-021's 4/5 - 3/5 = 1/5 of capacity."
+  },
+  {
+    "query_id": "Q-PS-005",
+    "ranked": ["Q-PS-018", "Q-PS-102", "Q-PS-021"],
+    "rationale": "Same method: set up a part-to-part ratio, find the value of one 'part' from a known quantity, then scale, exactly as Q-PS-018 does with the 5:2 flour/sugar recipe."
+  },
+  {
+    "query_id": "Q-PS-006",
+    "ranked": ["Q-PS-020", "Q-PS-107", "Q-PS-019"],
+    "rationale": "Same method: rewrite the terms to a common base and equate/manipulate exponents to solve, matching Q-PS-020's rewriting of 4^x and 8^(x-1) in base 2."
+  },
+  {
+    "query_id": "Q-PS-007",
+    "ranked": ["Q-PS-103", "Q-PS-008", "DI-TPA-001"],
+    "rationale": "Same method: convert a given arithmetic mean into the total sum (mean x count) and back out the unknown value, as Q-PS-103 does with sum = 100 from mean 20 over 5 numbers."
+  },
+  {
+    "query_id": "Q-PS-008",
+    "ranked": ["Q-PS-103", "Q-PS-007", "Q-PS-016"],
+    "rationale": "Same concept: compute descriptive statistics (median/range) from an ordered list, matching Q-PS-103's reasoning about the median of a set of numbers."
+  },
+  {
+    "query_id": "Q-PS-009",
+    "ranked": ["Q-PS-105", "Q-PS-104", "Q-PS-106"],
+    "rationale": "Same method: factor a quadratic expression into linear factors and set them to zero to find the solution values, as Q-PS-105 factors x^2 - y^2 = 45 into (x-y)(x+y)."
+  }
+]

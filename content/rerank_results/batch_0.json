@@ -1,0 +1,32 @@
+[
+  {
+    "query_id": "DI-DS-001",
+    "ranked": ["DI-DS-005", "DI-DS-003", "DI-DS-006"],
+    "rationale": "Same method: yes/no Data Sufficiency on an inequality decided by sign preservation under powers -- DI-DS-005's x^2>y^2 statement is the identical 'even power destroys sign information' trap, mirroring x^2>0 being insufficient while the odd power is decisive."
+  },
+  {
+    "query_id": "DI-DS-002",
+    "ranked": ["DI-DS-006", "DI-DS-004", "DI-DS-003"],
+    "rationale": "Same method: value-type Data Sufficiency where one statement's constraint pins a unique value while the other allows infinitely many (answer A) -- DI-DS-006 is structurally identical (x+4=11 fixes x, 'positive integer' does not)."
+  },
+  {
+    "query_id": "DI-DS-003",
+    "ranked": ["DI-DS-001", "Q-PS-110", "DI-DS-002"],
+    "rationale": "Same method: yes/no Data Sufficiency resolved by a parity/power lemma (k^2 even <=> k even; odd*k parity = k parity) -- DI-DS-001 uses the same 'a power or odd multiplier preserves or hides a property' deduction to settle the yes/no question."
+  },
+  {
+    "query_id": "DI-DS-004",
+    "ranked": ["DI-TPA-002", "Q-PS-002", "DI-TPA-001"],
+    "rationale": "Same method: set up and solve a 2x2 system of linear equations, needing both a total and a relation to pin two unknowns -- DI-TPA-002 (two supply types, total units + total cost) uses the identical two-equations-for-two-unknowns approach the DS question needs to combine to C."
+  },
+  {
+    "query_id": "DI-DS-005",
+    "ranked": ["DI-DS-001", "DI-DS-003", "Q-PS-104"],
+    "rationale": "Same method: yes/no Data Sufficiency on an inequality where squaring loses order information (x^2>y^2 only gives |x|>|y|) -- DI-DS-001 turns on the same 'even power hides sign' trap while an alternate statement resolves it directly."
+  },
+  {
+    "query_id": "DI-DS-006",
+    "ranked": ["DI-DS-002", "DI-DS-004", "DI-DS-005"],
+    "rationale": "Same method: value-type Data Sufficiency where a single linear/constraint statement determines a unique value and a loose condition allows many (answer A) -- DI-DS-002 has the identical 'one statement fixes the value, the other permits infinitely many' structure."
+  }
+]

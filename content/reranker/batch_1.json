@@ -1,0 +1,39 @@
+{
+  "results": [
+    {
+      "query_id": "DI-GI-001",
+      "ranked": ["DI-TA-001", "DI-TA-101", "DI-GI-101"],
+      "rationale": "Same method: scan a series/set of categories, compute the change or derived metric for each, and select the extreme (here the largest increase) — DI-TA-001 is the same 'largest increase across categories' comparison."
+    },
+    {
+      "query_id": "DI-GI-101",
+      "ranked": ["DI-TA-101", "DI-TA-001", "DI-GI-001"],
+      "rationale": "Same method: compute a ratio/derived metric per category (profit-as-%-of-revenue vs net = units*price*(1-return)) and pick the max, with the identical trap that the largest absolute value is not the largest metric."
+    },
+    {
+      "query_id": "DI-MSR-001",
+      "ranked": ["DI-MSR-101", "V-CR-004", "Q-CR-103"],
+      "rationale": "Same method: synthesize facts from two sources and apply all stated policy conditions to a specific case to reach a yes/no determination — DI-MSR-101 is the same multi-source rule-application problem."
+    },
+    {
+      "query_id": "DI-MSR-101",
+      "ranked": ["DI-MSR-001", "V-CR-004", "Q-CR-103"],
+      "rationale": "Same method: integrate two sources and apply a stated policy (compute discounted total, then test it against a threshold) to determine qualification — DI-MSR-001 is the same multi-source condition-checking method."
+    },
+    {
+      "query_id": "DI-TA-001",
+      "ranked": ["DI-GI-001", "DI-GI-101", "DI-TA-101"],
+      "rationale": "Same method: compute the per-category change/metric and select the extreme — DI-GI-001 is the same 'find the largest increase across data points' comparison, just on a chart series instead of a table."
+    },
+    {
+      "query_id": "DI-TA-101",
+      "ranked": ["DI-GI-101", "DI-TA-001", "DI-GI-001"],
+      "rationale": "Same method: compute a derived metric per row (net = units*price*(1-return rate)) and pick the max — DI-GI-101 uses the identical compute-metric-then-select-max approach with the same 'biggest gross/absolute is not biggest metric' trap."
+    },
+    {
+      "query_id": "DI-TPA-001",
+      "ranked": ["DI-TPA-002", "Q-PS-108", "Q-PS-002"],
+      "rationale": "Same method: set up and solve a system of two linear equations from a total-count constraint plus a total-value constraint — DI-TPA-002 is the identical count-plus-cost system solved by substitution."
+    }
+  ]
+}
