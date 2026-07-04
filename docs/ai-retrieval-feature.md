@@ -22,8 +22,7 @@ score; this retrieval feature is the one that answers the AI-eval checklist.)
   baseline can be added if an embedding provider becomes available.
 - **No live in-app UI yet** — the graded artifacts are the retrieval pipeline,
   the traceable output, and the held-out eval; wiring a "show me the method"
-  button into the reviewer is a small follow-up (kept out of the scores chat's
-  `ios/` lane to avoid a collision).
+  button into the reviewer is a small follow-up.
 
 ## How it works
 Given a query question, three methods rank the *other* items as candidate sources:

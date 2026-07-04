@@ -43,10 +43,13 @@ student's own answers:
   (lower = better calibrated) and **accuracy**. Lower held-out Brier for AI ⇒
   AI difficulty predicts the student's performance better ⇒ it beats the baseline.
 
-**Honest current result:** on the ~41 real answers so far it's a **tie** — those
-answers came from sync testing and were almost all "correct" (θ ≈ +3.5), so there
-is no right/wrong signal for *any* difficulty model to exploit. A real number
-needs a genuine study session where some answers are wrong.
+**Current result (174 usable reviews):** AI difficulty **beats the coarse
+baseline on held-out Brier by +0.0079** (0.1132 vs 0.1211); accuracy ties at 87%.
+The win is in **calibration**, not classification — a real but honestly modest
+edge (see `RESULTS.md` §2–3 for the full table and the calibration curve). An
+earlier audit at ~41 sync-test answers (almost all "correct", θ ≈ +3.5) showed no
+signal; the edge only appeared once the log reached 174 usable reviews with real
+misses.
 
 **Harness validated:** `content/tools/eval_selftest.py` runs the same
 Brier/accuracy machinery on synthetic answers *with* signal (mid-ability students
@@ -86,10 +89,12 @@ ordering; on ⇒ weakness + difficulty-fit. This flag is exactly the ablation's 
 | Adaptive **off** | points-at-stake weakness ordering only (`GmatAdaptiveEnabled=false`) |
 | Adaptive **on** | weakness + AI-difficulty fit (`GmatAdaptiveEnabled=true`) |
 
-Method for the Sunday writeup: run each arm over a study session (or a simulated
-student), and compare how quickly cards converge to the student's ability / how
-well time is spent on near-ability items. The `estimate_ability` θ + the eval's
-Brier are the measurement tools.
+Method: run each arm over a study session (or a simulated student) and compare how
+quickly cards converge to the student's ability / how well time is spent on
+near-ability items. The `estimate_ability` θ + the eval's Brier are the
+measurement tools. **The run and writeup are done — see `ABLATION.md` and
+`RESULTS.md` §4** (a simulation, honestly labelled as such: it shows the mechanism
+works as designed, not a human learning-gain trial).
 
 ## 5. Run / verify
 

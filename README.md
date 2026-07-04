@@ -35,7 +35,7 @@ To build from source instead, see [Desktop app — build & run](#desktop-app--bu
 | `anki/` | The **desktop** app — a **separate public repository**, the Anki fork at **https://github.com/graceyan212/anki** (submission branch **`main`**). It is cloned into `anki/` here and is **not** part of this repo's clone (see the note above). Contains the GMAT engine changes: per-topic mastery (`rslib/src/scheduler/topic_mastery.rs`), the **three scores** — memory / performance / readiness (`rslib/src/scheduler/gmat_scores.rs` + the `GetGmatScores` RPC), and computer-adaptive selection (`rslib/src/scheduler/adaptive.rs`); plus the three-score readiness dashboard (`qt/aqt/gmat_dashboard.py`) and Bauhaus theme (`qt/aqt/gmat_theme.py`). |
 | `bridge/` | The **C-ABI bridge** (`anki-bridge-rs`) that exposes `rslib` to Swift, plus `scripts/build-xcframework.sh` to package it as `AnkiRust.xcframework`. |
 | `ios/AnkiBridgeStub/` | The **iPhone** app (SwiftUI) — imports the bundled deck, renders cards through the shared engine, and records reviews. |
-| `content/` | The GMAT deck (`gmat_focus.apkg`, 108 cards), the topic taxonomy, and source items. |
+| `content/` | The **108-card starter deck** (`gmat_focus.apkg`) you import to try the app; the **369-item source bank** (`items.json`, of which 68 are finely AI-rated) that feeds the AI difficulty / retrieval / eval tooling; the topic taxonomy (`taxonomy.md`); and the AI difficulty ratings. |
 
 ## Desktop app — build & run
 
