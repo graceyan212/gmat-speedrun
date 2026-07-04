@@ -45,6 +45,11 @@ const M_CLOSE_COLLECTION: u32 = 1;
 const SVC_BACKEND_SCHEDULER: u32 = 13;
 const M_GET_QUEUED_CARDS: u32 = 3;
 const M_ANSWER_CARD: u32 = 4;
+// GetGmatScores: verified against generated _backend_generated.py
+// (get_gmat_scores -> _run_command(13, 40)). Frontend SchedulerService methods
+// mirror into the backend service at the same index; topic_mastery is 39, and
+// GetGmatScores is the next one added.
+const M_GET_GMAT_SCORES: u32 = 40;
 
 // BackendCardRenderingService (svc 27): RenderExistingCard is method 6.
 const SVC_BACKEND_CARD_RENDERING: u32 = 27;
@@ -536,6 +541,93 @@ pub unsafe extern "C" fn anki_next_card(
     json.push_str("\",\"css\":\"");
     json_escape_into(&rendered.css, &mut json);
     json.push_str("\"}");
+
+    unsafe { set_output(json.into_bytes(), out_data, out_len) };
+    0
+}
+
+/// Compute the three GMAT scores (memory / performance / readiness) and return
+/// them as a JSON blob (caller frees with `anki_free_response`). Scoped to the
+/// whole collection (the phone/desktop use a single GMAT deck).
+///
+/// Output JSON: {"memory":SV,"performance":SV,"readiness":SV} where each SV is
+/// {"abstained":bool,"score":f,"low":f,"high":f,"unit":"pct|gmat",
+///  "confidence":"","reasons":[..],"missing":[..]}.
+///
+/// # Safety
+/// - `backend_ptr` must be from `anki_open_backend` with a collection open.
+/// - `out_data`/`out_len` receive the JSON bytes; free with `anki_free_response`.
+///
+/// Returns 0 on success, 1 on backend error, -1 on FFI error.
+#[no_mangle]
+pub unsafe extern "C" fn anki_get_scores(
+    backend_ptr: i64,
+    out_data: *mut *mut u8,
+    out_len: *mut usize,
+) -> c_int {
+    if backend_ptr == 0 {
+        return -1;
+    }
+    let backend = unsafe { &*(backend_ptr as *const Backend) };
+
+    let req = anki_proto::scheduler::GetGmatScoresRequest {
+        deck_name: String::new(),
+    };
+    let req_bytes = req.encode_to_vec();
+    let resp_bytes =
+        match backend.run_service_method(SVC_BACKEND_SCHEDULER, M_GET_GMAT_SCORES, &req_bytes) {
+            Ok(b) => b,
+            Err(_) => return 1,
+        };
+    let scores = match anki_proto::scheduler::GmatScores::decode(&resp_bytes[..]) {
+        Ok(s) => s,
+        Err(_) => return 1,
+    };
+
+    // Hand-build the JSON (no serde dependency), mirroring `anki_next_card`.
+    fn push_score(sv: &Option<anki_proto::scheduler::ScoreValue>, out: &mut String) {
+        let sv = sv.clone().unwrap_or_default();
+        out.push_str("{\"abstained\":");
+        out.push_str(if sv.abstained { "true" } else { "false" });
+        out.push_str(",\"score\":");
+        out.push_str(&sv.score.to_string());
+        out.push_str(",\"low\":");
+        out.push_str(&sv.low.to_string());
+        out.push_str(",\"high\":");
+        out.push_str(&sv.high.to_string());
+        out.push_str(",\"unit\":\"");
+        json_escape_into(&sv.unit, out);
+        out.push_str("\",\"confidence\":\"");
+        json_escape_into(&sv.confidence, out);
+        out.push_str("\",\"reasons\":[");
+        for (i, r) in sv.reasons.iter().enumerate() {
+            if i > 0 {
+                out.push(',');
+            }
+            out.push('"');
+            json_escape_into(r, out);
+            out.push('"');
+        }
+        out.push_str("],\"missing\":[");
+        for (i, m) in sv.missing.iter().enumerate() {
+            if i > 0 {
+                out.push(',');
+            }
+            out.push('"');
+            json_escape_into(m, out);
+            out.push('"');
+        }
+        out.push_str("]}");
+    }
+
+    let mut json = String::with_capacity(512);
+    json.push_str("{\"memory\":");
+    push_score(&scores.memory, &mut json);
+    json.push_str(",\"performance\":");
+    push_score(&scores.performance, &mut json);
+    json.push_str(",\"readiness\":");
+    push_score(&scores.readiness, &mut json);
+    json.push('}');
 
     unsafe { set_output(json.into_bytes(), out_data, out_len) };
     0

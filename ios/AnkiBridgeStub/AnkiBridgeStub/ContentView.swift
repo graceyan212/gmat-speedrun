@@ -15,33 +15,37 @@ final class ReviewViewModel: ObservableObject {
     @Published var card: RenderedCard?
     @Published var showingAnswer = false
     @Published var answeredCount = 0
+    /// The three GMAT scores, refreshed after each card / sync. nil until first load.
+    @Published var scores: Scores?
 
     // Sync settings + status. `serverURL` must carry a trailing slash
-    // (rslib's sync client does `Url::join("sync/")`). Settings persist across
-    // launches so auto-sync-on-launch works. (UserDefaults, not Keychain — fine
-    // for a self-hosted demo credential.)
-    @Published var serverURL = UserDefaults.standard.string(forKey: "gmat.serverURL") ?? "" {
-        didSet { UserDefaults.standard.set(serverURL, forKey: "gmat.serverURL") }
+    // (rslib's sync client does `Url::join("sync/")`). serverURL/user/pass
+    // persist to UserDefaults so they survive app relaunches — paste once.
+    // (Keychain would be the production choice for the password; UserDefaults
+    // is fine for this self-hosted demo.)
+    @Published var serverURL = UserDefaults.standard.string(forKey: "syncServerURL") ?? "" {
+        didSet { UserDefaults.standard.set(serverURL, forKey: "syncServerURL") }
     }
-    @Published var syncUser = UserDefaults.standard.string(forKey: "gmat.syncUser") ?? "" {
-        didSet { UserDefaults.standard.set(syncUser, forKey: "gmat.syncUser") }
+    @Published var syncUser = UserDefaults.standard.string(forKey: "syncUser") ?? "" {
+        didSet { UserDefaults.standard.set(syncUser, forKey: "syncUser") }
     }
-    @Published var syncPass = UserDefaults.standard.string(forKey: "gmat.syncPass") ?? "" {
-        didSet { UserDefaults.standard.set(syncPass, forKey: "gmat.syncPass") }
+    @Published var syncPass = UserDefaults.standard.string(forKey: "syncPass") ?? "" {
+        didSet { UserDefaults.standard.set(syncPass, forKey: "syncPass") }
     }
     @Published var syncStatus = ""
     @Published var isSyncing = false
 
-    /// True once a server URL + credentials are configured.
-    private var syncConfigured: Bool {
+    /// True when server URL + username + password are all set — enough to sync
+    /// directly without opening the settings sheet.
+    var hasCredentials: Bool {
         !serverURL.isEmpty && !syncUser.isEmpty && !syncPass.isEmpty
     }
 
-    /// Fire a background sync *only* if configured — used on launch and after
-    /// each answer so reviews propagate without a manual tap. No-op when
-    /// unconfigured, and `syncNow()` itself skips if a sync is already running.
+    /// Fire a background sync only if configured — used on launch and after each
+    /// answer so reviews propagate without a manual tap. No-op when unconfigured;
+    /// syncNow() itself skips if a sync is already running.
     func autoSync() {
-        guard syncConfigured else { return }
+        guard hasCredentials else { return }
         syncNow()
     }
 
@@ -54,7 +58,9 @@ final class ReviewViewModel: ObservableObject {
             do {
                 try engine.startSession()
                 let first = try engine.nextCard()
+                let sc = try? engine.scores()
                 await MainActor.run {
+                    self.scores = sc
                     if let first {
                         self.card = first
                         self.phase = .reviewing
@@ -75,7 +81,9 @@ final class ReviewViewModel: ObservableObject {
             do {
                 try engine.answer(cardId: current.cardId, rating: rating)
                 let next = try engine.nextCard()
+                let sc = try? engine.scores()
                 await MainActor.run {
+                    self.scores = sc
                     self.answeredCount += 1
                     self.showingAnswer = false
                     if let next {
@@ -106,9 +114,23 @@ final class ReviewViewModel: ObservableObject {
             do {
                 let auth = try engine.syncLogin(endpoint: endpoint, user: user, pass: pass)
                 try engine.sync(auth: auth)
+                // A sync can change the card currently on screen (its stashed
+                // scheduling state goes stale, which makes the next answer fail),
+                // so reload the queue afterward to pick up a fresh card + state.
+                let refreshed = try? engine.nextCard()
+                let sc = try? engine.scores()
                 await MainActor.run {
+                    self.scores = sc
                     self.isSyncing = false
                     self.syncStatus = "Synced"
+                    self.showingAnswer = false
+                    if let refreshed {
+                        self.card = refreshed
+                        self.phase = .reviewing
+                    } else {
+                        self.card = nil
+                        self.phase = .finished
+                    }
                 }
             } catch {
                 await MainActor.run {
@@ -229,6 +251,7 @@ private struct InkTab: View {
 struct ContentView: View {
     @StateObject private var vm = ReviewViewModel()
     @State private var showingSyncSheet = false
+    @State private var showingScores = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -241,38 +264,62 @@ struct ContentView: View {
         .sheet(isPresented: $showingSyncSheet) {
             SyncSettingsView(vm: vm)
         }
+        .sheet(isPresented: $showingScores) {
+            ScoresView(scores: vm.scores)
+        }
     }
 
     private var header: some View {
         HStack(alignment: .center) {
             // Left: geometric mark + GMAT wordmark.
             HStack(spacing: 10) {
-                BauhausMark(size: 22)
+                BauhausMark(size: 18)
                 Text("GMAT")
-                    .font(BauhausTheme.futura(size: 24, weight: .bold))
-                    .tracking(4)
+                    .font(BauhausTheme.futura(size: 20, weight: .bold))
+                    .tracking(2)
                     .foregroundColor(BauhausTheme.ink)
+                    .fixedSize()
             }
 
             Spacer()
 
-            // Sync button: opens the server-settings sheet, and doubles as a
-            // status readout via the ink label underneath.
+            // Scores button: opens the three-score panel (memory / performance
+            // / readiness). Ink chip, beside the blue SYNC chip.
             Button {
-                showingSyncSheet = true
+                showingScores = true
             } label: {
-                VStack(alignment: .trailing, spacing: 2) {
-                    Text(vm.isSyncing ? "SYNCING…" : "SYNC")
-                        .font(BauhausTheme.futura(size: 13, weight: .bold))
-                        .tracking(2)
-                        .foregroundColor(BauhausTheme.paper)
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 5)
-                        .background(BauhausTheme.blue)
-                }
+                Text("SCORES")
+                    .font(BauhausTheme.futura(size: 12, weight: .bold))
+                    .tracking(1.5)
+                    .fixedSize()
+                    .foregroundColor(BauhausTheme.paper)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 5)
+                    .background(BauhausTheme.ink)
             }
-            .disabled(vm.isSyncing)
-            .padding(.trailing, 14)
+            .padding(.trailing, 8)
+
+            // Sync: a single tap syncs immediately with the saved credentials.
+            // The server/username/password sheet only opens when nothing is
+            // saved yet, or on a double-tap (to change the server or account).
+            VStack(alignment: .trailing, spacing: 2) {
+                Text(vm.isSyncing ? "SYNCING…" : "SYNC")
+                    .font(BauhausTheme.futura(size: 12, weight: .bold))
+                    .tracking(1.5)
+                    .fixedSize()
+                    .foregroundColor(BauhausTheme.paper)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 5)
+                    .background(BauhausTheme.blue)
+            }
+            .contentShape(Rectangle())
+            // count:2 declared first so SwiftUI can disambiguate the double-tap.
+            .onTapGesture(count: 2) { showingSyncSheet = true }
+            .onTapGesture {
+                if vm.hasCredentials { vm.syncNow() } else { showingSyncSheet = true }
+            }
+            .allowsHitTesting(!vm.isSyncing)
+            .padding(.trailing, 10)
 
             // Right: answered count (tabular) with an uppercase ANSWERED label.
             VStack(alignment: .trailing, spacing: 0) {
@@ -282,6 +329,7 @@ struct ContentView: View {
                 Text("ANSWERED")
                     .font(BauhausTheme.futura(size: 10, weight: .bold))
                     .tracking(2)
+                    .fixedSize()
                     .foregroundColor(BauhausTheme.ink)
             }
         }
@@ -449,6 +497,119 @@ struct ContentView: View {
                 .foregroundColor(.white)
         }
         .buttonStyle(BauhausBlockButtonStyle(fill: color))
+    }
+}
+
+// MARK: - Scores panel
+
+/// The three-score panel: memory, performance, readiness — each with its range,
+/// or the give-up state (what's still missing). Bauhaus idiom, matching the app.
+private struct ScoresView: View {
+    let scores: Scores?
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack {
+                Text("GMAT SCORES")
+                    .font(BauhausTheme.futura(size: 18, weight: .bold))
+                    .tracking(3)
+                    .foregroundColor(BauhausTheme.ink)
+                Spacer()
+                Button { dismiss() } label: {
+                    Text("DONE")
+                        .font(BauhausTheme.futura(size: 13, weight: .bold))
+                        .tracking(2)
+                        .foregroundColor(BauhausTheme.ink)
+                }
+            }
+            .padding(BauhausTheme.pad)
+            .overlay(alignment: .bottom) {
+                Rectangle().fill(BauhausTheme.ink).frame(height: BauhausTheme.headerRule)
+            }
+
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
+                    if let s = scores {
+                        ScoreBlock(label: "MEMORY", accent: BauhausTheme.green, value: s.memory)
+                        Rectangle().fill(BauhausTheme.ink).frame(height: BauhausTheme.rowRule)
+                        ScoreBlock(label: "PERFORMANCE", accent: BauhausTheme.yellow, value: s.performance)
+                        Rectangle().fill(BauhausTheme.ink).frame(height: BauhausTheme.rowRule)
+                        ScoreBlock(label: "READINESS", accent: BauhausTheme.blue, value: s.readiness)
+                    } else {
+                        Text("SCORES NOT LOADED YET")
+                            .font(BauhausTheme.futura(size: 14, weight: .bold))
+                            .tracking(2)
+                            .foregroundColor(BauhausTheme.ink)
+                            .padding(BauhausTheme.pad)
+                    }
+                }
+            }
+        }
+        .background(BauhausTheme.paper.ignoresSafeArea())
+        .preferredColorScheme(.light)
+    }
+}
+
+/// A single score row: big number + range when scored, or "NOT ENOUGH DATA YET"
+/// plus the missing-data checklist (the give-up rule) when abstaining.
+private struct ScoreBlock: View {
+    let label: String
+    let accent: Color
+    let value: ScoreValue
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(spacing: 8) {
+                Rectangle().fill(accent).frame(width: 14, height: 14)
+                Text(label)
+                    .font(BauhausTheme.futura(size: 13, weight: .bold))
+                    .tracking(2)
+                    .foregroundColor(BauhausTheme.ink)
+            }
+
+            if value.abstained {
+                Text("NOT ENOUGH DATA YET")
+                    .font(BauhausTheme.futura(size: 20, weight: .bold))
+                    .foregroundColor(BauhausTheme.ink)
+                ForEach(value.missing, id: \.self) { m in
+                    Text("— \(m)")
+                        .font(BauhausTheme.futura(size: 13))
+                        .foregroundColor(BauhausTheme.ink)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            } else {
+                Text(headline)
+                    .font(BauhausTheme.futura(size: 30, weight: .bold).monospacedDigit())
+                    .foregroundColor(BauhausTheme.ink)
+                Text(subline)
+                    .font(BauhausTheme.futura(size: 13))
+                    .foregroundColor(BauhausTheme.ink)
+                ForEach(value.reasons, id: \.self) { r in
+                    Text("· \(r)")
+                        .font(BauhausTheme.futura(size: 12))
+                        .foregroundColor(BauhausTheme.ink)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(BauhausTheme.pad)
+    }
+
+    /// "72 / 100" for pct scores; "545" for the GMAT-scale readiness.
+    private var headline: String {
+        let n = Int(value.score.rounded())
+        return value.unit == "gmat" ? "\(n)" : "\(n) / 100"
+    }
+
+    /// The likely range (+ confidence for readiness).
+    private var subline: String {
+        let lo = Int(value.low.rounded())
+        let hi = Int(value.high.rounded())
+        var s = "range \(lo)–\(hi)"
+        if !value.confidence.isEmpty { s += " · confidence \(value.confidence)" }
+        return s
     }
 }
 

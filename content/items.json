@@ -205,11 +205,11 @@
           "choices": [
             "A) $5.00",
             "B) $6.00",
-            "C) $7.00",
-            "D) $10.00",
+            "C) $10.00",
+            "D) $7.00",
             "E) $12.00"
           ],
-          "answer": "C",
+          "answer": "D",
           "explanation": "Let a = adult price and c = child price. Then 5a + 2c = 74 and 3a + 4c = 64. Multiply the first equation by 2 to match child coefficients: 10a + 4c = 148. Subtract the second equation: 7a = 84, so a = $12, then 5(12) + 2c = 74 gives 2c = 14 and c = $7 (D). Distractor E ($12) is the adult price, obtained by solving for the wrong variable. Distractor A ($5.00) comes from subtracting the original equations (2a - 2c = 10) to get a - c = 5 and mislabeling that difference as the child price. Distractor C ($10.00) is that same difference of 10 taken directly without dividing by 2. Distractor B ($6.00) results from dividing the child-equation total 64 by a wrongly assumed 4 adults plus... treating 12/2 as the child price by halving the adult value."
         }
       ]
@@ -260,9 +260,9 @@
           "choices": [
             "A) 10",
             "B) 20",
-            "C) 40",
-            "D) 100",
-            "E) 200"
+            "C) 200",
+            "D) 40",
+            "E) 100"
           ],
           "answer": "B",
           "explanation": "Factor 200 = 2^3 * 5^2. Since k^2 is a perfect square, every prime in its factorization must appear to an even power. To be divisible by 2^3, k^2 needs at least 2^4 (the smallest even power that is >= 3), so k needs 2^2. To be divisible by 5^2, k^2 needs 5^2, so k needs 5^1. Thus k must be divisible by 2^2 * 5 = 20, and the smallest valid k is 20 (20^2 = 400 = 2*200), so 20 is the largest integer that must divide k. (A) 10 comes from just halving the given exponents by flooring: 2^1 * 5^1. (D) 40 = 2^3 * 5 keeps the full power of 2 instead of taking the square-root exponent. (E) 100 = 2^2 * 5^2 keeps the full power of 5 instead of halving it. (C) 200 wrongly assumes k itself must be divisible by 200."
@@ -272,13 +272,13 @@
           "parent_id": "Q-PS-003",
           "stem": "The positive integer m is such that m squared is a multiple of 540. What is the greatest integer that must divide m?",
           "choices": [
-            "A) 30",
-            "B) 45",
-            "C) 90",
+            "A) 90",
+            "B) 30",
+            "C) 45",
             "D) 180",
             "E) 270"
           ],
-          "answer": "C",
+          "answer": "A",
           "explanation": "Factor 540 = 2^2 * 3^3 * 5^1. Because m^2 is a perfect square, each prime must appear to an even power. For divisibility by 2^2, m^2 needs 2^2, so m needs 2^1. For 3^3, m^2 needs at least 3^4 (smallest even power >= 3), so m needs 3^2. For 5^1, m^2 needs at least 5^2, so m needs 5^1. Hence m must be divisible by 2^1 * 3^2 * 5^1 = 90, and the smallest valid m is 90 (90^2 = 8100 = 15*540), making 90 the greatest integer that must divide m. (B) 30 = 2*3*5 comes from flooring every exponent to the nearest lower half instead of rounding the odd ones up. (C) 45 = 3^2 * 5 drops the required factor of 2. (D) 180 = 2^2 * 3^2 * 5 keeps the full 2^2 rather than the square-root power 2^1. (E) 270 = 2 * 3^3 * 5 keeps the full 3^3 instead of taking 3^2."
         }
       ]
@@ -341,13 +341,13 @@
           "parent_id": "V-CR-001",
           "stem": "Six months ago, the Corriveau Manufacturing plant replaced the worn flooring on its assembly line with a new slip-resistant surface. In the six months since, the number of workplace injuries on the assembly line dropped by 40% compared with the previous six months. The plant's safety manager concluded that the new flooring was responsible for the drop and recommends installing it in the company's other three plants. Which of the following, if true, most seriously weakens the safety manager's conclusion?",
           "choices": [
-            "A) At the same time the flooring was installed, the plant introduced a mandatory daily safety briefing and required all assembly-line workers to complete a new hazard-training program.",
-            "B) The new slip-resistant flooring is more expensive to install and maintain than the flooring it replaced.",
-            "C) Injuries in the plant's warehouse, where the flooring was not replaced, remained roughly constant over the same period.",
+            "A) The new slip-resistant flooring is more expensive to install and maintain than the flooring it replaced.",
+            "B) Injuries in the plant's warehouse, where the flooring was not replaced, remained roughly constant over the same period.",
+            "C) At the same time the flooring was installed, the plant introduced a mandatory daily safety briefing and required all assembly-line workers to complete a new hazard-training program.",
             "D) Workers on the assembly line reported that the new flooring felt more comfortable to stand on during long shifts.",
             "E) A competing manufacturer that installed similar flooring later reported a comparable decline in injuries."
           ],
-          "answer": "A",
+          "answer": "C",
           "explanation": "The argument is causal: the new flooring caused the 40% drop in injuries. The best weakener supplies an alternative cause that occurred simultaneously. (C) states that the plant introduced mandatory safety briefings and a new hazard-training program at the same time, either of which could account for the fewer injuries independent of the flooring, most seriously weakening the causal conclusion. (A) concerns cost, not whether the flooring caused fewer injuries, so it is irrelevant to the causal claim. (B) is a trap that actually strengthens the conclusion by acting as a control: the unchanged area saw no drop, suggesting the flooring change mattered. (D) offers a plausible mechanism and mildly supports rather than weakens the conclusion. (E) strengthens the conclusion by showing the effect recurs where the same cause is present."
         }
       ]
@@ -396,13 +396,13 @@
           "parent_id": "V-CR-002",
           "stem": "Meridian Bakeries intends to increase its earnings by switching from its current premium flour to a generic flour that costs 20% less per bag. Since the generic flour is cheaper, the company's managers predict that earnings will rise. The plan relies on which of the following assumptions?",
           "choices": [
-            "A) Using the generic flour will not lower the quality of the baked goods enough to reduce revenue by more than the amount saved on flour.",
-            "B) The generic flour is milled by a supplier located closer to Meridian's factory than the current supplier.",
-            "C) The generic flour is the least expensive flour that Meridian could purchase.",
+            "A) The generic flour is milled by a supplier located closer to Meridian's factory than the current supplier.",
+            "B) The generic flour is the least expensive flour that Meridian could purchase.",
+            "C) Using the generic flour will not lower the quality of the baked goods enough to reduce revenue by more than the amount saved on flour.",
             "D) Meridian's competitors will not begin using the same generic flour.",
             "E) The premium flour Meridian currently uses is the most costly ingredient in its products."
           ],
-          "answer": "A",
+          "answer": "C",
           "explanation": "The argument assumes cheaper inputs lead directly to higher earnings. This holds ONLY if the cost savings are not wiped out by a countervailing effect (lower quality reducing sales/revenue). Negating C -- the quality drop reduces revenue by MORE than the savings -- destroys the conclusion, so C is a required assumption. (A) Supplier location is irrelevant to whether the switch raises earnings; a common 'plausible-sounding but off-topic' distractor. (B) Whether it is the absolute cheapest option is not needed -- the plan only requires that this cheaper flour raises earnings, an extreme/irrelevant claim. (D) Competitor behavior mirrors the source card's tempting-but-wrong 'rivals will react' distractor; the earnings gain from lower costs does not depend on rivals' input choices. (E) Whether flour is the single most costly ingredient is not required -- any real cost reduction can raise earnings if revenue holds; a scope-shift distractor."
         },
         {
@@ -466,13 +466,13 @@
           "parent_id": "V-RC-001",
           "stem": "The passage suggests that gym members' tendency to keep favoring steady-state cardio is best explained by which of the following?",
           "choices": [
-            "A) Steady-state cardio produces greater improvements in cardiovascular fitness than interval training does.",
-            "B) Interval training requires more total minutes per session than steady-state cardio.",
-            "C) The trial measured cardiovascular fitness only on the final day of the program.",
-            "D) Perceived exertion and measured fitness improvement are completely unrelated to each other.",
-            "E) Members feel more worn out after steady-state sessions, and they treat that feeling of fatigue as a sign of an effective workout, even though it tracks poorly with actual fitness gains."
+            "A) Members feel more worn out after steady-state sessions, and they treat that feeling of fatigue as a sign of an effective workout, even though it tracks poorly with actual fitness gains.",
+            "B) Steady-state cardio produces greater improvements in cardiovascular fitness than interval training does.",
+            "C) Interval training requires more total minutes per session than steady-state cardio.",
+            "D) The trial measured cardiovascular fitness only on the final day of the program.",
+            "E) Perceived exertion and measured fitness improvement are completely unrelated to each other."
           ],
-          "answer": "E",
+          "answer": "A",
           "explanation": "The passage explains the members' continued preference through a mismatch between a subjective feeling (fatigue) and the objective outcome (fitness gains): members read strong fatigue as evidence of a good workout, but that feeling does not match actual results. This mirrors the source card's confidence-vs-retention mismatch reasoning. A restates this cause. B contradicts the passage, which says interval training produced the larger fitness gains. C introduces a time claim the passage does not make (and the passage says steady-state sessions were longer, not interval ones). D is a testing-methodology red herring not stated in the passage. E overstates the relationship as 'completely unrelated,' whereas the passage only says the felt cue can be misleading, not that the two are entirely independent.",
           "passage": "A fitness study compared two training approaches over eight weeks. One group did high-intensity interval training; the other did longer, steady-state cardio at a moderate pace. By the end of the program, the interval group had improved its measured cardiovascular fitness considerably more than the steady-state group. However, members in the steady-state group generally finished their sessions feeling more physically drained. Researchers proposed that members interpret this greater sense of fatigue as proof that a workout is working, and that this belief helps explain why so many continue to choose steady-state cardio despite its smaller fitness benefits."
         },
@@ -481,13 +481,13 @@
           "parent_id": "V-RC-001",
           "stem": "The passage suggests that shoppers' continued reliance on printed coupons is best explained by which of the following?",
           "choices": [
-            "A) Because handing over a physical coupon at checkout produces a visible, tangible moment of saving, shoppers overestimate how much they are saving with coupons relative to the app, even though the app saves them more.",
-            "B) Printed coupons deliver larger total savings than the app-based discounts do.",
-            "C) Downloading and applying the app-based discounts takes longer than clipping printed coupons.",
+            "A) Printed coupons deliver larger total savings than the app-based discounts do.",
+            "B) Downloading and applying the app-based discounts takes longer than clipping printed coupons.",
+            "C) Because handing over a physical coupon at checkout produces a visible, tangible moment of saving, shoppers overestimate how much they are saving with coupons relative to the app, even though the app saves them more.",
             "D) The survey recorded shoppers' savings only during the first week of the study.",
             "E) The amount a shopper saves and how much a shopper believes they saved are entirely independent."
           ],
-          "answer": "A",
+          "answer": "C",
           "explanation": "The passage explains the behavior through a gap between a vivid felt experience (the tangible moment of using a coupon) and the actual monetary outcome (the app saves more): the salient experience inflates perceived savings, which sustains the coupon habit. This parallels the source's confidence-vs-retention mismatch. C captures this cause. A contradicts the passage, which states the app produced greater savings. B adds an unstated time-cost claim. D is a methodology red herring not supported by the passage. E overstates the link as 'entirely independent,' while the passage claims only that the felt sense of saving is misleading, not that perceived and actual savings have no relationship at all.",
           "passage": "A retailer tested whether shoppers saved more using traditional printed coupons or the store's new app-based discounts, which apply automatically at checkout. Over a month, shoppers who relied on the app-based discounts saved noticeably more money overall than those who used printed coupons. Even so, shoppers using printed coupons reported feeling that they were getting better deals. Analysts suggested that the physical act of presenting a coupon creates a memorable, concrete impression of saving money, and that this impression, rather than the actual totals, may explain why many shoppers keep preferring printed coupons."
         }
@@ -625,13 +625,13 @@
           "parent_id": "Q-PS-004",
           "stem": "What is the value of 3/4 - 1/6 + 1/3 ?",
           "choices": [
-            "A) 1/2",
-            "B) 7/12",
-            "C) 3/4",
+            "A) 11/12",
+            "B) 3/4",
+            "C) 7/12",
             "D) 5/6",
-            "E) 11/12"
+            "E) 1/2"
           ],
-          "answer": "E",
+          "answer": "A",
           "explanation": "Use a common denominator of 12: 3/4 = 9/12, 1/6 = 2/12, 1/3 = 4/12. So 9/12 - 2/12 + 4/12 = 11/12 (choice A). Distractor B (3/4) comes from ignoring the -1/6 and +1/3 as if they cancel term-by-term. Distractor C (7/12) comes from subtracting instead of adding the last term: 9/12 - 2/12 - 4/12 = 3/12, or mis-combining to 7/12. Distractor D (5/6 = 10/12) comes from treating 1/6 as 1/12 (using 1 instead of 2 in the numerator): 9/12 - 1/12 + 4/12 = 12/12, or a similar off-by-one slip landing at 10/12. Distractor E (1/2 = 6/12) comes from adding all three numerators over 12 incorrectly or dropping a term entirely."
         },
         {
@@ -639,13 +639,13 @@
           "parent_id": "Q-PS-004",
           "stem": "What is the value of 5/6 - 1/4 + 1/3 ?",
           "choices": [
-            "A) 5/12",
-            "B) 1/2",
-            "C) 7/12",
-            "D) 3/4",
-            "E) 11/12"
+            "A) 3/4",
+            "B) 11/12",
+            "C) 1/2",
+            "D) 5/12",
+            "E) 7/12"
           ],
-          "answer": "E",
+          "answer": "B",
           "explanation": "Use a common denominator of 12: 5/6 = 10/12, 1/4 = 3/12, 1/3 = 4/12. So 10/12 - 3/12 + 4/12 = 11/12 (choice B). Distractor A (3/4 = 9/12) comes from subtracting the last term instead of adding: 10/12 - 3/12 - 4/12 would be 3/12, but a common slip of 10/12 - 3/12 + 2/12 gives 9/12 by halving 1/3. Distractor C (1/2 = 6/12) comes from computing 10/12 - 3/12 - 1/12, dropping or mis-signing a term. Distractor D (5/12) comes from adding then subtracting in the wrong order or converting 5/6 to 8/12 by using denominator error. Distractor E (7/12) comes from 10/12 - 3/12 = 7/12 and then forgetting to add the +1/3 term."
         }
       ]
@@ -711,8 +711,8 @@
             "A) 6",
             "B) 9",
             "C) 24",
-            "D) 36",
-            "E) 54"
+            "D) 54",
+            "E) 36"
           ],
           "answer": "A",
           "explanation": "Simplify the ratio cars:motorcycles = 6:2 = 3:1. With 18 cars, each unit of the reduced ratio equals 18/3 = 6, so motorcycles = 1 x 6 = 6. Distractor B (9) divides 18 by 2 (uses the raw ratio number as a divisor incorrectly). C (24) adds 18 + 6 or misreads to add parts. D (54) multiplies 18 x 3 (inverts the operation). E (36) computes 18 x 2 (multiplies by the wrong ratio term instead of scaling down)."
@@ -763,13 +763,13 @@
           "parent_id": "Q-PS-006",
           "stem": "If 3^k = 81, what is the value of 3^(k+1) ?",
           "choices": [
-            "A) 27",
-            "B) 84",
-            "C) 162",
-            "D) 243",
-            "E) 729"
+            "A) 84",
+            "B) 162",
+            "C) 243",
+            "D) 729",
+            "E) 27"
           ],
-          "answer": "D",
+          "answer": "C",
           "explanation": "Since 3^4 = 81, we have k = 4. Then 3^(k+1) = 3^5 = 243. Equivalently, 3^(k+1) = 3^k * 3 = 81 * 3 = 243. Distractor A (84) comes from adding 3 instead of multiplying (81 + 3). Distractor B (162) comes from multiplying by 2 instead of 3 (81 * 2), a mistaken interpretation of the +1 exponent. Distractor D (729) comes from computing 3^(k+2) = 3^6 (adding 2 to the exponent instead of 1). Distractor E (27) comes from computing 3^(k-1) = 3^3 (subtracting instead of adding)."
         },
         {
@@ -777,13 +777,13 @@
           "parent_id": "Q-PS-006",
           "stem": "If 5^m = 25, what is the value of 5^(m+3) ?",
           "choices": [
-            "A) 40",
-            "B) 125",
-            "C) 625",
-            "D) 3125",
+            "A) 3125",
+            "B) 40",
+            "C) 125",
+            "D) 625",
             "E) 15625"
           ],
-          "answer": "D",
+          "answer": "A",
           "explanation": "Since 5^2 = 25, we have m = 2. Then 5^(m+3) = 5^5 = 3125. Equivalently, 5^(m+3) = 5^m * 5^3 = 25 * 125 = 3125. Distractor B (40) comes from adding instead of multiplying (25 + 3*5, or 25 + 15). Distractor C (125) comes from computing only 5^3 and ignoring the 5^m factor, or misreading as 5^(m+1)=5^3. Distractor D (625) comes from computing 5^(m+2) = 5^4 (adding 2 to the exponent instead of 3). Distractor E (15625) comes from computing 5^(m+4) = 5^6 (adding 4 instead of 3, an off-by-one error)."
         }
       ]
@@ -833,12 +833,12 @@
           "stem": "The seven numbers 6, 9, 11, 11, 14, 17, and y have an arithmetic mean of 12. What is the value of y?",
           "choices": [
             "A) 4",
-            "B) 11",
-            "C) 12",
-            "D) 14",
-            "E) 16"
+            "B) 16",
+            "C) 11",
+            "D) 12",
+            "E) 14"
           ],
-          "answer": "E",
+          "answer": "B",
           "explanation": "The mean of the seven numbers is 12, so their total is 12 x 7 = 84. The six known numbers sum to 6 + 9 + 11 + 11 + 14 + 17 = 68. Therefore y = 84 - 68 = 16. Distractor A (4) comes from dividing by 6 instead of 7 (12 x 6 - 68). Distractor C (11) is the median of the known values. Distractor D (12) mistakes the mean itself for the answer. Distractor E (14) results from an arithmetic slip in summing the known values (using 70 instead of 68)."
         },
         {
@@ -846,13 +846,13 @@
           "parent_id": "Q-PS-007",
           "stem": "A student's first 6 quiz scores have an arithmetic mean of 78. After taking a 7th quiz, the mean of all 7 scores rises to 80. What did the student score on the 7th quiz?",
           "choices": [
-            "A) 12",
-            "B) 14",
-            "C) 80",
-            "D) 90",
-            "E) 92"
+            "A) 80",
+            "B) 90",
+            "C) 92",
+            "D) 14",
+            "E) 12"
           ],
-          "answer": "E",
+          "answer": "C",
           "explanation": "The total of the first 6 scores is 78 x 6 = 468. To have a mean of 80 across 7 scores, the new total must be 80 x 7 = 560. The 7th score is therefore 560 - 468 = 92. Distractor A (80) mistakes the new average for the 7th score. Distractor B (90) comes from adding the 2-point rise to every one of the six prior quizzes (78 + 6 x 2). Distractor D (14) uses 80 x 7 - 78 x 7, wrongly applying 7 quizzes to the old average. Distractor E (12) uses 80 x 6 - 78 x 6, forgetting to account for the 7th quiz in the new total."
         }
       ]
@@ -943,12 +943,12 @@
           "stem": "If x^2 - 7x + 12 = 0, which of the following could be the value of x?",
           "choices": [
             "A) -4",
-            "B) -3",
-            "C) 2",
-            "D) 3",
+            "B) 3",
+            "C) -3",
+            "D) 2",
             "E) 7"
           ],
-          "answer": "D",
+          "answer": "B",
           "explanation": "Factor x^2 - 7x + 12 = (x - 3)(x - 4) = 0, so the roots are x = 3 and x = 4. Of the answer choices, only 3 is a root, so B is correct. Distractors: A) -4 flips the sign of the root 4 (forgetting that (x - 4) = 0 gives x = +4); C) -3 flips the sign of the root 3; D) 2 comes from mis-factoring as (x - 2)(x - ...) or matching only part of the constant term; E) 7 uses the sum of the roots (the coefficient b = 7) instead of a root itself."
         },
         {
@@ -956,11 +956,11 @@
           "parent_id": "Q-PS-009",
           "stem": "If 2x^2 + x - 6 = 0, which of the following could be the value of x?",
           "choices": [
-            "A) -3",
+            "A) 6",
             "B) -2",
             "C) 2",
             "D) 3",
-            "E) 6"
+            "E) -3"
           ],
           "answer": "B",
           "explanation": "Factor 2x^2 + x - 6 = (2x - 3)(x + 2) = 0, giving x = 3/2 or x = -2. Only -2 appears among the choices, so B is correct. Distractors: A) 6 uses the constant term (6) as a root, a common misread; C) 2 flips the sign of the correct root -2; D) 3 takes only the numerator of the fractional root 3/2, ignoring the leading coefficient; E) -3 comes from mis-splitting the middle term or mishandling signs when factoring."
@@ -1014,10 +1014,10 @@
             "A) 5",
             "B) 8",
             "C) 9",
-            "D) 10",
-            "E) 14"
+            "D) 14",
+            "E) 10"
           ],
-          "answer": "D",
+          "answer": "E",
           "explanation": "|2x + 5| ≤ 9 means -9 ≤ 2x + 5 ≤ 9. Subtract 5: -14 ≤ 2x ≤ 4. Divide by 2: -7 ≤ x ≤ 2. The integers from -7 to 2 inclusive number 2 - (-7) + 1 = 10, so the answer is E. Distractor D (14) uses the interval width in the 2x-line (from -14 to 4 is width 18, or mis-taking half-differences) without dividing correctly. C (9) drops one endpoint (off-by-one). B (8) excludes both endpoints, treating ≤ as <. A (5) counts only one side of 0 or mishandles the negative branch."
         },
         {
@@ -1025,13 +1025,13 @@
           "parent_id": "Q-PS-010",
           "stem": "A quality inspector accepts a bolt only if its length L (in millimeters, restricted to whole-millimeter values) makes |L - 6| < 5 true. How many whole-millimeter lengths does the inspector accept?",
           "choices": [
-            "A) 5",
-            "B) 8",
-            "C) 9",
-            "D) 10",
-            "E) 11"
+            "A) 9",
+            "B) 10",
+            "C) 11",
+            "D) 5",
+            "E) 8"
           ],
-          "answer": "C",
+          "answer": "A",
           "explanation": "|L - 6| < 5 means -5 < L - 6 < 5, i.e. 1 < L < 11. Because the inequality is strict, the endpoints 1 and 11 are excluded, leaving the integers 2, 3, 4, 5, 6, 7, 8, 9, 10 — that is 9 values, so the answer is A. Distractor C (11) wrongly includes both endpoints 1 and 11 (treating < as ≤). B (10) includes exactly one endpoint (off-by-one). E (8) undercounts by dropping an interior value or excluding an extra endpoint. D (5) counts only the values on one side of the center 6."
         }
       ]
@@ -1273,13 +1273,13 @@
           "parent_id": "Q-PS-014",
           "stem": "Marisol opens a savings account with an initial deposit of $3,500 that earns 6% simple annual interest. If she makes no further deposits or withdrawals, what is the total balance in the account after 4 years?",
           "choices": [
-            "A) $840",
-            "B) $3,584",
-            "C) $3,710",
-            "D) $4,340",
-            "E) $4,418.67"
+            "A) $3,710",
+            "B) $4,340",
+            "C) $4,418.67",
+            "D) $840",
+            "E) $3,584"
           ],
-          "answer": "D",
+          "answer": "B",
           "explanation": "Simple interest = principal x rate x time = 3500 x 0.06 x 4 = $840. Total = 3500 + 840 = $4,340 (B). A) $3,710 adds only one year of interest (3500 + 3500x0.06). C) $4,418.67 applies compound interest, 3500x1.06^4. D) $840 gives interest only, forgetting to add the principal. E) $3,584 misreads 6% as 0.6% (3500 + 3500x0.006x4)."
         },
         {
@@ -1287,11 +1287,11 @@
           "parent_id": "Q-PS-014",
           "stem": "A bond is purchased for $4,800 and pays 7% simple annual interest. Assuming all interest is left to accumulate, what is the total value of the investment after 5 years?",
           "choices": [
-            "A) $1,680",
-            "B) $5,136",
-            "C) $6,144",
+            "A) $5,136",
+            "B) $6,144",
+            "C) $6,732.25",
             "D) $6,480",
-            "E) $6,732.25"
+            "E) $1,680"
           ],
           "answer": "D",
           "explanation": "Simple interest = 4800 x 0.07 x 5 = $1,680. Total = 4800 + 1680 = $6,480 (D). A) $5,136 adds only one year of interest (4800 + 4800x0.07). B) $6,144 uses 4 years instead of 5. C) $6,732.25 applies compound interest, 4800x1.07^5. E) $1,680 gives interest only, omitting the principal."
@@ -1344,11 +1344,11 @@
           "choices": [
             "A) $109.20",
             "B) $112",
-            "C) $114",
-            "D) $120",
+            "C) $120",
+            "D) $114",
             "E) $280"
           ],
-          "answer": "D",
+          "answer": "C",
           "explanation": "A 30% discount means the sale price is 70% of the original: 0.70 x original = 84, so original = 84 / 0.70 = $120. Distractor A ($109.20) adds 30% to the sale price (84 x 1.30). Distractor B ($112) wrongly divides by 0.75, using a 25% rate instead of 30%. Distractor D ($114) adds a flat $30 to the sale price. Distractor E ($280) divides by the discount rate 0.30 instead of the retained fraction 0.70."
         },
         {
@@ -1356,13 +1356,13 @@
           "parent_id": "Q-PS-015",
           "stem": "During a clearance event, a jacket is sold at 40% off its list price for $96. What was the jacket's list price?",
           "choices": [
-            "A) $57.60",
-            "B) $134.40",
+            "A) $134.40",
+            "B) $160",
             "C) $136",
-            "D) $160",
-            "E) $240"
+            "D) $240",
+            "E) $57.60"
           ],
-          "answer": "D",
+          "answer": "B",
           "explanation": "A 40% discount means the sale price is 60% of the list price: 0.60 x list = 96, so list = 96 / 0.60 = $160. Distractor A ($134.40) adds 40% to the sale price (96 x 1.40). Distractor C ($136) adds a flat $40 to the sale price. Distractor D ($240) divides by the discount rate 0.40 instead of the retained fraction 0.60. Distractor E ($57.60) takes 60% of the sale price (96 x 0.60) rather than dividing."
         }
       ]
@@ -1426,12 +1426,12 @@
           "stem": "A vending machine can dispense a batch of 20 snacks only in package sizes that divide the batch evenly, leaving no snacks over. If each valid package size is listed exactly once, what is the sum of all the listed package sizes?",
           "choices": [
             "A) 22",
-            "B) 41",
-            "C) 42",
+            "B) 42",
+            "C) 41",
             "D) 48",
             "E) 62"
           ],
-          "answer": "C",
+          "answer": "B",
           "explanation": "A valid package size must be a positive factor of 20. The distinct positive factors of 20 are 1, 2, 4, 5, 10, and 20. Their sum is 1+2+4+5+10+20 = 42, so the answer is B. Distractor A (22) sums only the proper divisors and omits 20 itself. Distractor C (41) forgets to include the factor 1. Distractor D (48) mistakenly includes 8, which is not a factor of 20. Distractor E (62) double-counts 20. Only the correct list of six distinct factors totals 42."
         }
       ]
@@ -1480,13 +1480,13 @@
           "parent_id": "Q-PS-017",
           "stem": "In a two-digit number, the units digit is 3 more than the tens digit, and the sum of the two digits is 11. When the digits are reversed, the resulting number is 27 greater than the original number. What is the original number?",
           "choices": [
-            "A) 25",
-            "B) 36",
-            "C) 47",
+            "A) 47",
+            "B) 74",
+            "C) 36",
             "D) 58",
-            "E) 74"
+            "E) 25"
           ],
-          "answer": "C",
+          "answer": "A",
           "explanation": "Let the tens digit be t and units digit u. Given u = t + 3 and t + u = 11, so 2t + 3 = 11, giving t = 4 and u = 7. The number is 47. Check: reversing gives 74, which is 74 - 47 = 27 greater. Distractor B) 74 is the reversed number (the 'new' number rather than the original). C) 36 comes from misreading the digit sum as 9 (2t+3=9 -> t=3, u=6). D) 58 comes from misreading the digit sum as 13 (2t+3=13 -> t=5, u=8). E) 25 comes from misreading the digit sum as 7 (2t+3=7 -> t=2, u=5). All distractors preserve u = t + 3 but use a wrong digit-sum value."
         },
         {
@@ -1494,10 +1494,10 @@
           "parent_id": "Q-PS-017",
           "stem": "A two-digit number has a tens digit that is three times its units digit. When the digits are reversed, the new number is 54 less than the original number. What is the original number?",
           "choices": [
-            "A) 31",
-            "B) 39",
-            "C) 62",
-            "D) 84",
+            "A) 39",
+            "B) 62",
+            "C) 84",
+            "D) 31",
             "E) 93"
           ],
           "answer": "E",
@@ -1564,12 +1564,12 @@
           "stem": "A garden fertilizer blends nitrogen and potassium in the ratio 7 to 4. If a batch contains 28 kilograms of nitrogen, how many kilograms of potassium does it contain?",
           "choices": [
             "A) 4",
-            "B) 16",
-            "C) 19",
-            "D) 21",
+            "B) 19",
+            "C) 21",
+            "D) 16",
             "E) 49"
           ],
-          "answer": "B",
+          "answer": "D",
           "explanation": "The ratio nitrogen:potassium = 7:4. The 28 kg of nitrogen correspond to the 7 parts, so one part equals 28 / 7 = 4 kg. Potassium is 4 parts, so potassium = 4 x 4 = 16 kg (choice D). Distractors: A) 4 stops at the per-part value and forgets to multiply by potassium's 4 parts; B) 19 adds the part difference (16 + (7-4)) to the correct answer; C) 21 subtracts a ratio number from the given quantity (28 - 7); E) 49 inverts the ratio, computing 28 x 7 / 4."
         }
       ]
@@ -1620,11 +1620,11 @@
           "choices": [
             "A) 21",
             "B) 7*sqrt(3)",
-            "C) sqrt(29)",
-            "D) 10",
-            "E) 7"
+            "C) 7",
+            "D) sqrt(29)",
+            "E) 10"
           ],
-          "answer": "E",
+          "answer": "C",
           "explanation": "Simplify each radical: sqrt(75) = 5*sqrt(3) and sqrt(12) = 2*sqrt(3). Their sum is 7*sqrt(3). Dividing by sqrt(3) gives 7*sqrt(3)/sqrt(3) = 7. (A) 21 comes from multiplying the coefficient sum 7 by 3 instead of dividing out sqrt(3). (B) 7*sqrt(3) stops after adding but forgets to divide by sqrt(3). (D) sqrt(29) comes from wrongly combining under one root as sqrt((75+12)/3) = sqrt(29). (E) 10 comes from multiplying the coefficients 5 and 2 instead of adding them."
         },
         {
@@ -1632,13 +1632,13 @@
           "parent_id": "Q-PS-019",
           "stem": "What is the value of (sqrt(98) + sqrt(72)) / sqrt(2) ?",
           "choices": [
-            "A) 13",
-            "B) 13*sqrt(2)",
+            "A) 13*sqrt(2)",
+            "B) 13",
             "C) sqrt(85)",
             "D) 1",
             "E) 42"
           ],
-          "answer": "A",
+          "answer": "B",
           "explanation": "Simplify each radical: sqrt(98) = 7*sqrt(2) and sqrt(72) = 6*sqrt(2). Their sum is 13*sqrt(2). Dividing by sqrt(2) gives 13*sqrt(2)/sqrt(2) = 13. (A) 13*sqrt(2) stops after adding but forgets to divide by sqrt(2). (C) sqrt(85) comes from wrongly combining under one root as sqrt((98+72)/2) = sqrt(85). (D) 1 comes from subtracting the coefficients (7 - 6) instead of adding them. (E) 42 comes from multiplying the coefficients 7 and 6 instead of adding them."
         }
       ]
@@ -1772,11 +1772,11 @@
           "choices": [
             "A) 40",
             "B) 48",
-            "C) 60",
-            "D) 80",
+            "C) 80",
+            "D) 60",
             "E) 120"
           ],
-          "answer": "D",
+          "answer": "C",
           "explanation": "The 30 million gallons raised the level from 1/4 full to 5/8 full. Converting 1/4 = 2/8, the change is 5/8 - 2/8 = 3/8 of capacity. So (3/8)C = 30, giving C = 30 / (3/8) = 80 million gallons. Distractors: A) 40 halves the correct value; B) 48 divides by the final fraction, 30/(5/8); D) 60 forgets to convert 1/4 to 2/8 and treats the change as 5/8 - 1/4 = ... miscomputed as 4/8 = 1/2, giving 30/(1/2); E) 120 divides by the initial fraction, 30/(1/4)."
         }
       ]
@@ -1827,11 +1827,11 @@
           "choices": [
             "A) A neighboring town's library also recently extended its evening hours.",
             "B) The library spent additional money on staff wages to cover the later hours.",
-            "C) The library has served the community for more than forty years.",
-            "D) The library did not add any new books to its collection during that week.",
-            "E) Turnstile logs showed that the entire increase in visitors occurred during the newly added 5 p.m. to 9 p.m. period, which previously did not exist."
+            "C) Turnstile logs showed that the entire increase in visitors occurred during the newly added 5 p.m. to 9 p.m. period, which previously did not exist.",
+            "D) The library has served the community for more than forty years.",
+            "E) The library did not add any new books to its collection during that week."
           ],
-          "answer": "E",
+          "answer": "C",
           "explanation": "The librarian claims the extended evening hours caused the 18% rise in visitors. To strengthen a causal claim, we want evidence that ties the effect specifically to the cause. (C) is correct: showing that the entire increase happened precisely during the newly created evening window directly links the extra visitors to the extension, ruling out the idea that daytime traffic simply grew. (A) is a wrong-direction distractor — a competitor doing the same thing does not show THIS library's extension caused ITS increase, and could even suggest a broader trend. (B) mentions a cost of the change but says nothing about whether it drew visitors; cost is irrelevant to causation. (D) cites the library's longevity, an appeal to unrelated background that offers no link to the recent change. (E) rules out one alternative cause (new books) but only weakly and narrowly; it does not affirmatively connect visitors to the evening hours the way (C) does, and many other alternative causes remain. The answer letter (C) differs from the source card's (E)."
         },
         {
@@ -1894,13 +1894,13 @@
           "parent_id": "V-CR-004",
           "stem": "Every apartment in the Harborview complex that faces the courtyard has a balcony. Every apartment with a balcony is inspected by the fire marshal each spring. Which of the following must be true based on the statements above?",
           "choices": [
-            "A) Only apartments that face the courtyard have balconies.",
-            "B) Apartments that do not face the courtyard are not inspected by the fire marshal.",
-            "C) Most apartments in the Harborview complex have balconies.",
-            "D) Every apartment in the Harborview complex is inspected by the fire marshal each spring.",
-            "E) Every apartment in the Harborview complex that faces the courtyard is inspected by the fire marshal each spring."
+            "A) Every apartment in the Harborview complex that faces the courtyard is inspected by the fire marshal each spring.",
+            "B) Only apartments that face the courtyard have balconies.",
+            "C) Apartments that do not face the courtyard are not inspected by the fire marshal.",
+            "D) Most apartments in the Harborview complex have balconies.",
+            "E) Every apartment in the Harborview complex is inspected by the fire marshal each spring."
           ],
-          "answer": "E",
+          "answer": "A",
           "explanation": "This is a transitive (hypothetical syllogism) inference identical in structure to the source. Premise 1: courtyard-facing -> has balcony. Premise 2: has balcony -> inspected each spring. Chaining these yields: courtyard-facing -> inspected each spring, which is exactly (A). (A) is CORRECT. (B) is an illicit conversion of premise 1 (assumes 'balcony -> courtyard-facing'); the premises never say courtyard-facing is the only source of balconies. (C) commits the denial-of-the-antecedent fallacy: non-courtyard apartments might still have balconies (and thus be inspected), and inspection could occur for other reasons. (D) introduces an unsupported quantity ('most'); the premises give no proportions. (E) over-generalizes from courtyard-facing apartments to ALL apartments in the complex, which the premises do not license. The correct letter is A, differing from the source's E."
         },
         {
@@ -1908,13 +1908,13 @@
           "parent_id": "V-CR-004",
           "stem": "All employees at Larkspur Analytics who joined the company as interns hold a security clearance. Every employee who holds a security clearance is required to complete annual data-privacy training. Which of the following must be true based on the statements above?",
           "choices": [
-            "A) Every employee at Larkspur Analytics who joined as an intern is required to complete annual data-privacy training.",
-            "B) Only employees who joined as interns hold a security clearance.",
-            "C) Employees who did not join as interns are exempt from data-privacy training.",
+            "A) Only employees who joined as interns hold a security clearance.",
+            "B) Employees who did not join as interns are exempt from data-privacy training.",
+            "C) Every employee at Larkspur Analytics who joined as an intern is required to complete annual data-privacy training.",
             "D) Most employees at Larkspur Analytics hold a security clearance.",
             "E) Every employee at Larkspur Analytics is required to complete annual data-privacy training."
           ],
-          "answer": "A",
+          "answer": "C",
           "explanation": "Same transitive-inference structure as the source. Premise 1: joined-as-intern -> holds clearance. Premise 2: holds clearance -> must complete annual training. Chaining yields: joined-as-intern -> must complete annual training, which is exactly (C). (C) is CORRECT. (A) is an illicit conversion of premise 1 (assumes clearance implies joined-as-intern); non-interns could also hold clearances. (B) commits denial of the antecedent: non-interns could still hold clearances (and thus need training), and the premises never restrict who must train. (D) introduces an unsupported quantity ('most'); no proportions are given. (E) over-generalizes from interns-turned-employees to ALL employees, which the premises do not support. The correct letter is C, differing from the source's E."
         }
       ]
@@ -1964,12 +1964,12 @@
           "stem": "A regional hospital plans to shorten patient wait times in its emergency department by opening a walk-in urgent-care clinic next door, reasoning that if 30% of current ER visitors go to the clinic instead, the ER's peak-hour crowding will ease significantly. Answering which of the following questions would be most useful in evaluating whether the plan will reduce peak-hour crowding in the ER?",
           "choices": [
             "A) Whether the urgent-care clinic will accept the same insurance plans that the ER accepts.",
-            "B) How much it will cost the hospital to staff and equip the new clinic.",
-            "C) Whether patients treated at urgent-care clinics report shorter recovery times than comparable ER patients.",
-            "D) Whether other hospitals in the region have opened similar adjacent clinics.",
-            "E) Whether patients who could be diverted to the clinic tend to arrive during the ER's peak hours or mostly at other times of day."
+            "B) Whether patients who could be diverted to the clinic tend to arrive during the ER's peak hours or mostly at other times of day.",
+            "C) How much it will cost the hospital to staff and equip the new clinic.",
+            "D) Whether patients treated at urgent-care clinics report shorter recovery times than comparable ER patients.",
+            "E) Whether other hospitals in the region have opened similar adjacent clinics."
           ],
-          "answer": "E",
+          "answer": "B",
           "explanation": "This is an 'evaluate the argument' question. The plan assumes that diverting 30% of ER visitors will ease PEAK-HOUR crowding. That assumption only holds if the divertible patients actually show up during peak hours. If the patients who can go to urgent care mostly arrive at off-peak times, removing them does nothing for peak-hour crowding even though total ER volume drops. So (B) directly tests the mechanism linking the action to the stated goal: a 'peak hours' answer eases the plan, an 'off-peak' answer undermines it. This mirrors the source card's key insight (whether the diverted load is concentrated where the problem is). Correct answer is B, differing from the source's E. (A) is a feasibility/access detail: even if insurance matches, it says nothing about whether peak-hour crowding falls — a common 'plausible but off-goal' trap. (C) is cost, irrelevant to whether crowding is reduced — the classic budget distractor. (D) shifts the criterion to recovery outcomes rather than the argued goal of peak-hour crowding — wrong metric. (E) is a comparison to other hospitals that reveals nothing about this ER's peak-hour dynamics — the 'what others do' distractor."
         },
         {
@@ -2064,7 +2064,7 @@
             "D) an unstated assumption.",
             "E) a restatement of the conclusion."
           ],
-          "answer": "A",
+          "answer": "E",
           "explanation": "The boldface seems to back the air-quality worry but is then outweighed by the closure of dirtier plants.",
           "parent_id": "V-CR-007"
         }
@@ -2105,7 +2105,7 @@
             "D) Other hospitals use the generic.",
             "E) The generic comes in the same color."
           ],
-          "answer": "A",
+          "answer": "B",
           "explanation": "Cutting cost 'without reducing effectiveness' requires that the generic is as effective; negating that defeats the plan.",
           "parent_id": "V-CR-008"
         }
@@ -2188,7 +2188,7 @@
             "D) arguing that conservation efforts have failed.",
             "E) describing how to measure plant biomass."
           ],
-          "answer": "A",
+          "answer": "E",
           "explanation": "Same main idea, reworded: whole-system stability differs from species-level stability, and the gap has conservation implications.",
           "parent_id": "V-RC-002"
         }
@@ -2230,7 +2230,7 @@
             "D) all disappeared.",
             "E) grew at exactly the same rate."
           ],
-          "answer": "A",
+          "answer": "B",
           "explanation": "The text says individual species 'fluctuated wildly, with some nearly disappearing and others surging.'",
           "parent_id": "V-RC-003"
         }
@@ -2272,7 +2272,7 @@
             "D) endorse a particular law.",
             "E) summarize the entire passage."
           ],
-          "answer": "A",
+          "answer": "E",
           "explanation": "The swings are offered as evidence for the masking claim, not to dispute biomass steadiness.",
           "parent_id": "V-RC-004"
         }
@@ -2314,7 +2314,7 @@
             "D) neutral and uninterested.",
             "E) celebratory."
           ],
-          "answer": "A",
+          "answer": "B",
           "explanation": "The author qualifies rather than rejects the claim, signaling cautious, incomplete-not-wrong criticism.",
           "parent_id": "V-RC-005"
         }
@@ -2658,7 +2658,7 @@
             "D) Cannot be determined.",
             "E) Yes, if received before noon."
           ],
-          "answer": "A",
+          "answer": "E",
           "explanation": "Both conditions are required. The time condition is met, but item C is out of stock, so 'all items in stock' fails and the order ships the next business day.",
           "parent_id": "DI-MSR-001"
         }
@@ -2728,7 +2728,7 @@
             "D) West",
             "E) No region decreased"
           ],
-          "answer": "A",
+          "answer": "B",
           "explanation": "Only South decreased: (180 - 200)/200 = -10%. North, East increased; West was flat. So South had the only (largest) decrease.",
           "parent_id": "DI-TA-001"
         }
@@ -2770,7 +2770,7 @@
             "D) Mar and Apr",
             "E) Apr and May"
           ],
-          "answer": "A",
+          "answer": "E",
           "explanation": "The two decreases are Feb->Mar (-5) and May->Jun (-12). The larger drop is 12, from May to June, so the answer is E.",
           "parent_id": "DI-GI-001"
         }

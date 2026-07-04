@@ -20,6 +20,27 @@ struct RenderedCard {
     let css: String
 }
 
+/// One of the three GMAT scores, as computed by rslib's GetGmatScores RPC.
+/// When `abstained` is true the give-up rule fired: `missing` lists what is
+/// still needed and score/low/high are unset.
+struct ScoreValue {
+    let abstained: Bool
+    let score: Double
+    let low: Double
+    let high: Double
+    let unit: String        // "pct" | "gmat"
+    let confidence: String  // readiness only: "low" | "medium" | "high"
+    let reasons: [String]
+    let missing: [String]
+}
+
+/// The three distinct GMAT scores: memory, performance, readiness.
+struct Scores {
+    let memory: ScoreValue
+    let performance: ScoreValue
+    let readiness: ScoreValue
+}
+
 /// Answer button ratings (UI order). Maps to rslib's AGAIN/HARD/GOOD/EASY.
 enum Rating: UInt32, CaseIterable {
     case again = 1
@@ -47,6 +68,7 @@ enum AnkiBridgeError: Error, CustomStringConvertible {
     case badResponse
     case syncLogin(Int32)
     case sync(Int32)
+    case scores(Int32)
 
     var description: String {
         switch self {
@@ -59,6 +81,7 @@ enum AnkiBridgeError: Error, CustomStringConvertible {
         case .badResponse: return "could not decode rslib JSON response"
         case .syncLogin(let rc): return "anki_sync_login failed (rc=\(rc))"
         case .sync(let rc): return "sync failed (rc=\(rc))"
+        case .scores(let rc): return "anki_get_scores failed (rc=\(rc))"
         }
     }
 }
@@ -167,6 +190,41 @@ final class AnkiEngine {
         guard rc == 0 else { throw AnkiBridgeError.answer(rc) }
     }
 
+    /// Fetch the three GMAT scores (memory / performance / readiness) from
+    /// rslib's GetGmatScores RPC. Decodes the JSON blob the bridge returns
+    /// (same pattern as `nextCard()`). Each `ScoreValue` is either scored (with
+    /// a range) or abstaining (give-up rule) with a `missing` list.
+    func scores() throws -> Scores {
+        var outData: UnsafeMutablePointer<UInt8>? = nil
+        var outLen: UInt = 0
+        let rc = anki_get_scores(backendPtr, &outData, &outLen)
+        guard rc == 0 else { throw AnkiBridgeError.scores(rc) }
+        guard let outData, outLen > 0 else { throw AnkiBridgeError.badResponse }
+        defer { anki_free_response(outData, outLen) }
+
+        let data = Data(bytes: outData, count: Int(outLen))
+        guard let obj = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+            throw AnkiBridgeError.badResponse
+        }
+        func parse(_ key: String) -> ScoreValue {
+            let d = obj[key] as? [String: Any] ?? [:]
+            return ScoreValue(
+                abstained: d["abstained"] as? Bool ?? true,
+                score: d["score"] as? Double ?? 0,
+                low: d["low"] as? Double ?? 0,
+                high: d["high"] as? Double ?? 0,
+                unit: d["unit"] as? String ?? "",
+                confidence: d["confidence"] as? String ?? "",
+                reasons: d["reasons"] as? [String] ?? [],
+                missing: d["missing"] as? [String] ?? []
+            )
+        }
+        note("anki_get_scores ok len=\(outLen)")
+        return Scores(memory: parse("memory"),
+                      performance: parse("performance"),
+                      readiness: parse("readiness"))
+    }
+
     /// Log in to a self-hosted sync server. Returns the serialized `SyncAuth`
     /// bytes (opaque to Swift) — pass them straight into `sync(auth:)`.
     ///
@@ -215,7 +273,16 @@ final class AnkiEngine {
         }
         note("anki_sync_collection rc=\(rc)")
         guard rc == 0 else { throw AnkiBridgeError.sync(rc) }
-        guard let outData = outData, outLen > 0 else { throw AnkiBridgeError.badResponse }
+        // An all-default SyncCollectionResponse (required = NO_CHANGES, zero
+        // media USN, empty message/endpoint) encodes to ZERO protobuf bytes.
+        // rslib has already committed the normal/no-op sync by the time
+        // anki_sync_collection returns rc=0, so an empty response means
+        // "synced — nothing further to do", NOT a decode failure. Treat it as
+        // NO_CHANGES rather than throwing .badResponse.
+        guard let outData = outData, outLen > 0 else {
+            note("sync_collection: empty response => NO_CHANGES (already in sync)")
+            return
+        }
         let responseBytes = Array(UnsafeBufferPointer(start: outData, count: Int(outLen)))
         anki_free_response(outData, outLen)
 
