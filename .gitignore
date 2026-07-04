@@ -15,3 +15,6 @@ bridge/anki-bridge-rs/target/
 
 # Visual brainstorming companion (superpowers)
 .superpowers/
+
+# Claude Code local config / worktrees
+.claude/
