@@ -183,6 +183,20 @@ final class ReviewViewModel: ObservableObject {
         return String(card.answerHTML[r]).last.map { String($0).uppercased() }
     }
 
+    /// True only for single-answer A–E multiple-choice cards (has an A) and a B)
+    /// choice). Free-response, two-part, or passage cards without lettered
+    /// options return false → the reviewer uses the manual Show Answer + rating
+    /// flow for them instead of the tap-a-choice / confidence flow.
+    func cardIsMultipleChoice(_ card: RenderedCard) -> Bool {
+        func hasChoice(_ letter: String) -> Bool {
+            card.questionHTML.range(
+                of: "(^|>|\\n)\\s*\(letter)[).]\\s",
+                options: [.regularExpression]
+            ) != nil
+        }
+        return hasChoice("A") && hasChoice("B")
+    }
+
     /// Log in to the configured sync server and run a collection sync.
     /// Sync is blocking network I/O, so — same pattern as `start()`/`answer()`
     /// — this runs off the main thread and only publishes back on main.
@@ -524,18 +538,22 @@ struct ContentView: View {
     }
 
     private func reviewer(for card: RenderedCard) -> some View {
-        VStack(spacing: 0) {
+        // Auto-grade only for single-answer multiple-choice cards; everything
+        // else (free-response, two-part, passages) falls back to the manual
+        // Show Answer → rating flow.
+        let auto = vm.autoGradeEnabled && vm.cardIsMultipleChoice(card)
+        return VStack(spacing: 0) {
             CardWebView(
                 bodyHTML: vm.showingAnswer ? card.answerHTML : card.questionHTML,
                 css: card.css,
-                interactive: !vm.showingAnswer && !vm.awaitingConfidence && vm.autoGradeEnabled,
+                interactive: !vm.showingAnswer && !vm.awaitingConfidence && auto,
                 onChoiceTap: { vm.handleChoiceTap($0) }
             )
-            .id("\(card.cardId)-\(vm.showingAnswer)-\(vm.autoGradeEnabled)")  // force reload on change
+            .id("\(card.cardId)-\(vm.showingAnswer)-\(auto)")  // force reload on change
             .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-            if !vm.autoGradeEnabled {
-                // Manual mode: original Show Answer → four rating buttons.
+            if !auto {
+                // Manual flow: original Show Answer → four rating buttons.
                 if vm.showingAnswer { ratingRow } else { showAnswerBar }
             } else if vm.showingAnswer, let rating = vm.autoRating {
                 autoRatingBar(rating)
