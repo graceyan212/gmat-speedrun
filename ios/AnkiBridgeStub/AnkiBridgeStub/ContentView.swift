@@ -349,6 +349,9 @@ struct ContentView: View {
     @StateObject private var vm = ReviewViewModel()
     @State private var showingSyncSheet = false
     @State private var showingScores = false
+    // Auto-grade answer bar: collapsed to just the AI recommendation until the
+    // student taps it to reveal the four manual override buttons.
+    @State private var overrideExpanded = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -369,11 +372,11 @@ struct ContentView: View {
     private var header: some View {
         HStack(alignment: .center) {
             // Left: geometric mark + GMAT wordmark.
-            HStack(spacing: 10) {
-                BauhausMark(size: 18)
+            HStack(spacing: 8) {
+                BauhausMark(size: 15)
                 Text("GMAT")
-                    .font(BauhausTheme.futura(size: 20, weight: .bold))
-                    .tracking(2)
+                    .font(BauhausTheme.futura(size: 18, weight: .bold))
+                    .tracking(1)
                     .foregroundColor(BauhausTheme.ink)
                     .fixedSize()
             }
@@ -386,26 +389,26 @@ struct ContentView: View {
                 showingScores = true
             } label: {
                 Text("SCORES")
-                    .font(BauhausTheme.futura(size: 12, weight: .bold))
-                    .tracking(1.5)
+                    .font(BauhausTheme.futura(size: 11, weight: .bold))
+                    .tracking(1)
                     .fixedSize()
                     .foregroundColor(BauhausTheme.paper)
-                    .padding(.horizontal, 8)
+                    .padding(.horizontal, 7)
                     .padding(.vertical, 5)
                     .background(BauhausTheme.ink)
             }
-            .padding(.trailing, 8)
+            .padding(.trailing, 6)
 
             // Sync: a single tap syncs immediately with the saved credentials.
             // The server/username/password sheet only opens when nothing is
             // saved yet, or on a double-tap (to change the server or account).
             VStack(alignment: .trailing, spacing: 2) {
                 Text(vm.isSyncing ? "SYNCING…" : "SYNC")
-                    .font(BauhausTheme.futura(size: 12, weight: .bold))
-                    .tracking(1.5)
+                    .font(BauhausTheme.futura(size: 11, weight: .bold))
+                    .tracking(1)
                     .fixedSize()
                     .foregroundColor(BauhausTheme.paper)
-                    .padding(.horizontal, 8)
+                    .padding(.horizontal, 7)
                     .padding(.vertical, 5)
                     .background(BauhausTheme.blue)
             }
@@ -416,21 +419,21 @@ struct ContentView: View {
                 if vm.hasCredentials { vm.syncNow() } else { showingSyncSheet = true }
             }
             .allowsHitTesting(!vm.isSyncing)
-            .padding(.trailing, 10)
+            .padding(.trailing, 8)
 
             // Right: answered count (tabular) with an uppercase ANSWERED label.
             VStack(alignment: .trailing, spacing: 0) {
                 Text("\(vm.answeredCount)")
-                    .font(BauhausTheme.futura(size: 28, weight: .bold).monospacedDigit())
+                    .font(BauhausTheme.futura(size: 24, weight: .bold).monospacedDigit())
                     .foregroundColor(BauhausTheme.ink)
                 Text("ANSWERED")
                     .font(BauhausTheme.futura(size: 10, weight: .bold))
-                    .tracking(2)
+                    .tracking(1)
                     .fixedSize()
                     .foregroundColor(BauhausTheme.ink)
             }
         }
-        .padding(.horizontal, BauhausTheme.pad)
+        .padding(.horizontal, 20)
         .padding(.vertical, 12)
         .background(BauhausTheme.paper)
         // 3px ink rule as the header's bottom border.
@@ -631,8 +634,10 @@ struct ContentView: View {
         return vm.lastOverconfident ? "⚠ CONFIDENT BUT WRONG · \(t)\(pace)" : "TIME \(t)\(pace)"
     }
 
-    /// Answer sub-state (auto-grade on): a calibration/pace line, the engine's
-    /// rating + NEXT, and the four manual buttons kept below as a one-tap override.
+    /// Answer sub-state (auto-grade on): a calibration/pace line, then just the
+    /// engine's recommendation + NEXT. Tapping the AI recommendation reveals the
+    /// four manual buttons (AI's pick marked) so the student can override — kept
+    /// collapsed by default so the bottom of the screen stays calm.
     private func autoRatingBar(_ rating: Rating) -> some View {
         VStack(spacing: 0) {
             Rectangle().fill(BauhausTheme.ink).frame(height: BauhausTheme.rowRule)
@@ -644,25 +649,63 @@ struct ContentView: View {
                 .padding(.horizontal, 14)
                 .padding(.vertical, 8)
                 .background(vm.lastOverconfident ? BauhausTheme.red : BauhausTheme.ink)
-            HStack(spacing: BauhausTheme.buttonGap) {
-                Text("AI · \(rating.label.uppercased())")
-                    .font(BauhausTheme.futura(size: 15, weight: .bold))
-                    .tracking(2)
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 18)
-                    .background(color(for: rating))
-                Button { vm.answer(rating) } label: {
-                    Text("NEXT →")
-                        .font(BauhausTheme.futura(size: 15, weight: .bold))
-                        .tracking(2)
-                        .foregroundColor(.white)
+
+            if overrideExpanded {
+                // Expanded: choose any rating. The engine's pick is marked "AI".
+                HStack(spacing: BauhausTheme.buttonGap) {
+                    overrideButton(.again, BauhausTheme.red,    aiPick: rating)
+                    overrideButton(.hard,  BauhausTheme.yellow, aiPick: rating)
+                    overrideButton(.good,  BauhausTheme.green,  aiPick: rating)
+                    overrideButton(.easy,  BauhausTheme.blue,   aiPick: rating)
                 }
-                .buttonStyle(BauhausBlockButtonStyle(fill: BauhausTheme.ink))
+                .background(BauhausTheme.ink)
+            } else {
+                // Collapsed: the AI recommendation (tap to change) + NEXT to accept.
+                HStack(spacing: BauhausTheme.buttonGap) {
+                    Button {
+                        withAnimation(.easeOut(duration: 0.12)) { overrideExpanded = true }
+                    } label: {
+                        Text("AI · \(rating.label.uppercased())  ▾")
+                            .font(BauhausTheme.futura(size: 15, weight: .bold))
+                            .tracking(2)
+                            .foregroundColor(.white)
+                    }
+                    .buttonStyle(BauhausBlockButtonStyle(fill: color(for: rating)))
+
+                    Button { overrideExpanded = false; vm.answer(rating) } label: {
+                        Text("NEXT →")
+                            .font(BauhausTheme.futura(size: 15, weight: .bold))
+                            .tracking(2)
+                            .foregroundColor(.white)
+                    }
+                    .buttonStyle(BauhausBlockButtonStyle(fill: BauhausTheme.ink))
+                }
+                .background(BauhausTheme.ink)
             }
-            .background(BauhausTheme.ink)
-            // Override: tap any manual button to record a different rating.
-            ratingRow
+        }
+    }
+
+    /// One override button: like a rating button, but the engine's recommended
+    /// rating carries a small "AI" mark so the student can spot it at a glance.
+    private func overrideButton(_ rating: Rating, _ color: Color, aiPick: Rating) -> some View {
+        Button {
+            overrideExpanded = false
+            vm.answer(rating)
+        } label: {
+            Text(rating.label.uppercased())
+                .font(BauhausTheme.futura(size: 15, weight: .bold))
+                .tracking(2)
+                .foregroundColor(.white)
+        }
+        .buttonStyle(BauhausBlockButtonStyle(fill: color))
+        .overlay(alignment: .top) {
+            if rating.label == aiPick.label {
+                Text("AI")
+                    .font(BauhausTheme.futura(size: 8, weight: .bold))
+                    .tracking(1)
+                    .foregroundColor(.white)
+                    .padding(.top, 3)
+            }
         }
     }
 
