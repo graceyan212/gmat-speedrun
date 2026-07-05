@@ -50,6 +50,9 @@ const M_ANSWER_CARD: u32 = 4;
 // mirror into the backend service at the same index; topic_mastery is 39, and
 // GetGmatScores is the next one added.
 const M_GET_GMAT_SCORES: u32 = 40;
+// GradeAnswer: the next SchedulerService method after GetGmatScores (verify
+// against generated _backend_generated.py: grade_answer -> _run_command(13, 41)).
+const M_GRADE_ANSWER: u32 = 41;
 
 // BackendCardRenderingService (svc 27): RenderExistingCard is method 6.
 const SVC_BACKEND_CARD_RENDERING: u32 = 27;
@@ -631,6 +634,47 @@ pub unsafe extern "C" fn anki_get_scores(
 
     unsafe { set_output(json.into_bytes(), out_data, out_len) };
     0
+}
+
+/// Auto-grade a tapped multiple-choice answer into an Anki ease (1..=4) using the
+/// shared engine (correctness + response time + difficulty vs ability). Pair the
+/// result with `anki_answer_rating` to record the review.
+///
+/// `correct`: 0 = wrong, non-zero = right. `target_seconds`: 0 = unknown.
+///
+/// # Safety
+/// - `backend_ptr` must be from `anki_open_backend` with a collection open.
+///
+/// Returns the ease 1..=4 on success; -1 on FFI error, -2 on backend error,
+/// -3 on decode error.
+#[no_mangle]
+pub unsafe extern "C" fn anki_grade_answer(
+    backend_ptr: i64,
+    card_id: i64,
+    correct: u8,
+    elapsed_ms: u32,
+    target_seconds: u32,
+) -> c_int {
+    if backend_ptr == 0 {
+        return -1;
+    }
+    let backend = unsafe { &*(backend_ptr as *const Backend) };
+    let req = anki_proto::scheduler::GradeAnswerRequest {
+        card_id,
+        correct: correct != 0,
+        elapsed_ms,
+        target_seconds,
+    };
+    let req_bytes = req.encode_to_vec();
+    let resp_bytes =
+        match backend.run_service_method(SVC_BACKEND_SCHEDULER, M_GRADE_ANSWER, &req_bytes) {
+            Ok(b) => b,
+            Err(_) => return -2,
+        };
+    match anki_proto::scheduler::GradeAnswerResponse::decode(&resp_bytes[..]) {
+        Ok(r) => r.ease as c_int,
+        Err(_) => -3,
+    }
 }
 
 /// Answer the given card with a rating, rebuilding the CardAnswer from the
