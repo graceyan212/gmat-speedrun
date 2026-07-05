@@ -12,11 +12,31 @@ final class ReviewViewModel: ObservableObject {
     }
 
     @Published var phase: Phase = .loading
-    @Published var card: RenderedCard?
+    @Published var card: RenderedCard? {
+        didSet {
+            // New card on screen: restart the response timer and clear any prior
+            // auto-grade result.
+            cardShownAt = Date()
+            autoRating = nil
+            pickedLetter = nil
+        }
+    }
     @Published var showingAnswer = false
     @Published var answeredCount = 0
     /// The three GMAT scores, refreshed after each card / sync. nil until first load.
     @Published var scores: Scores?
+
+    // --- Auto-grade (the engine decides Again/Hard/Good/Easy from your tap) ---
+    /// On by default; persisted. When off, the manual Show Answer + 4-button flow.
+    @Published var autoGradeEnabled = (UserDefaults.standard.object(forKey: "autoGradeEnabled") as? Bool) ?? true {
+        didSet { UserDefaults.standard.set(autoGradeEnabled, forKey: "autoGradeEnabled") }
+    }
+    /// When the current question was shown (for response-time grading).
+    private var cardShownAt = Date()
+    /// The rating the engine auto-assigned to the current card after a tap.
+    @Published var autoRating: Rating?
+    /// The choice letter the user tapped this card.
+    @Published var pickedLetter: String?
 
     // Sync settings + status. `serverURL` must carry a trailing slash
     // (rslib's sync client does `Url::join("sync/")`). serverURL/user/pass
@@ -98,6 +118,28 @@ final class ReviewViewModel: ObservableObject {
                 await MainActor.run { self.phase = .error("\(error)") }
             }
         }
+    }
+
+    /// A choice was tapped in the question view (auto-grade mode): grade it with
+    /// the shared engine, reveal the answer, and remember the AI rating (applied
+    /// when the student continues, or overridden by tapping a manual button).
+    func handleChoiceTap(_ letter: String) {
+        guard let current = card, !showingAnswer else { return }
+        let correct = letter.uppercased() == correctLetter(current)
+        let elapsedMs = UInt32(max(0, Date().timeIntervalSince(cardShownAt) * 1000).rounded())
+        pickedLetter = letter.uppercased()
+        autoRating = engine.autoGrade(cardId: current.cardId, correct: correct, elapsedMs: elapsedMs)
+        showingAnswer = true
+    }
+
+    /// The correct choice letter for a card, parsed from its answer HTML (the
+    /// deck marks it "Answer: X"). Nil for a non-multiple-choice card.
+    private func correctLetter(_ card: RenderedCard) -> String? {
+        guard let r = card.answerHTML.range(
+            of: "Answer:\\s*(?:</b>)?\\s*([A-E])",
+            options: [.regularExpression, .caseInsensitive]
+        ) else { return nil }
+        return String(card.answerHTML[r]).last.map { String($0).uppercased() }
     }
 
     /// Log in to the configured sync server and run a collection sync.
@@ -433,16 +475,76 @@ struct ContentView: View {
         VStack(spacing: 0) {
             CardWebView(
                 bodyHTML: vm.showingAnswer ? card.answerHTML : card.questionHTML,
-                css: card.css
+                css: card.css,
+                interactive: !vm.showingAnswer && vm.autoGradeEnabled,
+                onChoiceTap: { vm.handleChoiceTap($0) }
             )
-            .id("\(card.cardId)-\(vm.showingAnswer)")  // force reload on change
+            .id("\(card.cardId)-\(vm.showingAnswer)-\(vm.autoGradeEnabled)")  // force reload on change
             .frame(maxWidth: .infinity, maxHeight: .infinity)
 
             if vm.showingAnswer {
-                ratingRow
+                if vm.autoGradeEnabled, let rating = vm.autoRating {
+                    autoRatingBar(rating)
+                } else {
+                    ratingRow
+                }
+            } else if vm.autoGradeEnabled {
+                tapToAnswerBar
             } else {
                 showAnswerBar
             }
+        }
+    }
+
+    /// Question sub-state (auto-grade on): prompt to tap a choice — the choices in
+    /// the card above are tappable, and the engine grades the tap.
+    private var tapToAnswerBar: some View {
+        VStack(spacing: 0) {
+            Rectangle().fill(BauhausTheme.ink).frame(height: BauhausTheme.rowRule)
+            Text("TAP YOUR ANSWER")
+                .font(BauhausTheme.futura(size: 14, weight: .bold))
+                .tracking(3)
+                .foregroundColor(BauhausTheme.paper)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
+                .background(BauhausTheme.ink)
+        }
+    }
+
+    /// Answer sub-state (auto-grade on): the engine's rating + NEXT, with the four
+    /// manual buttons kept below as a one-tap override.
+    private func autoRatingBar(_ rating: Rating) -> some View {
+        VStack(spacing: 0) {
+            Rectangle().fill(BauhausTheme.ink).frame(height: BauhausTheme.rowRule)
+            HStack(spacing: BauhausTheme.buttonGap) {
+                Text("AI · \(rating.label.uppercased())")
+                    .font(BauhausTheme.futura(size: 15, weight: .bold))
+                    .tracking(2)
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 18)
+                    .background(color(for: rating))
+                Button { vm.answer(rating) } label: {
+                    Text("NEXT →")
+                        .font(BauhausTheme.futura(size: 15, weight: .bold))
+                        .tracking(2)
+                        .foregroundColor(.white)
+                }
+                .buttonStyle(BauhausBlockButtonStyle(fill: BauhausTheme.ink))
+            }
+            .background(BauhausTheme.ink)
+            // Override: tap any manual button to record a different rating.
+            ratingRow
+        }
+    }
+
+    /// Bauhaus color for a rating (matches the manual rating buttons).
+    private func color(for rating: Rating) -> Color {
+        switch rating {
+        case .again: return BauhausTheme.red
+        case .hard:  return BauhausTheme.yellow
+        case .good:  return BauhausTheme.green
+        case .easy:  return BauhausTheme.blue
         }
     }
 
@@ -648,6 +750,17 @@ private struct SyncSettingsView: View {
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
+                    fieldBlock(label: "Auto-grade answers (AI)") {
+                        Toggle(isOn: $vm.autoGradeEnabled) {
+                            Text(vm.autoGradeEnabled
+                                 ? "On — tap a choice and the engine sets Again/Hard/Good/Easy."
+                                 : "Off — Show Answer, then rate it yourself.")
+                                .font(BauhausTheme.futura(size: 13, weight: .medium))
+                                .foregroundColor(BauhausTheme.ink)
+                        }
+                        .tint(BauhausTheme.green)
+                    }
+
                     fieldBlock(label: "Server URL (needs trailing slash)") {
                         TextField("https://example.trycloudflare.com/", text: $vm.serverURL)
                             .textInputAutocapitalization(.never)

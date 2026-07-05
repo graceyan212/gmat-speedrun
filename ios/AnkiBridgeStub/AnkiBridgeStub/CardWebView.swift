@@ -9,9 +9,19 @@ struct CardWebView: UIViewRepresentable {
     let bodyHTML: String
     /// The card's CSS (from RenderCardResponse.css).
     let css: String
+    /// When true (question state), the A–E choices are tappable and report the
+    /// tapped letter back via `onChoiceTap`.
+    var interactive: Bool = false
+    /// Called with the tapped choice letter (e.g. "C") when `interactive`.
+    var onChoiceTap: ((String) -> Void)? = nil
+
+    func makeCoordinator() -> Coordinator { Coordinator(onChoiceTap: onChoiceTap) }
 
     func makeUIView(context: Context) -> WKWebView {
+        let contentController = WKUserContentController()
+        contentController.add(context.coordinator, name: "choiceTapped")
         let config = WKWebViewConfiguration()
+        config.userContentController = contentController
         let webView = WKWebView(frame: .zero, configuration: config)
         webView.isOpaque = false
         webView.backgroundColor = .clear
@@ -20,7 +30,22 @@ struct CardWebView: UIViewRepresentable {
     }
 
     func updateUIView(_ webView: WKWebView, context: Context) {
+        context.coordinator.onChoiceTap = onChoiceTap
         webView.loadHTMLString(fullDocument, baseURL: nil)
+    }
+
+    /// Bridges taps in the WKWebView (via `window.webkit.messageHandlers`) back
+    /// to SwiftUI.
+    final class Coordinator: NSObject, WKScriptMessageHandler {
+        var onChoiceTap: ((String) -> Void)?
+        init(onChoiceTap: ((String) -> Void)?) { self.onChoiceTap = onChoiceTap }
+        func userContentController(
+            _ controller: WKUserContentController,
+            didReceive message: WKScriptMessage
+        ) {
+            guard message.name == "choiceTapped", let letter = message.body as? String else { return }
+            onChoiceTap?(letter)
+        }
     }
 
     /// Full HTML document: a Bauhaus stylesheet + a self-contained JS transform
@@ -54,6 +79,7 @@ struct CardWebView: UIViewRepresentable {
         <template id="raw-card">\(bodyHTML)</template>
         <div id="card" class="card"></div>
         <noscript><div class="card fallback">\(bodyHTML)</div></noscript>
+        <script>window.__CARD_INTERACTIVE__ = \(interactive ? "true" : "false");</script>
         <script>
         \(Self.transformJS)
         </script>
@@ -287,6 +313,19 @@ struct CardWebView: UIViewRepresentable {
         choices.forEach(function (c) {
           var row = document.createElement('div');
           row.className = 'choice' + (correct && c.letter === correct ? ' correct' : '');
+
+          // Interactive (question) state: tapping a choice reports its letter to
+          // SwiftUI, which auto-grades the answer.
+          if (window.__CARD_INTERACTIVE__) {
+            row.style.cursor = 'pointer';
+            row.setAttribute('role', 'button');
+            (function (letter) {
+              row.addEventListener('click', function () {
+                var mh = window.webkit && window.webkit.messageHandlers;
+                if (mh && mh.choiceTapped) { mh.choiceTapped.postMessage(letter); }
+              });
+            })(c.letter);
+          }
 
           var marker = document.createElement('div');
           marker.className = 'marker';

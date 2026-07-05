@@ -190,6 +190,17 @@ final class AnkiEngine {
         guard rc == 0 else { throw AnkiBridgeError.answer(rc) }
     }
 
+    /// Ask the shared engine to auto-grade a tapped multiple-choice answer into a
+    /// Rating — from correctness, response time, and the card's difficulty vs the
+    /// learner's ability (all computed in rslib). `targetSeconds` 0 = unknown.
+    /// Never throws: a grading hiccup falls back to `.good` so a review is never
+    /// blocked (the bridge returns the ease 1...4, or ≤0 on error).
+    func autoGrade(cardId: Int64, correct: Bool, elapsedMs: UInt32, targetSeconds: UInt32 = 0) -> Rating {
+        let ease = anki_grade_answer(backendPtr, cardId, correct ? 1 : 0, elapsedMs, targetSeconds)
+        note("anki_grade_answer card_id=\(cardId) correct=\(correct) elapsed=\(elapsedMs)ms -> ease=\(ease)")
+        return Rating(rawValue: UInt32(truncatingIfNeeded: ease)) ?? .good
+    }
+
     /// Fetch the three GMAT scores (memory / performance / readiness) from
     /// rslib's GetGmatScores RPC. Decodes the JSON blob the bridge returns
     /// (same pattern as `nextCard()`). Each `ScoreValue` is either scored (with
