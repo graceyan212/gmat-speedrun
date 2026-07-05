@@ -139,7 +139,7 @@ struct CardWebView: UIViewRepresentable {
       display: flex;
       align-items: flex-start;
       gap: 14px;
-      padding: 4px;
+      padding: 8px 6px; /* larger tap target so choices are easy to hit */
       border: 2.5px solid transparent; /* reserve space so highlight doesn't shift layout */
     }
 
@@ -315,16 +315,35 @@ struct CardWebView: UIViewRepresentable {
           row.className = 'choice' + (correct && c.letter === correct ? ' correct' : '');
 
           // Interactive (question) state: tapping a choice reports its letter to
-          // SwiftUI, which auto-grades the answer.
+          // SwiftUI, which auto-grades the answer. A bare `click` listener drops
+          // taps in a WKWebView when the finger moves a little (the gesture
+          // becomes a scroll), so we fire on a clean `touchend` (movement below a
+          // threshold) and keep `click` as a fallback, deduped by a short guard.
           if (window.__CARD_INTERACTIVE__) {
             row.style.cursor = 'pointer';
             row.setAttribute('role', 'button');
-            (function (letter) {
-              row.addEventListener('click', function () {
+            row.style.webkitTapHighlightColor = 'rgba(30,82,168,0.15)';
+            (function (letter, el) {
+              var sx = 0, sy = 0, moved = false, last = 0;
+              function fire() {
+                var now = Date.now();
+                if (now - last < 600) { return; }  // dedupe touchend + synthetic click
+                last = now;
                 var mh = window.webkit && window.webkit.messageHandlers;
                 if (mh && mh.choiceTapped) { mh.choiceTapped.postMessage(letter); }
-              });
-            })(c.letter);
+              }
+              el.addEventListener('touchstart', function (e) {
+                moved = false;
+                if (e.touches && e.touches[0]) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }
+              }, { passive: true });
+              el.addEventListener('touchmove', function (e) {
+                if (e.touches && e.touches[0] &&
+                    (Math.abs(e.touches[0].clientX - sx) > 12 ||
+                     Math.abs(e.touches[0].clientY - sy) > 12)) { moved = true; }
+              }, { passive: true });
+              el.addEventListener('touchend', function () { if (!moved) { fire(); } });
+              el.addEventListener('click', fire);
+            })(c.letter, row);
           }
 
           var marker = document.createElement('div');

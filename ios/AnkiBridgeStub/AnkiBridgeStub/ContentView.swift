@@ -17,6 +17,8 @@ final class ReviewViewModel: ObservableObject {
             // New card on screen: restart the pace timer and clear the prior
             // answer / confidence / grade state.
             cardShownAt = Date()
+            pausedElapsed = 0
+            timerPaused = false
             autoRating = nil
             pickedLetter = nil
             awaitingConfidence = false
@@ -37,6 +39,27 @@ final class ReviewViewModel: ObservableObject {
     }
     /// When the current question was shown (for the passive pace readout).
     private var cardShownAt = Date()
+    /// Active time already accumulated on this card, excluding any time the app
+    /// spent backgrounded — the pace timer pauses when the app leaves the front.
+    private var pausedElapsed: TimeInterval = 0
+    private var timerPaused = false
+    /// Total *active* time on the current card (time with the app closed excluded).
+    var currentElapsed: TimeInterval {
+        pausedElapsed + (timerPaused ? 0 : Date().timeIntervalSince(cardShownAt))
+    }
+    /// App left the foreground: freeze the pace timer so time spent with the app
+    /// closed/backgrounded isn't counted toward the answer.
+    func pauseTimer() {
+        guard !timerPaused else { return }
+        pausedElapsed += Date().timeIntervalSince(cardShownAt)
+        timerPaused = true
+    }
+    /// App returned to the foreground: resume timing from now.
+    func resumeTimer() {
+        guard timerPaused else { return }
+        cardShownAt = Date()
+        timerPaused = false
+    }
     /// The choice letter tapped (set on tap; the confidence prompt follows).
     @Published var pickedLetter: String?
     /// True after a choice is tapped, while we ask for confidence (before reveal).
@@ -141,7 +164,7 @@ final class ReviewViewModel: ObservableObject {
     /// confidence (we grade once the student commits a confidence level).
     func handleChoiceTap(_ letter: String) {
         guard card != nil, !showingAnswer, !awaitingConfidence else { return }
-        lastElapsed = Date().timeIntervalSince(cardShownAt)
+        lastElapsed = currentElapsed
         pickedLetter = letter.uppercased()
         awaitingConfidence = true
     }
@@ -352,6 +375,7 @@ struct ContentView: View {
     // Auto-grade answer bar: collapsed to just the AI recommendation until the
     // student taps it to reveal the four manual override buttons.
     @State private var overrideExpanded = false
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         VStack(spacing: 0) {
@@ -361,6 +385,11 @@ struct ContentView: View {
         .background(BauhausTheme.paper.ignoresSafeArea())
         .preferredColorScheme(.light)
         .onAppear { if case .loading = vm.phase { vm.start() } }
+        // Pause the pace timer while the app is backgrounded so time spent with
+        // the app closed isn't counted toward the current answer.
+        .onChange(of: scenePhase) { _, newPhase in
+            if newPhase == .active { vm.resumeTimer() } else { vm.pauseTimer() }
+        }
         .sheet(isPresented: $showingSyncSheet) {
             SyncSettingsView(vm: vm)
         }
