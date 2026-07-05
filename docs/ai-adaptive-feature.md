@@ -32,6 +32,26 @@ CLI, and can apply the results as `aidiff::NN` tags onto a collection's notes
 applying the same rubric, because no API key was available in the build
 environment — the script is the canonical, re-runnable pipeline.
 
+## 1a. Prompt-injection resistance
+
+The item text sent to the model is **untrusted** (paraphrases, seed/external
+content), so the calibration pipeline is hardened against a poisoned item that
+tries to hijack its own rating. Defence in depth, in `calibrate_difficulty.py`:
+
+- **Isolate untrusted content (input side).** `build_prompt()` wraps the item in
+  an `<ITEM>…</ITEM>` fence introduced by an explicit note that the fenced text is
+  *data, not instructions*, and `_neutralize()` defangs any attempt to forge the
+  fence markers from inside the content — so injected "ignore the rubric…" text
+  lands as data to be rated, not as a command.
+- **Validate the output (output side).** `_parse_rating()` accepts **only** a
+  well-formed `{"ai_difficulty": 0–100, "ai_difficulty_reason": …}` object; it
+  rejects non-JSON, missing/non-numeric scores, and out-of-range values, drops
+  extra keys, and caps the reason. A poisoned item therefore cannot push the
+  stored rating outside 0–100 or smuggle content into the sidecar.
+- **Proof (no model call).** `content/tools/injection_test.py` feeds a poisoned
+  item (injected instructions + a forged `</ITEM>` + an out-of-range demand) and
+  asserts both guards hold: `python content/tools/injection_test.py` (exit 0).
+
 ## 2. The eval — does AI difficulty beat the coarse baseline?
 
 `content/tools/eval_difficulty.py` scores both difficulty models against the
@@ -43,13 +63,15 @@ student's own answers:
   (lower = better calibrated) and **accuracy**. Lower held-out Brier for AI ⇒
   AI difficulty predicts the student's performance better ⇒ it beats the baseline.
 
-**Current result (174 usable reviews):** AI difficulty **beats the coarse
-baseline on held-out Brier by +0.0079** (0.1132 vs 0.1211); accuracy ties at 87%.
-The win is in **calibration**, not classification — a real but honestly modest
-edge (see `RESULTS.md` §2–3 for the full table and the calibration curve). An
-earlier audit at ~41 sync-test answers (almost all "correct", θ ≈ +3.5) showed no
-signal; the edge only appeared once the log reached 174 usable reviews with real
-misses.
+**Current result (252 usable reviews).** On the time-based split AI difficulty
+and the coarse baseline **tie** (held-out Brier 0.1740 vs 0.1744) — but that split
+shares items between train and held-out. On a **leakage-free item-disjoint split**
+(no shared items) AI **beats** the baseline (0.1706 vs 0.1720, **+0.0014**);
+accuracy ties at 80%. The win is in **calibration**, not classification — a real
+but honestly **small and sample-dependent** edge (the Friday snapshot at 174
+reviews showed +0.0079). See `RESULTS.md` §2, §2.1 (leakage check), and §3
+(calibration curve) for the full tables. An earlier audit at ~41 sync-test
+answers (almost all "correct", θ ≈ +3.5) showed no signal.
 
 **Harness validated:** `content/tools/eval_selftest.py` runs the same
 Brier/accuracy machinery on synthetic answers *with* signal (mid-ability students
@@ -104,8 +126,11 @@ python content/tools/calibrate_difficulty.py
 python content/tools/calibrate_difficulty.py --dry-run          # preview prompts, no model call
 python content/tools/calibrate_difficulty.py --apply-tags COL.anki2   # write aidiff:: tags
 
-# eval AI difficulty vs the coarse baseline on a collection's answers:
+# eval AI difficulty vs coarse baseline + the train/test LEAKAGE CHECK:
 python content/tools/eval_difficulty.py /path/to/collection.anki2
+
+# prompt-injection resistance of the calibration pipeline (no model call):
+python content/tools/injection_test.py
 
 # validate the eval harness on synthetic signal (exit 0 = valid):
 python content/tools/eval_selftest.py
@@ -125,5 +150,6 @@ PROTOC=$PWD/out/extracted/protoc/bin/protoc cargo test -p anki adaptive
 | `content/tools/calibrate_difficulty.py` | reproducible calibration pipeline + `--apply-tags` |
 | `content/tools/eval_difficulty.py` | held-out Brier/accuracy, AI vs coarse baseline |
 | `content/tools/eval_selftest.py` | synthetic validation of the eval harness |
+| `content/tools/injection_test.py` | prompt-injection resistance test (input isolation + output guard) |
 | `anki/rslib/src/scheduler/adaptive.rs` | Rasch θ + difficulty-fit selection, shared `estimate_ability` |
 | `anki/rslib/src/config/bool.rs` | `GmatAdaptiveEnabled` toggle |
