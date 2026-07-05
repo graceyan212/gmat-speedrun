@@ -192,6 +192,25 @@ int anki_next_card(int64_t backend_ptr, uint8_t **out_data, uintptr_t *out_len);
 int anki_get_scores(int64_t backend_ptr, uint8_t **out_data, uintptr_t *out_len);
 
 /**
+ * Auto-grade a tapped multiple-choice answer into an Anki ease (1..=4) using the
+ * shared engine (correctness + response time + difficulty vs ability). Pair the
+ * result with `anki_answer_rating` to record the review.
+ *
+ * `correct`: 0 = wrong, non-zero = right. `target_seconds`: 0 = unknown.
+ *
+ * # Safety
+ * - `backend_ptr` must be from `anki_open_backend` with a collection open.
+ *
+ * Returns the ease 1..=4 on success; -1 on FFI error, -2 on backend error,
+ * -3 on decode error.
+ */
+int anki_grade_answer(int64_t backend_ptr,
+                      int64_t card_id,
+                      uint8_t correct,
+                      uint32_t elapsed_ms,
+                      uint32_t target_seconds);
+
+/**
  * Answer the given card with a rating, rebuilding the CardAnswer from the
  * SchedulingStates rslib returned for that card in the prior `anki_next_card`.
  *
