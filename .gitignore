@@ -18,3 +18,7 @@ bridge/anki-bridge-rs/target/
 
 # Claude Code local config / worktrees
 .claude/
+
+# Python bytecode cache (from running content/tools/*.py)
+__pycache__/
+*.pyc
