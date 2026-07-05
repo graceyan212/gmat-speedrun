@@ -637,10 +637,13 @@ pub unsafe extern "C" fn anki_get_scores(
 }
 
 /// Auto-grade a tapped multiple-choice answer into an Anki ease (1..=4) using the
-/// shared engine (correctness + response time + difficulty vs ability). Pair the
-/// result with `anki_answer_rating` to record the review.
+/// shared engine: the rating comes from correctness × the student's confidence
+/// (not from time). Pair the result with `anki_answer_rating` to record the
+/// review. The caller can derive the "overconfident miss" flag itself (wrong +
+/// confidence > 0); the desktop path reads it from the RPC response.
 ///
-/// `correct`: 0 = wrong, non-zero = right. `target_seconds`: 0 = unknown.
+/// `correct`: 0 = wrong, non-zero = right. `confidence`: 0 = guessing,
+/// 1 = fairly sure, 2 = confident.
 ///
 /// # Safety
 /// - `backend_ptr` must be from `anki_open_backend` with a collection open.
@@ -650,20 +653,16 @@ pub unsafe extern "C" fn anki_get_scores(
 #[no_mangle]
 pub unsafe extern "C" fn anki_grade_answer(
     backend_ptr: i64,
-    card_id: i64,
     correct: u8,
-    elapsed_ms: u32,
-    target_seconds: u32,
+    confidence: u32,
 ) -> c_int {
     if backend_ptr == 0 {
         return -1;
     }
     let backend = unsafe { &*(backend_ptr as *const Backend) };
     let req = anki_proto::scheduler::GradeAnswerRequest {
-        card_id,
         correct: correct != 0,
-        elapsed_ms,
-        target_seconds,
+        confidence,
     };
     let req_bytes = req.encode_to_vec();
     let resp_bytes =

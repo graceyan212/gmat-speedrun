@@ -14,11 +14,13 @@ final class ReviewViewModel: ObservableObject {
     @Published var phase: Phase = .loading
     @Published var card: RenderedCard? {
         didSet {
-            // New card on screen: restart the response timer and clear any prior
-            // auto-grade result.
+            // New card on screen: restart the pace timer and clear the prior
+            // answer / confidence / grade state.
             cardShownAt = Date()
             autoRating = nil
             pickedLetter = nil
+            awaitingConfidence = false
+            lastOverconfident = false
         }
     }
     @Published var showingAnswer = false
@@ -26,17 +28,32 @@ final class ReviewViewModel: ObservableObject {
     /// The three GMAT scores, refreshed after each card / sync. nil until first load.
     @Published var scores: Scores?
 
-    // --- Auto-grade (the engine decides Again/Hard/Good/Easy from your tap) ---
+    // --- Confidence-based grading + calibration / pacing ---
+    // The engine decides Again/Hard/Good/Easy from correctness × your confidence;
+    // time is shown for pacing feedback, never used to grade.
     /// On by default; persisted. When off, the manual Show Answer + 4-button flow.
     @Published var autoGradeEnabled = (UserDefaults.standard.object(forKey: "autoGradeEnabled") as? Bool) ?? true {
         didSet { UserDefaults.standard.set(autoGradeEnabled, forKey: "autoGradeEnabled") }
     }
-    /// When the current question was shown (for response-time grading).
+    /// When the current question was shown (for the passive pace readout).
     private var cardShownAt = Date()
-    /// The rating the engine auto-assigned to the current card after a tap.
-    @Published var autoRating: Rating?
-    /// The choice letter the user tapped this card.
+    /// The choice letter tapped (set on tap; the confidence prompt follows).
     @Published var pickedLetter: String?
+    /// True after a choice is tapped, while we ask for confidence (before reveal).
+    @Published var awaitingConfidence = false
+    /// The rating the engine assigned once confidence was given.
+    @Published var autoRating: Rating?
+    /// The just-graded answer was an overconfident miss (wrong + not guessing).
+    @Published var lastOverconfident = false
+    /// Seconds the last answer took — shown as pacing feedback, not used to grade.
+    @Published var lastElapsed: TimeInterval = 0
+
+    // Session calibration + pacing tallies (shown on the finished screen).
+    @Published var confidentCount = 0
+    @Published var confidentCorrect = 0
+    @Published var overconfidentMisses = 0
+    @Published var skips = 0
+    @Published var slowCount = 0
 
     // Sync settings + status. `serverURL` must carry a trailing slash
     // (rslib's sync client does `Url::join("sync/")`). serverURL/user/pass
@@ -120,16 +137,40 @@ final class ReviewViewModel: ObservableObject {
         }
     }
 
-    /// A choice was tapped in the question view (auto-grade mode): grade it with
-    /// the shared engine, reveal the answer, and remember the AI rating (applied
-    /// when the student continues, or overridden by tapping a manual button).
+    /// A choice was tapped: remember it + the response time, then ask for
+    /// confidence (we grade once the student commits a confidence level).
     func handleChoiceTap(_ letter: String) {
-        guard let current = card, !showingAnswer else { return }
-        let correct = letter.uppercased() == correctLetter(current)
-        let elapsedMs = UInt32(max(0, Date().timeIntervalSince(cardShownAt) * 1000).rounded())
+        guard card != nil, !showingAnswer, !awaitingConfidence else { return }
+        lastElapsed = Date().timeIntervalSince(cardShownAt)
         pickedLetter = letter.uppercased()
-        autoRating = engine.autoGrade(cardId: current.cardId, correct: correct, elapsedMs: elapsedMs)
+        awaitingConfidence = true
+    }
+
+    /// The student committed a confidence for their pick: grade correctness ×
+    /// confidence via the shared engine, reveal the answer, and update the
+    /// session's calibration + pacing tallies. The rating is applied on Next
+    /// (or overridden by a manual button).
+    func submitConfidence(_ confidence: Confidence) {
+        guard let current = card, let picked = pickedLetter, awaitingConfidence else { return }
+        let correct = picked == correctLetter(current)
+        autoRating = engine.autoGrade(correct: correct, confidence: confidence)
+        lastOverconfident = !correct && confidence != .guessing
+        if confidence != .guessing {
+            confidentCount += 1
+            if correct { confidentCorrect += 1 }
+        }
+        if lastOverconfident { overconfidentMisses += 1 }
+        if lastElapsed > 120 { slowCount += 1 }
+        awaitingConfidence = false
         showingAnswer = true
+    }
+
+    /// Flag & skip — the pacing "cut your losses" decision. Records the card as
+    /// Again and moves on.
+    func flagSkip() {
+        guard card != nil, !showingAnswer else { return }
+        skips += 1
+        answer(.again)
     }
 
     /// The correct choice letter for a card, parsed from its answer HTML (the
@@ -444,6 +485,17 @@ struct ContentView: View {
                         .tracking(2)
                         .foregroundColor(BauhausTheme.ink)
                 }
+
+                // Calibration + pacing recap — the session's payload.
+                HStack(alignment: .top, spacing: 20) {
+                    calibrationStat(
+                        vm.confidentCount > 0 ? "\(vm.confidentCorrect)/\(vm.confidentCount)" : "–",
+                        "CONFIDENT\n& RIGHT")
+                    calibrationStat("\(vm.overconfidentMisses)", "OVER-\nCONFIDENT MISS")
+                    calibrationStat("\(vm.skips)", "FLAGGED\n& SKIPPED")
+                    calibrationStat("\(vm.slowCount)", "OVER\n2:00")
+                }
+                .padding(.top, 6)
             }
             .padding(BauhausTheme.pad)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -476,46 +528,104 @@ struct ContentView: View {
             CardWebView(
                 bodyHTML: vm.showingAnswer ? card.answerHTML : card.questionHTML,
                 css: card.css,
-                interactive: !vm.showingAnswer && vm.autoGradeEnabled,
+                interactive: !vm.showingAnswer && !vm.awaitingConfidence && vm.autoGradeEnabled,
                 onChoiceTap: { vm.handleChoiceTap($0) }
             )
             .id("\(card.cardId)-\(vm.showingAnswer)-\(vm.autoGradeEnabled)")  // force reload on change
             .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-            if vm.showingAnswer {
-                if vm.autoGradeEnabled, let rating = vm.autoRating {
-                    autoRatingBar(rating)
-                } else {
-                    ratingRow
-                }
-            } else if vm.autoGradeEnabled {
-                tapToAnswerBar
+            if !vm.autoGradeEnabled {
+                // Manual mode: original Show Answer → four rating buttons.
+                if vm.showingAnswer { ratingRow } else { showAnswerBar }
+            } else if vm.showingAnswer, let rating = vm.autoRating {
+                autoRatingBar(rating)
+            } else if vm.awaitingConfidence {
+                confidenceBar
             } else {
-                showAnswerBar
+                tapToAnswerBar
             }
         }
     }
 
-    /// Question sub-state (auto-grade on): prompt to tap a choice — the choices in
-    /// the card above are tappable, and the engine grades the tap.
+    /// Question sub-state: prompt to tap a choice, plus the pacing "cut your
+    /// losses" move — Flag & skip.
     private var tapToAnswerBar: some View {
         VStack(spacing: 0) {
             Rectangle().fill(BauhausTheme.ink).frame(height: BauhausTheme.rowRule)
-            Text("TAP YOUR ANSWER")
-                .font(BauhausTheme.futura(size: 14, weight: .bold))
-                .tracking(3)
-                .foregroundColor(BauhausTheme.paper)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 16)
-                .background(BauhausTheme.ink)
+            HStack(spacing: BauhausTheme.buttonGap) {
+                Text("TAP YOUR ANSWER")
+                    .font(BauhausTheme.futura(size: 14, weight: .bold))
+                    .tracking(2)
+                    .foregroundColor(BauhausTheme.paper)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 16)
+                    .background(BauhausTheme.ink)
+                Button { vm.flagSkip() } label: {
+                    Text("FLAG & SKIP")
+                        .font(BauhausTheme.futura(size: 13, weight: .bold))
+                        .tracking(1)
+                        .foregroundColor(.white)
+                }
+                .buttonStyle(BauhausBlockButtonStyle(fill: BauhausTheme.red))
+            }
+            .background(BauhausTheme.ink)
         }
     }
 
-    /// Answer sub-state (auto-grade on): the engine's rating + NEXT, with the four
-    /// manual buttons kept below as a one-tap override.
+    /// After a choice is tapped: ask for confidence (this both grades the card and
+    /// trains the "should I keep working or move on" judgment).
+    private var confidenceBar: some View {
+        VStack(spacing: 0) {
+            Rectangle().fill(BauhausTheme.ink).frame(height: BauhausTheme.rowRule)
+            Text("YOU PICKED \(vm.pickedLetter ?? "?") · HOW SURE ARE YOU?")
+                .font(BauhausTheme.futura(size: 13, weight: .bold))
+                .tracking(1.5)
+                .foregroundColor(BauhausTheme.paper)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 10)
+                .background(BauhausTheme.ink)
+            HStack(spacing: BauhausTheme.buttonGap) {
+                confidenceButton(.guessing, "GUESSING", BauhausTheme.red)
+                confidenceButton(.fairlySure, "FAIRLY SURE", BauhausTheme.yellow)
+                confidenceButton(.confident, "CONFIDENT", BauhausTheme.green)
+            }
+            .background(BauhausTheme.ink)
+        }
+    }
+
+    private func confidenceButton(_ c: Confidence, _ label: String, _ color: Color) -> some View {
+        Button { vm.submitConfidence(c) } label: {
+            Text(label)
+                .font(BauhausTheme.futura(size: 12, weight: .bold))
+                .tracking(0.5)
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+        }
+        .buttonStyle(BauhausBlockButtonStyle(fill: color))
+    }
+
+    /// The response-time + calibration line shown on reveal (time is *reported*,
+    /// never used to grade; the flag calls out the overconfident miss).
+    private var calibrationNote: String {
+        let s = max(0, Int(vm.lastElapsed.rounded()))
+        let t = String(format: "%d:%02d", s / 60, s % 60)
+        let pace = s > 120 ? " · OVER 2:00" : ""
+        return vm.lastOverconfident ? "⚠ CONFIDENT BUT WRONG · \(t)\(pace)" : "TIME \(t)\(pace)"
+    }
+
+    /// Answer sub-state (auto-grade on): a calibration/pace line, the engine's
+    /// rating + NEXT, and the four manual buttons kept below as a one-tap override.
     private func autoRatingBar(_ rating: Rating) -> some View {
         VStack(spacing: 0) {
             Rectangle().fill(BauhausTheme.ink).frame(height: BauhausTheme.rowRule)
+            Text(calibrationNote)
+                .font(BauhausTheme.futura(size: 12, weight: .bold))
+                .tracking(1)
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 8)
+                .background(vm.lastOverconfident ? BauhausTheme.red : BauhausTheme.ink)
             HStack(spacing: BauhausTheme.buttonGap) {
                 Text("AI · \(rating.label.uppercased())")
                     .font(BauhausTheme.futura(size: 15, weight: .bold))
@@ -546,6 +656,21 @@ struct ContentView: View {
         case .good:  return BauhausTheme.green
         case .easy:  return BauhausTheme.blue
         }
+    }
+
+    /// One stat block in the finished-screen calibration/pacing recap.
+    private func calibrationStat(_ value: String, _ label: String) -> some View {
+        VStack(spacing: 3) {
+            Text(value)
+                .font(BauhausTheme.futura(size: 20, weight: .bold).monospacedDigit())
+                .foregroundColor(BauhausTheme.ink)
+            Text(label)
+                .font(BauhausTheme.futura(size: 9, weight: .bold))
+                .tracking(1)
+                .foregroundColor(BauhausTheme.ink)
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity)
     }
 
     /// Question sub-state: full-width ink SHOW ANSWER bar with a 3px ink rule

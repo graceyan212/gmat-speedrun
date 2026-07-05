@@ -193,10 +193,13 @@ int anki_get_scores(int64_t backend_ptr, uint8_t **out_data, uintptr_t *out_len)
 
 /**
  * Auto-grade a tapped multiple-choice answer into an Anki ease (1..=4) using the
- * shared engine (correctness + response time + difficulty vs ability). Pair the
- * result with `anki_answer_rating` to record the review.
+ * shared engine: the rating comes from correctness × the student's confidence
+ * (not from time). Pair the result with `anki_answer_rating` to record the
+ * review. The caller can derive the "overconfident miss" flag itself (wrong +
+ * confidence > 0); the desktop path reads it from the RPC response.
  *
- * `correct`: 0 = wrong, non-zero = right. `target_seconds`: 0 = unknown.
+ * `correct`: 0 = wrong, non-zero = right. `confidence`: 0 = guessing,
+ * 1 = fairly sure, 2 = confident.
  *
  * # Safety
  * - `backend_ptr` must be from `anki_open_backend` with a collection open.
@@ -204,11 +207,7 @@ int anki_get_scores(int64_t backend_ptr, uint8_t **out_data, uintptr_t *out_len)
  * Returns the ease 1..=4 on success; -1 on FFI error, -2 on backend error,
  * -3 on decode error.
  */
-int anki_grade_answer(int64_t backend_ptr,
-                      int64_t card_id,
-                      uint8_t correct,
-                      uint32_t elapsed_ms,
-                      uint32_t target_seconds);
+int anki_grade_answer(int64_t backend_ptr, uint8_t correct, uint32_t confidence);
 
 /**
  * Answer the given card with a rating, rebuilding the CardAnswer from the

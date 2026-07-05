@@ -58,6 +58,23 @@ enum Rating: UInt32, CaseIterable {
     }
 }
 
+/// The student's self-reported confidence in the answer they picked. Wire values
+/// match the engine's `Confidence` (0/1/2). Doubles as the "keep working vs.
+/// skip/guess" signal.
+enum Confidence: UInt32, CaseIterable {
+    case guessing = 0
+    case fairlySure = 1
+    case confident = 2
+
+    var label: String {
+        switch self {
+        case .guessing: return "Guessing"
+        case .fairlySure: return "Fairly sure"
+        case .confident: return "Confident"
+        }
+    }
+}
+
 enum AnkiBridgeError: Error, CustomStringConvertible {
     case backendInit
     case openCollection(Int32)
@@ -190,14 +207,13 @@ final class AnkiEngine {
         guard rc == 0 else { throw AnkiBridgeError.answer(rc) }
     }
 
-    /// Ask the shared engine to auto-grade a tapped multiple-choice answer into a
-    /// Rating — from correctness, response time, and the card's difficulty vs the
-    /// learner's ability (all computed in rslib). `targetSeconds` 0 = unknown.
-    /// Never throws: a grading hiccup falls back to `.good` so a review is never
-    /// blocked (the bridge returns the ease 1...4, or ≤0 on error).
-    func autoGrade(cardId: Int64, correct: Bool, elapsedMs: UInt32, targetSeconds: UInt32 = 0) -> Rating {
-        let ease = anki_grade_answer(backendPtr, cardId, correct ? 1 : 0, elapsedMs, targetSeconds)
-        note("anki_grade_answer card_id=\(cardId) correct=\(correct) elapsed=\(elapsedMs)ms -> ease=\(ease)")
+    /// Ask the shared engine to grade a tapped answer into a Rating from
+    /// correctness × the student's confidence (calibration, not time — computed
+    /// in rslib). Never throws: a grading hiccup falls back to `.good` so a review
+    /// is never blocked (the bridge returns the ease 1...4, or ≤0 on error).
+    func autoGrade(correct: Bool, confidence: Confidence) -> Rating {
+        let ease = anki_grade_answer(backendPtr, correct ? 1 : 0, confidence.rawValue)
+        note("anki_grade_answer correct=\(correct) confidence=\(confidence.label) -> ease=\(ease)")
         return Rating(rawValue: UInt32(truncatingIfNeeded: ease)) ?? .good
     }
 
