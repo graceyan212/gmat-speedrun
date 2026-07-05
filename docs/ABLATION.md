@@ -41,22 +41,22 @@ Rasch model, differing only in **which item they pick next**:
   `adaptive.rs::note_difficulty` reads it: prefer the AI rating, else the coarse
   `difficulty::easy|medium|hard` tag mapped to 20 / 50 / 80. This yields
   **369 items**, difficulty mean **52.2** / sd **21.0** on the 0-100 scale
-  (range 16-82), which map to logits `b` in **[-1.36, +1.28]** via
-  `b = (d/100 - 0.5) * 4.0`. (68 items are finely AI-rated; the rest carry
+  (range 16-82), which map to logits $b$ in $[-1.36, +1.28]$ via
+  $b = (d/100 - 0.5)\cdot 4.0$. (68 items are finely AI-rated; the rest carry
   coarse tags, which is why the distribution clusters at 20/50/80.)
 - **Equal budget.** Every arm runs `N = 60` item-attempts. Repeated items
   aggregate `passed/total` per item, mirroring how the app counts answers from
   the revlog.
 - **Seeds.** `200` seeds. Each seed draws one learner's `true_theta` uniformly
-  in `[-2, +2]` logits, and that *same learner* is run through all three arms
+  in $[-2, +2]$ logits, and that *same learner* is run through all three arms
   (paired comparison), so results are not specific to one ability level.
 
 ### Metrics
 
 - **(a) Desirable-difficulty band** — fraction of presented items with
-  `|b - true_theta| < 1.0` logits (items neither too easy nor too hard for the
-  learner). Higher is better; ADAPTIVE should be highest.
-- **(b) Ability-estimation error** — `|theta_hat - true_theta|` after all `N`
+  $|b - \theta_{\text{true}}| < 1.0$ logits (items neither too easy nor too hard
+  for the learner). Higher is better; ADAPTIVE should be highest.
+- **(b) Ability-estimation error** — $|\hat\theta - \theta_{\text{true}}|$ after all `N`
   items. Lower is better; ADAPTIVE should converge fastest.
 
 ## Results (ACTUAL numbers from the run)

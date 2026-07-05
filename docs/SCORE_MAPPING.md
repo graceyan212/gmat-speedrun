@@ -51,12 +51,15 @@ has an FSRS stability and a last-review time (skipping stability ≤ 0), compute
 the current retrievability via the `fsrs` crate's `current_retrievability`
 (`gmat_scores.rs:130-137`):
 
-```
-days  = max(0, (now_ms − last_review_ms) / 86_400_000)
-decay = card.decay, else FSRS5_DEFAULT_DECAY = 0.5
-factor = 0.9^(1 / −decay) − 1
-recall = (days / stability · factor + 1)^(−decay)
-```
+$$
+\begin{aligned}
+\text{days} &= \max\!\left(0,\ \frac{\text{now} - \text{last\_review}}{86{,}400{,}000}\right) \\[2pt]
+\text{factor} &= 0.9^{\,1/(-\text{decay})} - 1 \\[2pt]
+\text{recall} &= \left(\frac{\text{days}}{\text{stability}}\cdot \text{factor} + 1\right)^{-\text{decay}}
+\end{aligned}
+$$
+
+where $\text{decay}$ is the card's decay, else the FSRS-5 default $0.5$.
 
 (`current_retrievability` and `FSRS5_DEFAULT_DECAY = 0.5` are from
 `fsrs-5.2.0/src/inference.rs:24,60-63`; `MS_PER_DAY = 86_400_000.0` at
@@ -66,12 +69,16 @@ recall = (days / stability · factor + 1)^(−decay)
 **Score + range** (`gmat_scores.rs:143-156`). Take the mean and standard
 deviation of the per-card recalls (`mean_sd`, `gmat_scores.rs:405`):
 
-```
-score = mean · 100
-half  = sd · 100                      (±1 SD of per-card recall)
-low   = max(0,   score − half)
-high  = min(100, score + half)
-```
+$$
+\begin{aligned}
+\text{score} &= \text{mean}\cdot 100 \\
+\text{half} &= \text{sd}\cdot 100 \\
+\text{low} &= \max(0,\ \text{score} - \text{half}) \\
+\text{high} &= \min(100,\ \text{score} + \text{half})
+\end{aligned}
+$$
+
+where $\text{half}$ is $\pm 1$ SD of per-card recall.
 
 - **Unit:** `pct`. **Range:** 0–100, band = mean ± 1 SD (clamped to [0,100]).
 - **Confidence:** empty (not reported for memory).
@@ -97,42 +104,50 @@ logit from its tags (`difficulty_logit` / `difficulty_0_100`,
 The 0–100 value maps to a logit with `DIFFICULTY_SCALE = 4.0`
 (`gmat_scores.rs:49,264`):
 
-```
-b = (difficulty/100 − 0.5) · 4.0        → range ±2 logits (0→−2, 50→0, 100→+2)
-```
+$$
+b = \left(\frac{\text{difficulty}}{100} - 0.5\right)\cdot 4.0
+\qquad (\text{range } \pm 2 \text{ logits:}\ 0\!\to\!-2,\ 50\!\to\!0,\ 100\!\to\!+2)
+$$
 
-**θ via Newton MLE.** For `P(correct) = σ(θ − b)` with `σ(x) = 1/(1+e^−x)`
-(`sigmoid`, `gmat_scores.rs:401`), θ is the maximum-likelihood estimate over
-answered items, solved by Newton–Raphson from θ = 0 (`gmat_scores.rs:193-211`):
+**θ via Newton MLE.** For $P(\text{correct}) = \sigma(\theta - b)$ with
+$\sigma(x) = 1/(1+e^{-x})$ (`sigmoid`, `gmat_scores.rs:401`), $\theta$ is the
+maximum-likelihood estimate over answered items, solved by Newton–Raphson from
+$\theta = 0$ (`gmat_scores.rs:193-211`). For up to 50 iterations, with
+$p_i = \sigma(\theta - b_i)$ per item ($c_i$ correct of $n_i$ attempts):
 
-```
-for up to 50 iterations:
-    grad = Σ [ c − n·p ]                       p = σ(θ − b) per item
-    info = Σ [ n·p·(1 − p) ]                    (Fisher information)
-    step = grad / info;   θ += step
-    stop if |step| < 1e-6  (or info < 1e-9)
-θ = clamp(θ, −6.0, 6.0)                          (gmat_scores.rs:212)
-```
+$$
+\text{grad} = \sum_i \left(c_i - n_i\,p_i\right), \qquad
+\text{info} = \sum_i n_i\,p_i\,(1 - p_i), \qquad
+\theta \mathrel{+}= \frac{\text{grad}}{\text{info}}
+$$
+
+stopping when $|\text{step}| < 10^{-6}$ (or $\text{info} < 10^{-9}$), then
+clamping $\theta$ to $[-6, 6]$ (`gmat_scores.rs:212`). Here $\text{info}$ is the
+Fisher information.
 
 **Standard error from Fisher information** (`gmat_scores.rs:213-220`):
 
-```
-info = Σ n·p·(1 − p)   (recomputed at the final θ)
-se   = 1 / sqrt(info)   (else 3.0 if info ≈ 0)
-```
+$$
+\text{info} = \sum_i n_i\,p_i\,(1 - p_i), \qquad
+\text{se} = \frac{1}{\sqrt{\text{info}}}
+$$
+
+(info recomputed at the final $\theta$; $\text{se} = 3.0$ if $\text{info} \approx 0$).
 
 **Score + 95% CI** (`to_score_value`, `gmat_scores.rs:240-258`). Map θ (and
 its ±1.96·SE bounds) through the sigmoid to a percentage:
 
-```
-mid = σ(θ)               · 100
-low = σ(θ − 1.96·se)     · 100
-high = σ(θ + 1.96·se)    · 100
-```
+$$
+\begin{aligned}
+\text{mid} &= \sigma(\theta)\cdot 100 \\
+\text{low} &= \sigma(\theta - 1.96\,\text{se})\cdot 100 \\
+\text{high} &= \sigma(\theta + 1.96\,\text{se})\cdot 100
+\end{aligned}
+$$
 
 - **Unit:** `pct`. **Range:** 0–100. The band is the 95% confidence interval
-  (θ ± 1.96·SE) pushed through the sigmoid — asymmetric in pct space, bounded
-  by (0,100) by construction.
+  ($\theta \pm 1.96\,\text{SE}$) pushed through the sigmoid — asymmetric in pct
+  space, bounded by (0,100) by construction.
 - **Confidence:** empty (not reported for performance).
 
 ---
@@ -160,21 +175,28 @@ expected proportion-correct is pulled toward the 4-choice guess floor
 mapped onto the scale with `GMAT_MIN = 205.0` and `GMAT_SPAN = 600.0`
 (`gmat_scores.rs:43-44`):
 
-```
-to_gmat(p) = GMAT_MIN + [ p·coverage + GUESS_FLOOR·(1 − coverage) ] · GMAT_SPAN
-score      = round_to_10( to_gmat( σ(θ) ) )
-```
+$$
+\begin{aligned}
+\text{to\_gmat}(p) &= 205 + \big[\,p\cdot c + 0.25\,(1 - c)\,\big]\cdot 600 \\
+\text{score} &= \text{round}_{10}\!\big(\text{to\_gmat}(\sigma(\theta))\big)
+\end{aligned}
+$$
+
+where $c$ = coverage; $205$ = `GMAT_MIN`, $600$ = `GMAT_SPAN`, and $0.25$ =
+`GUESS_FLOOR` (the 4-choice guess floor).
 
 `round_to_10` snaps to the nearest 10 (`gmat_scores.rs:412`) so scores step by
 10, matching real GMAT reporting.
 
 **Range: θ's 95% CI widened by the uncovered fraction** (`gmat_scores.rs:335-338`):
 
-```
-widen = (1 − coverage) · 60
-low   = round_to_10( max(GMAT_MIN,        to_gmat(σ(θ − 1.96·se)) − widen) )
-high  = round_to_10( min(GMAT_MAX_CLAMP,  to_gmat(σ(θ + 1.96·se)) + widen) )
-```
+$$
+\begin{aligned}
+\text{widen} &= (1 - c)\cdot 60 \\
+\text{low} &= \text{round}_{10}\!\big(\max(205,\ \text{to\_gmat}(\sigma(\theta - 1.96\,\text{se})) - \text{widen})\big) \\
+\text{high} &= \text{round}_{10}\!\big(\min(805,\ \text{to\_gmat}(\sigma(\theta + 1.96\,\text{se})) + \text{widen})\big)
+\end{aligned}
+$$
 
 `GMAT_MAX_CLAMP = GMAT_MIN + GMAT_SPAN = 805` (`gmat_scores.rs:359`). So the
 band is the performance 95% CI projected onto the scale, then padded by up to

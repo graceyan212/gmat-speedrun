@@ -17,7 +17,7 @@ give-up rule. Full formulas, constants, and source line references are in
 |---|---|---|
 | **Memory** | FSRS current retrievability | Can the student recall studied material *right now*? Mean ± 1 SD of per-card FSRS recall, on 0–100. |
 | **Performance** | Rasch / 1PL ability (θ) | Can the student answer a new exam-style item? Newton-MLE θ over answered items, mapped through the sigmoid to 0–100 with a 95% CI. |
-| **Readiness** | θ → GMAT 205–805 scale | What would the student score on the exam? σ(θ) discounted by topic coverage, mapped onto 205–805 (`GMAT_MIN = 205`, `GMAT_SPAN = 600`, clamp 805), stepped to the nearest 10. |
+| **Readiness** | θ → GMAT 205–805 scale | What would the student score on the exam? $\sigma(\theta)$ discounted by topic coverage, mapped onto 205–805 (`GMAT_MIN = 205`, `GMAT_SPAN = 600`, clamp 805), stepped to the nearest 10. |
 
 The Performance θ estimator is the same Rasch/1PL solver the adaptive
 card-selection feature uses, so the score and the study feature share one
@@ -157,10 +157,10 @@ budget** (same attempts, same seeds). Full method and caveats:
 Setup:
 
 - Deck: **369 items** with difficulty, mean **52.17** / sd **21.0** on the
-  0–100 scale (range 16–82), logit `b` in **[−1.36, +1.28]** via
-  `b = (d/100 − 0.5) · 4.0`.
+  0–100 scale (range 16–82), logit $b$ in $[-1.36, +1.28]$ via
+  $b = (d/100 - 0.5)\cdot 4.0$.
 - Budget **N = 60** attempts/arm, **200** seeds, desirable band
-  `|b − true_theta| < 1.0`, `SCALE = 4.0`.
+  $|b - \theta_{\text{true}}| < 1.0$, `SCALE = 4.0`.
 
 Results (mean ± sd over 200 seeds):
 

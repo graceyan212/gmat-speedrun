@@ -59,7 +59,7 @@ student's own answers:
 - Join each review to its item (`id::` tag) → AI difficulty + coarse difficulty.
 - Fit a 1-parameter Rasch ability θ on the first 70% of answers (by time), once
   per model.
-- On the held-out last 30%, predict `P(correct)=σ(θ − b)` and score **Brier**
+- On the held-out last 30%, predict $P(\text{correct}) = \sigma(\theta - b)$ and score **Brier**
   (lower = better calibrated) and **accuracy**. Lower held-out Brier for AI ⇒
   AI difficulty predicts the student's performance better ⇒ it beats the baseline.
 
@@ -84,7 +84,7 @@ lower; AI wins 23/30). So the tie is a data limitation, not a broken eval.
 `anki/rslib/src/scheduler/adaptive.rs` (shared engine → desktop **and** phone):
 - Estimates the student's ability **θ** with a Rasch/1PL Newton MLE over their
   answered items joined with each item's difficulty (`aidiff::`, falling back to
-  coarse). Difficulty maps to a logit `b=(d/100−0.5)·4`.
+  coarse). Difficulty maps to a logit $b = (d/100 - 0.5)\cdot 4$.
 - Picks the card whose difficulty is **nearest θ** — harder when you're doing
   well, easier when you're struggling — as a **secondary sort key** *within* the
   existing points-at-stake weakest-topic order (weakness sets the neighbourhood,
@@ -97,7 +97,7 @@ lower; AI wins 23/30). So the tie is a data limitation, not a broken eval.
 **Shared ability estimator.** `estimate_ability() → {theta, standard_error}` is
 `pub(crate)` so the Performance score (`scheduler::gmat_scores`) and this selector
 use **one** θ — the score you see and the card it picks can't drift. The standard
-error (1/√Fisher information) gives the Performance score its range.
+error ($1/\sqrt{\text{Fisher information}}$) gives the Performance score its range.
 
 ## 4. Switchable off + the ablation
 
