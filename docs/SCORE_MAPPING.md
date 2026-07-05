@@ -118,7 +118,7 @@ $p_i = \sigma(\theta - b_i)$ per item ($c_i$ correct of $n_i$ attempts):
 $$
 \text{grad} = \sum_i \left(c_i - n_i\,p_i\right), \qquad
 \text{info} = \sum_i n_i\,p_i\,(1 - p_i), \qquad
-\theta \mathrel{+}= \frac{\text{grad}}{\text{info}}
+\theta \gets \theta + \frac{\text{grad}}{\text{info}}
 $$
 
 stopping when $|\text{step}| < 10^{-6}$ (or $\text{info} < 10^{-9}$), then

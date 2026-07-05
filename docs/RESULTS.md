@@ -164,7 +164,7 @@ Setup:
 
 Results (mean ± sd over 200 seeds):
 
-| Arm | % items in desirable band (higher better) | θ error `|θ̂ − true_θ|` @ N (lower better) |
+| Arm | % items in desirable band (higher better) | $\theta$ error $\lvert\hat\theta - \theta_{\text{true}}\rvert$ @ N (lower better) |
 |---|:---:|:---:|
 | **ADAPTIVE** | **95.0% ± 8.3%** | **0.212 ± 0.161** |
 | OFF | 47.5% ± 24.1% | 0.271 ± 0.189 |
