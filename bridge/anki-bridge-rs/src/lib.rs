@@ -387,7 +387,10 @@ pub unsafe extern "C" fn anki_import_apkg(
                 anki_proto::import_export::ImportAnkiPackageUpdateCondition::Always as i32,
             update_notetypes:
                 anki_proto::import_export::ImportAnkiPackageUpdateCondition::Always as i32,
-            with_scheduling: false,
+            // Import scheduling + revlog so the deck's baked demo history (the
+            // mid-progress state that drives the three scores + topic coverage)
+            // comes in with the cards, not just blank new cards.
+            with_scheduling: true,
             with_deck_configs: true,
         }),
     };
