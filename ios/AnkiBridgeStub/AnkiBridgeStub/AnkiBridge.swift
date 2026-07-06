@@ -152,27 +152,35 @@ final class AnkiEngine {
         note("anki_open rc=\(orc)")
         guard orc == 0 else { throw AnkiBridgeError.openCollection(orc) }
 
-        guard isFirstLaunch else {
-            note("persisted collection found; skipping starter-deck import")
-            return
+        // 3. Import the bundled GMAT .apkg on first launch, OR re-import to
+        // MIGRATE an older collection to the current deck layout. Re-importing
+        // updates the existing notes by GUID (no duplication — verified) and
+        // re-files cards into the current per-topic subdecks, so an app updated
+        // in place (persisted collection from before the topic split) still gets
+        // the 28 topic decks. A version flag gates it to run only once per layout
+        // bump, never on an ordinary relaunch (which would waste work).
+        let currentDeckVersion = 2  // 2 = 28 per-topic subdecks + exam parent
+        let storedVersion = UserDefaults.standard.integer(forKey: "gmatDeckVersion")
+        let needsImport = isFirstLaunch || storedVersion < currentDeckVersion
+
+        if needsImport {
+            guard let apkg = Bundle.main.url(forResource: "gmat_focus", withExtension: "apkg") else {
+                note("FATAL: gmat_focus.apkg not found in app bundle")
+                throw AnkiBridgeError.importPackage(-99)
+            }
+            let irc = apkg.path.withCString { anki_import_apkg(backendPtr, $0) }
+            note("anki_import_apkg rc=\(irc) firstLaunch=\(isFirstLaunch) storedVersion=\(storedVersion)")
+            guard irc == 0 else { throw AnkiBridgeError.importPackage(irc) }
+            UserDefaults.standard.set(currentDeckVersion, forKey: "gmatDeckVersion")
+        } else {
+            note("persisted collection up to date (deckVersion=\(storedVersion)); skipping import")
         }
 
-        // 3. First launch only: import the bundled GMAT .apkg through rslib.
-        // On a persisted collection this must NOT re-run, or every relaunch
-        // would duplicate the starter deck's cards.
-        guard let apkg = Bundle.main.url(forResource: "gmat_focus", withExtension: "apkg") else {
-            note("FATAL: gmat_focus.apkg not found in app bundle")
-            throw AnkiBridgeError.importPackage(-99)
-        }
-        let irc = apkg.path.withCString { anki_import_apkg(backendPtr, $0) }
-        note("anki_import_apkg rc=\(irc) (\(apkg.lastPathComponent))")
-        guard irc == 0 else { throw AnkiBridgeError.importPackage(irc) }
-
-        // 4. Point the scheduler at the imported deck (a fresh collection still
-        // has the empty Default deck selected, so GetQueuedCards would be empty).
+        // 4. Point the scheduler at the parent deck as a default. The home screen
+        // re-selects a specific topic subdeck (or the exam) when the student picks,
+        // so this is non-fatal — a brand-new empty collection may not have it yet.
         let src = "GMAT Focus".withCString { anki_select_deck_by_name(backendPtr, $0) }
         note("anki_select_deck_by_name(\"GMAT Focus\") rc=\(src)")
-        guard src == 0 else { throw AnkiBridgeError.selectDeck(src) }
     }
 
     /// Fetch + render the next queued card. Returns nil when the queue is empty.

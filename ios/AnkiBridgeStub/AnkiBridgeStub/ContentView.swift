@@ -521,7 +521,8 @@ struct ContentView: View {
 
     private var header: some View {
         HStack(alignment: .center) {
-            // Left: geometric mark + GMAT wordmark.
+            // Left: geometric mark + GMAT wordmark — tap to return to the
+            // dashboard (the app's home / deck picker) from anywhere.
             HStack(spacing: 8) {
                 BauhausMark(size: 15)
                 Text("GMAT")
@@ -530,6 +531,8 @@ struct ContentView: View {
                     .foregroundColor(BauhausTheme.ink)
                     .fixedSize()
             }
+            .contentShape(Rectangle())
+            .onTapGesture { vm.goHome() }
 
             Spacer()
 
