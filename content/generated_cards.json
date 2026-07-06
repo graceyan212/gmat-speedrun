@@ -1,0 +1,362 @@
+{
+  "meta": {
+    "gen_version": "1.0",
+    "source": "content/sources/percents_and_ratios.md",
+    "requested_n": 50,
+    "generated_n": 50,
+    "batch_size": 10,
+    "backend": "cli"
+  },
+  "cards": [
+    {
+      "id": "GEN-001",
+      "front": "You increase a quantity by 20% and then decrease the result by 20%. What is the net percent change?",
+      "back": "Successive percent changes multiply, they do not add. Apply the multipliers in sequence: 1.20 \u00d7 0.80 = 0.96, so the value ends at 96% of the original \u2014 a net 4% DECREASE, not 0%. This is the most common percent trap on the exam.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "4% decrease"
+    },
+    {
+      "id": "GEN-002",
+      "front": "A company's revenue rises from 40 to 65. What is the percent increase?",
+      "back": "Percent change = (new \u2212 old) / old \u00d7 100, and the denominator is ALWAYS the original value. (65 \u2212 40)/40 = 25/40 = 0.625 = 62.5%.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "62.5%"
+    },
+    {
+      "id": "GEN-003",
+      "front": "45 is 30% of what number?",
+      "back": "If A is p% of N, then N = A \u00f7 (p/100). Here N = 45 \u00f7 0.30 = 150.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "150"
+    },
+    {
+      "id": "GEN-004",
+      "front": "Split $120 in the ratio 3 : 5. What is the larger share?",
+      "back": "Total parts = 3 + 5 = 8; each part is worth 120/8 = 15. The shares are 3\u00d715 = 45 and 5\u00d715 = 75, so the larger share is $75.",
+      "topic": "Quant::Arithmetic::RatiosProportions",
+      "answer": "$75"
+    },
+    {
+      "id": "GEN-005",
+      "front": "If a : b = 2 : 3 and b : c = 4 : 5, what is a : c?",
+      "back": "Scale each ratio so the common term b matches. Using a common b of 12: a:b = 8:12 and b:c = 12:15. Read off the ends: a : c = 8 : 15.",
+      "topic": "Quant::Arithmetic::RatiosProportions",
+      "answer": "8:15"
+    },
+    {
+      "id": "GEN-006",
+      "front": "Solve the proportion 3/4 = x/20.",
+      "back": "Cross-multiply: a/b = c/d if and only if a\u00b7d = b\u00b7c. So 3\u00d720 = 4\u00d7x \u2192 60 = 4x \u2192 x = 15.",
+      "topic": "Quant::Arithmetic::RatiosProportions",
+      "answer": "15"
+    },
+    {
+      "id": "GEN-007",
+      "front": "If 3 machines make 300 parts, how many parts do 5 machines make at the same rate?",
+      "back": "Set up a proportion and scale by the machine ratio: 300 \u00d7 (5/3) = 500 parts.",
+      "topic": "Quant::Arithmetic::RatiosProportions",
+      "answer": "500"
+    },
+    {
+      "id": "GEN-008",
+      "front": "A rate rises from 4% to 6%. Express the change both in percentage points and in relative percent terms.",
+      "back": "It rises by 2 percentage points (6 \u2212 4). In relative terms that is a 50% increase, since 2/4 = 0.50. A percentage-point change is not the same as a percent change.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "2 percentage points; +50% relative"
+    },
+    {
+      "id": "GEN-009",
+      "front": "Convert the fraction 3/8 to a percent.",
+      "back": "Divide and multiply by 100: 3 \u00f7 8 = 0.375 = 37.5%.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "37.5%"
+    },
+    {
+      "id": "GEN-010",
+      "front": "For a fixed distance, if you double your speed, what happens to the travel time \u2014 and which quantity stays constant?",
+      "back": "Rate and time are inversely proportional (y = k/x): doubling the speed halves the time. In inverse proportion the PRODUCT x\u00b7y stays constant, not the sum.",
+      "topic": "Quant::Arithmetic::RatiosProportions",
+      "answer": "half the time"
+    },
+    {
+      "id": "GEN-011",
+      "front": "A shirt costs $80. What is 15% of $80, and why is finding a percent \"of\" a number a multiplication?",
+      "back": "\"Of\" means \"times,\" so p% of N = (p/100) * N. Here 15% of 80 = 0.15 * 80 = 12. So 15% of $80 is $12.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "12"
+    },
+    {
+      "id": "GEN-012",
+      "front": "45 is 30% of what number? Show how to recover the base.",
+      "back": "If A is p% of N, then N = A / (p/100). Here N = 45 / 0.30 = 150. Check: 30% of 150 = 0.30 * 150 = 45.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "150"
+    },
+    {
+      "id": "GEN-013",
+      "front": "Revenue rises from 40 to 65. What is the percent change, and which value goes in the denominator?",
+      "back": "Percent change = (new - old)/old * 100, and the denominator is ALWAYS the original value (40), never 65. (65 - 40)/40 = 25/40 = 0.625 = 62.5% increase.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "62.5%"
+    },
+    {
+      "id": "GEN-014",
+      "front": "A quantity is increased 20% then decreased 20%. What is the net percent change, and why isn't it 0%?",
+      "back": "Successive percent changes multiply, they don't add. Apply the multipliers in sequence: 1.20 * 0.80 = 0.96, a net 4% DECREASE, not 0%. This is the most common percent trap on the exam.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "4% decrease"
+    },
+    {
+      "id": "GEN-015",
+      "front": "A rate moves from 4% to 6%. Express the change both in percentage points and as a relative percent change.",
+      "back": "These are different ideas. The absolute rise is 6% - 4% = 2 percentage points. The relative change is 2/4 = 0.50 = a 50% increase. The GMAT exploits confusing the two.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "2 percentage points = 50% increase"
+    },
+    {
+      "id": "GEN-016",
+      "front": "Split $120 in the ratio 3:5. What is the LARGER share?",
+      "back": "Total parts = 3 + 5 = 8, so each part = 120/8 = 15. Shares are 3*15 = 45 and 5*15 = 75. The larger share is $75.",
+      "topic": "Quant::Arithmetic::RatiosProportions",
+      "answer": "$75"
+    },
+    {
+      "id": "GEN-017",
+      "front": "Given a:b = 2:3 and b:c = 4:5, find a:c.",
+      "back": "Scale each ratio so the common term b matches. LCM of 3 and 4 is 12: a:b = 8:12 and b:c = 12:15. Read off the ends: a:c = 8:15.",
+      "topic": "Quant::Arithmetic::RatiosProportions",
+      "answer": "8:15"
+    },
+    {
+      "id": "GEN-018",
+      "front": "Solve 3/4 = x/20 using cross-multiplication.",
+      "back": "a/b = c/d if and only if a*d = b*c. So 3*20 = 4*x, giving 60 = 4x, so x = 15.",
+      "topic": "Quant::Arithmetic::RatiosProportions",
+      "answer": "15"
+    },
+    {
+      "id": "GEN-019",
+      "front": "For a fixed distance, you double your speed. What happens to the travel time, and what quantity stays constant?",
+      "back": "Rate-time at fixed distance is inverse proportion (y = k/x): doubling x halves y, so twice the speed means half the time. The PRODUCT speed*time (the distance) stays constant \u2014 inverse proportion holds the product, not the sum, fixed.",
+      "topic": "Quant::Arithmetic::RatiosProportions",
+      "answer": "Time halves; speed*time (product) constant"
+    },
+    {
+      "id": "GEN-020",
+      "front": "If 3 machines make 300 parts, how many parts do 5 machines make at the same rate? Set it up as a proportion.",
+      "back": "Scale by the machine ratio with the unknown isolated: parts = 300 * (5/3) = 500. At the same rate, 5 machines make 500 parts.",
+      "topic": "Quant::Arithmetic::RatiosProportions",
+      "answer": "500"
+    },
+    {
+      "id": "GEN-021",
+      "front": "A quantity is increased by 20% and then that result is decreased by 20%. What is the net percent change, and why is it not 0%?",
+      "back": "Successive percent changes multiply; they do not add. Apply the multipliers in sequence: 1.20 * 0.80 = 0.96, i.e. a net 4% decrease, not 0%.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "4% decrease"
+    },
+    {
+      "id": "GEN-022",
+      "front": "Revenue rises from 40 to 65. Compute the percent change and state which value belongs in the denominator.",
+      "back": "percent change = (new - old)/old * 100, and the denominator is always the ORIGINAL value. (65 - 40)/40 = 25/40 = 0.625 = 62.5%.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "62.5%"
+    },
+    {
+      "id": "GEN-023",
+      "front": "A rate moves from 4% to 6%. Express that change as both a percentage-point change and a relative (percent) change.",
+      "back": "It rises by 2 percentage points (6 - 4), but by 50% in relative terms (2/4 = 0.5). Percentage points and percent change are distinct ideas.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "2 percentage points; 50%"
+    },
+    {
+      "id": "GEN-024",
+      "front": "If a:b = 2:3 and b:c = 4:5, what is a:c?",
+      "back": "Scale each ratio so the common term b matches. Using b = 12: a:b = 8:12 and b:c = 12:15, so a:c = 8:15.",
+      "topic": "Quant::Arithmetic::RatiosProportions",
+      "answer": "8:15"
+    },
+    {
+      "id": "GEN-025",
+      "front": "For an inverse proportion y = k/x, what quantity stays constant, and what happens to travel time if speed doubles over a fixed distance?",
+      "back": "The product x*y stays constant (not the sum). Rate-time at fixed distance is inverse, so doubling the speed halves the time.",
+      "topic": "Quant::Arithmetic::RatiosProportions",
+      "answer": "product x*y constant; time halves"
+    },
+    {
+      "id": "GEN-026",
+      "front": "Solve 3/4 = x/20 for x using cross-multiplication.",
+      "back": "a/b = c/d if and only if a*d = b*c. So 3*20 = 4*x, giving 60 = 4x, so x = 15.",
+      "topic": "Quant::Arithmetic::RatiosProportions",
+      "answer": "15"
+    },
+    {
+      "id": "GEN-027",
+      "front": "A shirt costs $80. What is 15% of $80, and what operation does 'percent of' represent?",
+      "back": "'Percent of' means multiply: p% of N = (p/100)\u00b7N. So 15% of 80 = 0.15 \u00d7 80 = 12.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "12"
+    },
+    {
+      "id": "GEN-028",
+      "front": "45 is 30% of what number? Show how to find the base.",
+      "back": "If A is p% of N, then the base N = A \u00f7 (p/100). Here N = 45 \u00f7 0.30 = 150.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "150"
+    },
+    {
+      "id": "GEN-029",
+      "front": "Revenue rises from 40 to 65. What is the percent increase, and which value belongs in the denominator?",
+      "back": "percent change = (new \u2212 old)/old \u00d7 100, always dividing by the ORIGINAL value. (65 \u2212 40)/40 = 25/40 = 0.625 = 62.5%.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "62.5%"
+    },
+    {
+      "id": "GEN-030",
+      "front": "A value increases 20% and then decreases 20%. What is the net percent change?",
+      "back": "Successive percent changes multiply, they do not add: 1.20 \u00d7 0.80 = 0.96, which is a net 4% DECREASE (not 0%). This is the most common percent trap.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "4% decrease"
+    },
+    {
+      "id": "GEN-031",
+      "front": "A rate moves from 4% to 6%. By how many percentage points did it rise, and by what percent did it rise in relative terms?",
+      "back": "It rose 2 percentage points (6 \u2212 4), but 50% in relative terms (2/4 = 0.50). A percentage-point change is not the same as a percent change.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "2 percentage points; 50% relative"
+    },
+    {
+      "id": "GEN-032",
+      "front": "$120 is divided in the ratio 3:5. How much is the larger share?",
+      "back": "Total parts = 3 + 5 = 8; each part = 120/8 = 15. Shares are 3\u00d715 = 45 and 5\u00d715 = 75, so the larger share is $75.",
+      "topic": "Quant::Arithmetic::RatiosProportions",
+      "answer": "$75"
+    },
+    {
+      "id": "GEN-033",
+      "front": "Solve the proportion 3/4 = x/20 using cross-multiplication.",
+      "back": "a/b = c/d if and only if a\u00b7d = b\u00b7c. So 3\u00d720 = 4\u00d7x \u2192 60 = 4x \u2192 x = 15.",
+      "topic": "Quant::Arithmetic::RatiosProportions",
+      "answer": "15"
+    },
+    {
+      "id": "GEN-034",
+      "front": "In a rate\u2013time problem at fixed distance, if you double the speed, what happens to the time and what quantity stays constant?",
+      "back": "Speed and time are inversely proportional (y = k/x), so doubling the speed halves the time. For inverse proportion the PRODUCT (speed \u00d7 time) stays constant, not the sum.",
+      "topic": "Quant::Arithmetic::RatiosProportions",
+      "answer": "time halves; product constant"
+    },
+    {
+      "id": "GEN-035",
+      "front": "A jacket costs $80. What is 15% of $80, and what arithmetic operation does 'percent of' signal?",
+      "back": "'Of' means multiply: p% of N = (p/100)\u00b7N. So 15% of 80 = 0.15 \u00b7 80 = 12. The answer is $12.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "12"
+    },
+    {
+      "id": "GEN-036",
+      "front": "Revenue rises from 40 to 65. Compute the percent change, and state which value belongs in the denominator.",
+      "back": "percent change = (new \u2212 old)/old \u00d7 100, always dividing by the ORIGINAL value. (65 \u2212 40)/40 = 25/40 = 0.625 = 62.5% increase.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "62.5%"
+    },
+    {
+      "id": "GEN-037",
+      "front": "A quantity increases 20% and then decreases 20%. What is the net change, and why isn't it 0%?",
+      "back": "Successive percent changes multiply rather than add: 1.20 \u00d7 0.80 = 0.96, a net 4% DECREASE. This is the single most common percent trap on the exam.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "4% decrease"
+    },
+    {
+      "id": "GEN-038",
+      "front": "A rate moves from 4% to 6%. Express this change both as percentage points and as a relative percent change.",
+      "back": "It rose 2 percentage points (6 \u2212 4), but 50% in relative terms (2/4 = 0.50). Percentage points and percent change are distinct ideas the GMAT exploits.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "2 percentage points (50% relative)"
+    },
+    {
+      "id": "GEN-039",
+      "front": "Convert the fraction 3/8 to a percent, and give the general method.",
+      "back": "Divide, then multiply by 100: 3/8 = 0.375 = 37.5%.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "37.5%"
+    },
+    {
+      "id": "GEN-040",
+      "front": "At a fixed distance, time is inversely proportional to speed. If you double the speed, what happens to the time, and what quantity stays constant?",
+      "back": "For y = k/x, doubling x halves y \u2014 so doubling the speed halves the time. In inverse proportion the PRODUCT x\u00b7y stays constant (not the sum).",
+      "topic": "Quant::Arithmetic::RatiosProportions",
+      "answer": "half the time (product constant)"
+    },
+    {
+      "id": "GEN-041",
+      "front": "A stock rises 20% one day, then falls 20% the next. What is the net percent change, and why is it not 0%?",
+      "back": "Successive percent changes multiply, they do not add. Apply the multipliers in sequence: 1.20 * 0.80 = 0.96, which is a 4% DECREASE (not 0%). This is the single most common percent trap on the exam.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "4% decrease"
+    },
+    {
+      "id": "GEN-042",
+      "front": "Revenue rises from 40 to 65. Compute the percent change, and state which value goes in the denominator.",
+      "back": "percent change = (new - old) / old * 100, and the denominator is ALWAYS the original value. Here: (65 - 40)/40 = 25/40 = 0.625 = 62.5%.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "62.5%"
+    },
+    {
+      "id": "GEN-043",
+      "front": "A tax rate goes from 4% to 6%. By how many percentage points did it rise, and by what percent did it rise?",
+      "back": "Percentage points and percent are distinct. It rose by 2 percentage points (6 - 4), but in relative terms it rose 50% (2/4 = 0.5). The GMAT exploits this distinction.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "2 percentage points / 50%"
+    },
+    {
+      "id": "GEN-044",
+      "front": "Over a fixed distance, if you double your speed, what happens to the travel time, and which quantity stays constant?",
+      "back": "Speed and time are inversely proportional at fixed distance (y = k/x), so doubling the speed halves the time. For inverse proportion the PRODUCT x*y stays constant, not the sum.",
+      "topic": "Quant::Arithmetic::RatiosProportions",
+      "answer": "Time is halved"
+    },
+    {
+      "id": "GEN-045",
+      "front": "A class has boys and girls in the ratio 3:5. Can you conclude there are 3 boys and 5 girls? What else must you know?",
+      "back": "No. A ratio fixes only relative sizes, not actual counts, so 3:5 could be 3 and 5, or 30 and 50. You need a total (or one actual value) before a ratio yields counts.",
+      "topic": "Quant::Arithmetic::RatiosProportions",
+      "answer": "No - need a total or one actual value"
+    },
+    {
+      "id": "GEN-046",
+      "front": "A quantity is increased by 20% and then that result is decreased by 20%. What is the net percent change, and why isn't it 0%?",
+      "back": "Successive percent changes multiply; they do not add. Apply the multipliers in sequence: (1 + 0.20) \u00d7 (1 \u2212 0.20) = 1.20 \u00d7 0.80 = 0.96. Since 0.96 = 1 \u2212 0.04, the net effect is a 4% decrease, not 0%. This is the single most common percent trap on the exam.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "4% decrease"
+    },
+    {
+      "id": "GEN-047",
+      "front": "Revenue rises from 40 to 65. Compute the percent change, and state which value must go in the denominator.",
+      "back": "percent change = (new \u2212 old) / old \u00d7 100, and the denominator is ALWAYS the original value, never the new one. Here: (65 \u2212 40) / 40 = 25/40 = 0.625 = 62.5%.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "62.5%"
+    },
+    {
+      "id": "GEN-048",
+      "front": "A rate moves from 4% to 6%. Express this change both in percentage points and as a relative percent change.",
+      "back": "These are two different ideas. In absolute terms the rate rises by 2 percentage points (6 \u2212 4 = 2). In relative terms it rises by 50%, because the increase compared to the original is 2/4 = 0.50 = 50%. The GMAT exploits confusion between percentage points and percent change.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "2 percentage points; 50%"
+    },
+    {
+      "id": "GEN-049",
+      "front": "If a : b = 2 : 3 and b : c = 4 : 5, find a : c.",
+      "back": "Scale each ratio so the shared term b matches. Bring b to a common value of 12: a : b = 2 : 3 = 8 : 12, and b : c = 4 : 5 = 12 : 15. Now read off the end terms: a : c = 8 : 15.",
+      "topic": "Quant::Arithmetic::RatiosProportions",
+      "answer": "8:15"
+    },
+    {
+      "id": "GEN-050",
+      "front": "A quantity is first increased by 20%, then that result is decreased by 20%. What is the net percent change from the original value?",
+      "back": "Successive percent changes multiply, they do NOT add. Apply the multipliers in sequence: increasing by 20% multiplies by 1.20, then decreasing by 20% multiplies by 0.80. So the overall factor is 1.20 \u00d7 0.80 = 0.96, which is a net 4% decrease (not 0%). This is the single most common percent trap on the exam.",
+      "topic": "Quant::Arithmetic::Percents",
+      "answer": "4% decrease"
+    }
+  ]
+}

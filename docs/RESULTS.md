@@ -94,6 +94,75 @@ step. Verbatim from the run:
 Reproduce: `python content/tools/eval_difficulty.py <collection.anki2>` prints the
 headline result followed by this leakage check.
 
+### 2.1.1 Text-similarity near-copy scan (rubric 7e)
+
+The check above is **ID-based**: it collapses paraphrase ids (`-pN`) to a base id
+so a paraphrase can't straddle the split. That is blind to a near-copy filed
+under an *unrelated* id. `content/tools/leakage_scan.py` closes that gap by
+scanning the actual **text** of every training item against every test item,
+independent of ids — a direct answer to rubric 7e: *"scan your TRAINING data and
+flag any TEST item, or a NEAR-COPY of one, that slipped in."*
+
+**Scope.** Every item in `content/items.json` carries a `split`; paraphrases
+inherit their parent's split. TRAIN = `split == train`; TEST = `split ∈
+{test, holdout, gold}` (everything **not** used for training), plus the
+`gold_set` probes. Every **train × test** pair is compared (364 × 117 = **42,588
+pairs**).
+
+**Metric.** On normalized text (stem + choices + answer, lowercased, punctuation
+stripped, whitespace collapsed) we compute **both** `difflib.SequenceMatcher`
+ratio (character-level, order-sensitive) **and token Jaccard** (order-free) and
+take the **max**, so a match on *either* trips the flag at **threshold 0.85**.
+Two normalization details keep it honest on a formulaic math bank: (i) the 19
+Data-Sufficiency items share one of two identical ~300-char answer-key templates
+("Statement (1) ALONE is sufficient…"); that boilerplate is stripped so it can't
+manufacture ~0.9 similarity between two unrelated DS questions. (ii) A flagged
+cross pair counts as a **verbatim leak** only if the two are the *same question*
+(stem-only similarity ≥ 0.97 **and** matching answer, or an exact duplicate);
+otherwise it is a **template-sibling** (same solution schema, different
+numbers/answer).
+
+**Result — CLEAN.** Verbatim output:
+
+```
+(a) INTENTIONAL same-base paraphrase pairs (expected, NOT leakage):
+      across train x test boundary : 0
+      total anywhere in the bank   : 15
+(b) CROSS-ITEM VERBATIM LEAKS (train x test, DIFFERENT base id,
+    same question: near-identical stem AND same answer) — MUST be 0:
+      verbatim leaks (>= threshold): 0
+      exact normalized duplicates  : 0
+(c) TEMPLATE-SIBLINGS above threshold (same solution schema, DIFFERENT
+    numbers and answer — reported for transparency, NOT leakage):
+      count: 3
+        - TRAIN Q-PS-010-p2 (ans E)  ~  TEST BG-0143 (ans C)  (max=0.908; different answer)
+        - TRAIN BG-0056 (ans B)  ~  TEST Q-PS-003 (ans C)  (max=0.8692; different answer)
+        - TRAIN BG-0056 (ans B)  ~  TEST Q-PS-003-p2 (ans B)  (max=0.854; same answer, stem numbers differ)
+
+RESULT: CLEAN — 0 verbatim test items (or copies) leaked into train.
+```
+
+- **0 verbatim leaks, 0 exact cross-duplicates, 0 same-base paraphrases across
+  the split** — no test item, or a copy of one, is in the training data.
+- The **3 template-siblings** are reported transparently and are **not** leakage:
+  each is a *different question* with different numbers and an
+  independently-derived answer (e.g. TRAIN `n²÷900 → 30` vs TEST `n²÷72 → 12`).
+  GMAT is built from a finite set of question templates, so template overlap
+  between any two large sets is unavoidable; solving the training item does **not**
+  reveal the test item's answer. For context, deliberate same-base paraphrases in
+  this bank reach 0.93–1.0 similarity, so 0.85–0.91 template-siblings sit inside
+  the normal similarity range — hence they are flagged for the reader, not treated
+  as leaks. At a stricter `--threshold 0.9` only one template-sibling remains and
+  verbatim leaks stay **0**.
+- The detector is not a rubber-stamp: planting an exact copy (and, separately, a
+  perturbed near-copy) of a test item into train makes it report the leak and exit
+  non-zero.
+
+Reproduce: `python content/tools/leakage_scan.py` (stdlib only — no deps; exits
+non-zero if any verbatim leak is found). `--json` prints a machine-readable
+summary; `--top N` lists the N closest cross-item pairs; `--threshold T` adjusts
+the flag cutoff.
+
 ---
 
 ## 3. Calibration (from the run)
@@ -186,6 +255,35 @@ Machine-readable summary from the run:
 
 ---
 
+## 4.1 Paraphrase test: is Performance just copying Memory?
+
+**Rubric 7d.** For ~30 cards with 2+ reworded exam-style questions each, compare
+recall on the memorized card with accuracy on the reworded questions; if the two
+are basically equal, the performance model is just echoing the memory model.
+Full method and caveats: [`docs/PARAPHRASE_TEST.md`](PARAPHRASE_TEST.md).
+
+Corpus: **29 source cards**, **83 paraphrases**, authored in
+[`content/items.json`](../content/items.json). **This is a labelled SIMULATION,
+not real students** — both signals are *derived* from the app's Rasch/1PL model
+(port of `adaptive.rs` via `ablation.py`), under one stated assumption (a
+familiarity bonus on the memorized card). Result (verbatim from the run):
+
+| Signal | Mean |
+|---|:---:|
+| Memory recall (original card) | 86.8% |
+| Paraphrase accuracy (new wording) | 71.3% |
+| **Gap (paraphrase − memory)** | **−0.155** |
+
+The gap is clearly **nonzero and negative** → reworded questions are harder than
+raw recall, so Performance is **not** an echo of Memory. Had the gap been ≈ 0
+the honest conclusion would be the reverse. The size of the gap is a model
+output (not tuned); its sign follows from the familiarity-bonus assumption. See
+[`docs/PARAPHRASE_TEST.md`](PARAPHRASE_TEST.md) for the per-section rollup, the
+small-sample noise notes, and how a real `responses.json` would drop in with no
+code change.
+
+---
+
 ## 5. Give-up rule and "still scores with AI off"
 
 **Give-up / abstain.** Each score refuses to invent a number when it lacks its
@@ -237,10 +335,14 @@ path, and both still recover θ.
 
 - Difficulty eval + **leakage check** (§2, §2.1):
   `python content/tools/eval_difficulty.py <collection.anki2>`
+- **Train/test near-copy scan** (§2.1.1, rubric 7e — text-similarity, no deps):
+  `python content/tools/leakage_scan.py`
 - Calibration reliability (§3) + `docs/calibration.html`:
   `python content/tools/calibration.py <collection.anki2>`
 - Ablation (§4, deterministic — numbers reproduce exactly):
   `python content/tools/ablation.py`
+- Paraphrase test (§4.1, rubric 7d — memory vs performance gap, deterministic):
+  `python content/scripts/gen_paraphrase_responses.py && python content/scripts/memory_vs_performance.py content/responses.json`
 - Eval-harness self-test on synthetic signal: `python content/tools/eval_selftest.py`
 - **Prompt-injection resistance** of the calibration pipeline (no model call):
   `python content/tools/injection_test.py`

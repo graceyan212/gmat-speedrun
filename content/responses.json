@@ -1,0 +1,469 @@
+{
+  "_README": "SIMULATED responses for the paraphrase test (rubric 7d). NOT real students. Both signals are DERIVED from the app's Rasch/1PL model (port of anki/rslib/src/scheduler/adaptive.rs via content/tools/ablation.py). memory_recall = sigmoid((theta+bonus)-b); each paraphrase_correct[i] ~ Bernoulli(sigmoid(theta-b)). Deterministic: SEED=7, THETA_TRUE=0.6, FAMILIARITY_BONUS=1.2. Regenerate: python content/scripts/gen_paraphrase_responses.py",
+  "_params": {
+    "seed": 7,
+    "theta_true": 0.6,
+    "familiarity_bonus": 1.2,
+    "scale": 4.0
+  },
+  "Q-PS-001": {
+    "memory_recall": 0.9309,
+    "paraphrase_correct": [
+      true,
+      true,
+      true
+    ],
+    "_sim": {
+      "difficulty_0_100": 30.0,
+      "b_logit": -0.8,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.8022,
+      "n_paraphrases": 3
+    }
+  },
+  "Q-PS-002": {
+    "memory_recall": 0.8808,
+    "paraphrase_correct": [
+      true,
+      true,
+      true
+    ],
+    "_sim": {
+      "difficulty_0_100": 45.0,
+      "b_logit": -0.2,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.69,
+      "n_paraphrases": 3
+    }
+  },
+  "Q-PS-003": {
+    "memory_recall": 0.715,
+    "paraphrase_correct": [
+      true,
+      false,
+      true
+    ],
+    "_sim": {
+      "difficulty_0_100": 72.0,
+      "b_logit": 0.88,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.4305,
+      "n_paraphrases": 3
+    }
+  },
+  "V-CR-001": {
+    "memory_recall": 0.8481,
+    "paraphrase_correct": [
+      true,
+      true,
+      true
+    ],
+    "_sim": {
+      "difficulty_0_100": 52.0,
+      "b_logit": 0.08,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.6271,
+      "n_paraphrases": 3
+    }
+  },
+  "V-CR-002": {
+    "memory_recall": 0.832,
+    "paraphrase_correct": [
+      true,
+      false,
+      true
+    ],
+    "_sim": {
+      "difficulty_0_100": 55.0,
+      "b_logit": 0.2,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.5987,
+      "n_paraphrases": 3
+    }
+  },
+  "V-RC-001": {
+    "memory_recall": 0.8676,
+    "paraphrase_correct": [
+      true,
+      true,
+      false
+    ],
+    "_sim": {
+      "difficulty_0_100": 48.0,
+      "b_logit": -0.08,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.6637,
+      "n_paraphrases": 3
+    }
+  },
+  "Q-PS-004": {
+    "memory_recall": 0.9309,
+    "paraphrase_correct": [
+      true,
+      true,
+      false
+    ],
+    "_sim": {
+      "difficulty_0_100": 30.0,
+      "b_logit": -0.8,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.8022,
+      "n_paraphrases": 3
+    }
+  },
+  "Q-PS-005": {
+    "memory_recall": 0.9405,
+    "paraphrase_correct": [
+      true,
+      false,
+      true
+    ],
+    "_sim": {
+      "difficulty_0_100": 26.0,
+      "b_logit": -0.96,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.8264,
+      "n_paraphrases": 3
+    }
+  },
+  "Q-PS-006": {
+    "memory_recall": 0.9198,
+    "paraphrase_correct": [
+      true,
+      true,
+      true
+    ],
+    "_sim": {
+      "difficulty_0_100": 34.0,
+      "b_logit": -0.64,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.7756,
+      "n_paraphrases": 3
+    }
+  },
+  "Q-PS-007": {
+    "memory_recall": 0.9309,
+    "paraphrase_correct": [
+      false,
+      true,
+      true
+    ],
+    "_sim": {
+      "difficulty_0_100": 30.0,
+      "b_logit": -0.8,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.8022,
+      "n_paraphrases": 3
+    }
+  },
+  "Q-PS-009": {
+    "memory_recall": 0.9137,
+    "paraphrase_correct": [
+      true,
+      true,
+      true
+    ],
+    "_sim": {
+      "difficulty_0_100": 36.0,
+      "b_logit": -0.56,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.7613,
+      "n_paraphrases": 3
+    }
+  },
+  "Q-PS-010": {
+    "memory_recall": 0.8849,
+    "paraphrase_correct": [
+      true,
+      true,
+      true
+    ],
+    "_sim": {
+      "difficulty_0_100": 44.0,
+      "b_logit": -0.24,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.6985,
+      "n_paraphrases": 3
+    }
+  },
+  "Q-PS-011": {
+    "memory_recall": 0.9168,
+    "paraphrase_correct": [
+      true,
+      true,
+      true
+    ],
+    "_sim": {
+      "difficulty_0_100": 35.0,
+      "b_logit": -0.6,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.7685,
+      "n_paraphrases": 3
+    }
+  },
+  "Q-PS-012": {
+    "memory_recall": 0.8146,
+    "paraphrase_correct": [
+      false,
+      true,
+      true
+    ],
+    "_sim": {
+      "difficulty_0_100": 58.0,
+      "b_logit": 0.32,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.5695,
+      "n_paraphrases": 3
+    }
+  },
+  "Q-PS-013": {
+    "memory_recall": 0.8808,
+    "paraphrase_correct": [
+      false,
+      false
+    ],
+    "_sim": {
+      "difficulty_0_100": 45.0,
+      "b_logit": -0.2,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.69,
+      "n_paraphrases": 2
+    }
+  },
+  "Q-PS-014": {
+    "memory_recall": 0.9358,
+    "paraphrase_correct": [
+      true,
+      true,
+      true
+    ],
+    "_sim": {
+      "difficulty_0_100": 28.0,
+      "b_logit": -0.88,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.8146,
+      "n_paraphrases": 3
+    }
+  },
+  "Q-PS-015": {
+    "memory_recall": 0.9168,
+    "paraphrase_correct": [
+      false,
+      true,
+      true
+    ],
+    "_sim": {
+      "difficulty_0_100": 35.0,
+      "b_logit": -0.6,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.7685,
+      "n_paraphrases": 3
+    }
+  },
+  "Q-PS-016": {
+    "memory_recall": 0.9427,
+    "paraphrase_correct": [
+      false,
+      true,
+      true
+    ],
+    "_sim": {
+      "difficulty_0_100": 25.0,
+      "b_logit": -1.0,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.832,
+      "n_paraphrases": 3
+    }
+  },
+  "Q-PS-017": {
+    "memory_recall": 0.7892,
+    "paraphrase_correct": [
+      false,
+      true,
+      true
+    ],
+    "_sim": {
+      "difficulty_0_100": 62.0,
+      "b_logit": 0.48,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.53,
+      "n_paraphrases": 3
+    }
+  },
+  "Q-PS-018": {
+    "memory_recall": 0.9309,
+    "paraphrase_correct": [
+      true,
+      true,
+      true
+    ],
+    "_sim": {
+      "difficulty_0_100": 30.0,
+      "b_logit": -0.8,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.8022,
+      "n_paraphrases": 3
+    }
+  },
+  "Q-PS-019": {
+    "memory_recall": 0.8849,
+    "paraphrase_correct": [
+      true,
+      false,
+      true
+    ],
+    "_sim": {
+      "difficulty_0_100": 44.0,
+      "b_logit": -0.24,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.6985,
+      "n_paraphrases": 3
+    }
+  },
+  "Q-PS-020": {
+    "memory_recall": 0.8765,
+    "paraphrase_correct": [
+      false,
+      true,
+      true
+    ],
+    "_sim": {
+      "difficulty_0_100": 46.0,
+      "b_logit": -0.16,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.6814,
+      "n_paraphrases": 3
+    }
+  },
+  "Q-PS-021": {
+    "memory_recall": 0.9072,
+    "paraphrase_correct": [
+      true,
+      false,
+      false
+    ],
+    "_sim": {
+      "difficulty_0_100": 38.0,
+      "b_logit": -0.48,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.7465,
+      "n_paraphrases": 3
+    }
+  },
+  "V-CR-003": {
+    "memory_recall": 0.8481,
+    "paraphrase_correct": [
+      true,
+      false,
+      true
+    ],
+    "_sim": {
+      "difficulty_0_100": 52.0,
+      "b_logit": 0.08,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.6271,
+      "n_paraphrases": 3
+    }
+  },
+  "V-CR-004": {
+    "memory_recall": 0.8581,
+    "paraphrase_correct": [
+      false,
+      false,
+      false
+    ],
+    "_sim": {
+      "difficulty_0_100": 50.0,
+      "b_logit": 0.0,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.6457,
+      "n_paraphrases": 3
+    }
+  },
+  "V-CR-005": {
+    "memory_recall": 0.7756,
+    "paraphrase_correct": [
+      false,
+      true,
+      true
+    ],
+    "_sim": {
+      "difficulty_0_100": 64.0,
+      "b_logit": 0.56,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.51,
+      "n_paraphrases": 3
+    }
+  },
+  "Q-PS-101": {
+    "memory_recall": 0.8146,
+    "paraphrase_correct": [
+      false,
+      true
+    ],
+    "_sim": {
+      "difficulty_0_100": 58.0,
+      "b_logit": 0.32,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.5695,
+      "n_paraphrases": 2
+    }
+  },
+  "Q-PS-104": {
+    "memory_recall": 0.715,
+    "paraphrase_correct": [
+      false,
+      true
+    ],
+    "_sim": {
+      "difficulty_0_100": 72.0,
+      "b_logit": 0.88,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.4305,
+      "n_paraphrases": 2
+    }
+  },
+  "Q-PS-105": {
+    "memory_recall": 0.7613,
+    "paraphrase_correct": [
+      true,
+      true
+    ],
+    "_sim": {
+      "difficulty_0_100": 66.0,
+      "b_logit": 0.64,
+      "theta_true": 0.6,
+      "familiarity_bonus": 1.2,
+      "p_paraphrase": 0.49,
+      "n_paraphrases": 2
+    }
+  }
+}
