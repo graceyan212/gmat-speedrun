@@ -158,6 +158,52 @@ int anki_import_apkg(int64_t backend_ptr, const char *package_path);
 int anki_select_deck_by_name(int64_t backend_ptr, const char *deck_name);
 
 /**
+ * Select the deck with the given `deck_id` as the current deck, so its cards
+ * (and its children's) populate the scheduler queue.
+ *
+ * This is the by-id companion to `anki_select_deck_by_name`: when a caller
+ * already holds a resolved DeckId (e.g. a per-topic subdeck id it looked up
+ * once, or the parent 'GMAT Focus' exam deck id), it can point the scheduler
+ * straight at it without a name round-trip. Routes SetCurrentDeck through
+ * BackendDecksService (svc 7, method 22), the same RPC the name path ends in.
+ *
+ * # Safety
+ * - `backend_ptr` must be from `anki_open_backend` with a collection open.
+ *
+ * Returns 0 on success, 1 on backend error, -1 on FFI error (bad pointer /
+ * non-positive id).
+ */
+int anki_select_deck(int64_t backend_ptr, int64_t deck_id);
+
+/**
+ * Fetch the per-topic × per-difficulty-band breakdown (T4) and return it as a
+ * JSON blob (caller frees with `anki_free_response`). Scoped to the whole
+ * collection like `anki_get_scores`.
+ *
+ * `topic_depth` groups by tag-prefix depth (0 -> default 2 = `Section::Topic`).
+ *
+ * Output JSON (UTF-8): mirrors `anki_get_scores` in that the RPC's protobuf
+ * response is decoded in Rust and hand-serialized to JSON so the Swift side
+ * (which has no SwiftProtobuf) can decode it with JSONSerialization:
+ *   {"topics":[{"topic":"<Section::Topic::Subtopic>","reviewed_cards":<int>,
+ *               "easy":{"total":<int>,"attempted":<int>,"correct":<int>,"accuracy":<float>},
+ *               "medium":{...},"hard":{...}}, ...]}
+ * One object per TopicDifficultyBreakdown; each band has keys total/attempted/
+ * correct/accuracy. A missing band submessage serializes as all-zero counts.
+ *
+ * # Safety
+ * - `backend_ptr` must be from `anki_open_backend` with a collection open.
+ * - `out_data`/`out_len` receive the JSON bytes; free with `anki_free_response`.
+ *
+ * Returns 0 on success, 1 on backend error (out has BackendError), -1 on FFI
+ * error.
+ */
+int anki_get_topic_breakdown(int64_t backend_ptr,
+                             uint32_t topic_depth,
+                             uint8_t **out_data,
+                             uintptr_t *out_len);
+
+/**
  * Fetch the next queued card, render it through rslib, and return a small JSON
  * blob describing it. The card's SchedulingStates are stashed in `states_store`
  * keyed by card_id so a later `anki_answer_rating` can rebuild the CardAnswer.

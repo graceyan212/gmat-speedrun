@@ -45,14 +45,14 @@ const M_CLOSE_COLLECTION: u32 = 1;
 const SVC_BACKEND_SCHEDULER: u32 = 13;
 const M_GET_QUEUED_CARDS: u32 = 3;
 const M_ANSWER_CARD: u32 = 4;
-// GetGmatScores: verified against generated _backend_generated.py
-// (get_gmat_scores -> _run_command(13, 40)). Frontend SchedulerService methods
-// mirror into the backend service at the same index; topic_mastery is 39, and
-// GetGmatScores is the next one added.
-const M_GET_GMAT_SCORES: u32 = 40;
-// GradeAnswer: the next SchedulerService method after GetGmatScores (verify
-// against generated _backend_generated.py: grade_answer -> _run_command(13, 41)).
-const M_GRADE_ANSWER: u32 = 41;
+// SchedulerService method indices mirror declaration order in scheduler.proto.
+// GetTopicMasteryStats is 39; GetTopicBreakdown (T4) was inserted next to it, so
+// it takes 40 and pushes GetGmatScores/GradeAnswer down by one. Verified against
+// generated _backend_generated.py (get_topic_breakdown -> _run_command(13, 40),
+// get_gmat_scores -> 41, grade_answer -> 42).
+const M_GET_TOPIC_BREAKDOWN: u32 = 40;
+const M_GET_GMAT_SCORES: u32 = 41;
+const M_GRADE_ANSWER: u32 = 42;
 
 // BackendCardRenderingService (svc 27): RenderExistingCard is method 6.
 const SVC_BACKEND_CARD_RENDERING: u32 = 27;
@@ -450,6 +450,118 @@ pub unsafe extern "C" fn anki_select_deck_by_name(
         Ok(_) => 0,
         Err(_) => 1,
     }
+}
+
+/// Select the deck with the given `deck_id` as the current deck, so its cards
+/// (and its children's) populate the scheduler queue.
+///
+/// This is the by-id companion to `anki_select_deck_by_name`: when a caller
+/// already holds a resolved DeckId (e.g. a per-topic subdeck id it looked up
+/// once, or the parent 'GMAT Focus' exam deck id), it can point the scheduler
+/// straight at it without a name round-trip. Routes SetCurrentDeck through
+/// BackendDecksService (svc 7, method 22), the same RPC the name path ends in.
+///
+/// # Safety
+/// - `backend_ptr` must be from `anki_open_backend` with a collection open.
+///
+/// Returns 0 on success, 1 on backend error, -1 on FFI error (bad pointer /
+/// non-positive id).
+#[no_mangle]
+pub unsafe extern "C" fn anki_select_deck(backend_ptr: i64, deck_id: i64) -> c_int {
+    if backend_ptr == 0 || deck_id <= 0 {
+        return -1;
+    }
+    let backend = unsafe { &*(backend_ptr as *const Backend) };
+    let id_req = anki_proto::decks::DeckId { did: deck_id };
+    let id_req_bytes = id_req.encode_to_vec();
+    match backend.run_service_method(SVC_BACKEND_DECKS, M_SET_CURRENT_DECK, &id_req_bytes) {
+        Ok(_) => 0,
+        Err(_) => 1,
+    }
+}
+
+/// Fetch the per-topic × per-difficulty-band breakdown (T4) and return it as a
+/// JSON blob (caller frees with `anki_free_response`). Scoped to the whole
+/// collection like `anki_get_scores`.
+///
+/// `topic_depth` groups by tag-prefix depth (0 -> default 2 = `Section::Topic`).
+///
+/// Output JSON (UTF-8): mirrors `anki_get_scores` in that the RPC's protobuf
+/// response is decoded in Rust and hand-serialized to JSON so the Swift side
+/// (which has no SwiftProtobuf) can decode it with JSONSerialization:
+///   {"topics":[{"topic":"<Section::Topic::Subtopic>","reviewed_cards":<int>,
+///               "easy":{"total":<int>,"attempted":<int>,"correct":<int>,"accuracy":<float>},
+///               "medium":{...},"hard":{...}}, ...]}
+/// One object per TopicDifficultyBreakdown; each band has keys total/attempted/
+/// correct/accuracy. A missing band submessage serializes as all-zero counts.
+///
+/// # Safety
+/// - `backend_ptr` must be from `anki_open_backend` with a collection open.
+/// - `out_data`/`out_len` receive the JSON bytes; free with `anki_free_response`.
+///
+/// Returns 0 on success, 1 on backend error (out has BackendError), -1 on FFI
+/// error.
+#[no_mangle]
+pub unsafe extern "C" fn anki_get_topic_breakdown(
+    backend_ptr: i64,
+    topic_depth: u32,
+    out_data: *mut *mut u8,
+    out_len: *mut usize,
+) -> c_int {
+    if backend_ptr == 0 {
+        return -1;
+    }
+    let backend = unsafe { &*(backend_ptr as *const Backend) };
+
+    let req = anki_proto::scheduler::GetTopicBreakdownRequest { topic_depth };
+    let req_bytes = req.encode_to_vec();
+    let resp_bytes =
+        match backend.run_service_method(SVC_BACKEND_SCHEDULER, M_GET_TOPIC_BREAKDOWN, &req_bytes) {
+            Ok(b) => b,
+            Err(_) => return 1,
+        };
+    let breakdown =
+        match anki_proto::scheduler::GetTopicBreakdownResponse::decode(&resp_bytes[..]) {
+            Ok(b) => b,
+            Err(_) => return 1,
+        };
+
+    // Hand-build the JSON (no serde dependency), mirroring `anki_get_scores`.
+    fn push_band(band: &Option<anki_proto::scheduler::DifficultyBand>, out: &mut String) {
+        let band = band.clone().unwrap_or_default();
+        out.push_str("{\"total\":");
+        out.push_str(&band.total.to_string());
+        out.push_str(",\"attempted\":");
+        out.push_str(&band.attempted.to_string());
+        out.push_str(",\"correct\":");
+        out.push_str(&band.correct.to_string());
+        out.push_str(",\"accuracy\":");
+        out.push_str(&band.accuracy.to_string());
+        out.push('}');
+    }
+
+    let mut json = String::with_capacity(512);
+    json.push_str("{\"topics\":[");
+    for (i, topic) in breakdown.topics.iter().enumerate() {
+        if i > 0 {
+            json.push(',');
+        }
+        json.push_str("{\"topic\":\"");
+        json_escape_into(&topic.topic, &mut json);
+        json.push_str("\",\"reviewed_cards\":");
+        json.push_str(&topic.reviewed_cards.to_string());
+        json.push_str(",\"easy\":");
+        push_band(&topic.easy, &mut json);
+        json.push_str(",\"medium\":");
+        push_band(&topic.medium, &mut json);
+        json.push_str(",\"hard\":");
+        push_band(&topic.hard, &mut json);
+        json.push('}');
+    }
+    json.push_str("]}");
+
+    unsafe { set_output(json.into_bytes(), out_data, out_len) };
+    0
 }
 
 /// Fetch the next queued card, render it through rslib, and return a small JSON
