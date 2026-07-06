@@ -23,6 +23,12 @@ import tempfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(os.path.dirname(HERE))  # .../speedrun
 ANKI = os.path.join(REPO, "anki")
+
+# Re-exec under Anki's bundled Python (it has anki's deps, e.g. `markdown`).
+_PYENV = os.path.join(ANKI, "out", "pyenv", "bin", "python")
+if os.path.exists(_PYENV) and os.path.realpath(sys.executable) != os.path.realpath(_PYENV):
+    os.execv(_PYENV, [_PYENV, os.path.abspath(__file__), *sys.argv[1:]])
+
 sys.path[:0] = [os.path.join(ANKI, "out", "pylib"), os.path.join(ANKI, "pylib")]
 
 import anki.generic_pb2 as generic  # noqa: E402
