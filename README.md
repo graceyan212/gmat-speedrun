@@ -99,12 +99,16 @@ run on disk — are collected in [`docs/RESULTS.md`](docs/RESULTS.md). Highlight
   dead-ends), and **idempotent** on a second launch. Full per-score methodology:
   [`docs/scores/`](docs/scores/).
 
-## Download the desktop app (prebuilt macOS `.dmg`)
+## Running the desktop app
 
-Don't want to build from source? Grab the packaged macOS app from the
-[**latest release**](https://github.com/graceyan212/gmat-speedrun/releases/latest):
-download `anki-gmat-merged.dmg`, open it, and drag the app to Applications.
-To build from source instead, see [Desktop app — build & run](#desktop-app--build--run) below.
+The current desktop app builds from source in one command — see
+[Desktop app — build & run](#desktop-app--build--run) below (`cd anki && just run`).
+This is the recommended, always-up-to-date path.
+
+A prebuilt macOS `.dmg` is also published on the
+[latest release](https://github.com/graceyan212/gmat-speedrun/releases/latest),
+but it may **trail the source** (packaging is regenerated occasionally with
+`cd anki && ./tools/build-installer`), so build from source for the newest build.
 
 ## Repository layout
 
