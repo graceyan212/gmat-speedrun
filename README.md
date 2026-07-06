@@ -101,14 +101,15 @@ run on disk — are collected in [`docs/RESULTS.md`](docs/RESULTS.md). Highlight
 
 ## Running the desktop app
 
-The current desktop app builds from source in one command — see
-[Desktop app — build & run](#desktop-app--build--run) below (`cd anki && just run`).
-This is the recommended, always-up-to-date path.
+**Easiest — download the prebuilt macOS app.** Grab `anki-gmat-merged.dmg` from the
+[latest release](https://github.com/graceyan212/gmat-speedrun/releases/latest)
+(built from the current source), open it, and drag **Anki** to Applications. It's
+ad-hoc signed, so on first launch **right-click the app ▸ Open** to get past
+Gatekeeper.
 
-A prebuilt macOS `.dmg` is also published on the
-[latest release](https://github.com/graceyan212/gmat-speedrun/releases/latest),
-but it may **trail the source** (packaging is regenerated occasionally with
-`cd anki && ./tools/build-installer`), so build from source for the newest build.
+**Or build from source** (always current): `cd anki && just run` — see
+[Desktop app — build & run](#desktop-app--build--run) below. Re-package the
+installer with `cd anki && ./tools/build-installer` after desktop changes.
 
 ## Repository layout
 
