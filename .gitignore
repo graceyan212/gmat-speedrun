@@ -22,3 +22,6 @@ bridge/anki-bridge-rs/target/
 # Python bytecode cache (from running content/tools/*.py)
 __pycache__/
 *.pyc
+
+# Demo presenter script — kept local, not part of the submission repo
+docs/DEMO_SCRIPT.md
