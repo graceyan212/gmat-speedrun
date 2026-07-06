@@ -147,7 +147,14 @@ final class AnkiEngine {
         // its topic subdeck (verified). One-time on the layout bump; a genuinely
         // new install just imports. Local review history is rebuilt from the deck
         // (and re-synced from the server once one is configured).
-        let currentDeckVersion = 2
+        // v3: force existing installs to re-import. A device that reached v2 with
+        // an earlier (pre-subdeck) apkg kept its cards in the OLD flat layout, so
+        // the per-topic subdecks were missing/empty — practising a topic hit
+        // "session complete" (empty queue) or a deck-not-found error ("back to
+        // decks"). Bumping the version resets + fresh-imports the CURRENT apkg,
+        // which files every card into its topic subdeck (verified headless against
+        // the shipped apkg: all 28 subdecks + the full-exam parent serve a card).
+        let currentDeckVersion = 3
         let storedVersion = UserDefaults.standard.integer(forKey: "gmatDeckVersion")
         var isFirstLaunch = !FileManager.default.fileExists(atPath: colPath)
         if !isFirstLaunch && storedVersion < currentDeckVersion {
