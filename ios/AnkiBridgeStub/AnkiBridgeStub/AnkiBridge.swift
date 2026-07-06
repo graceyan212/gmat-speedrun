@@ -135,11 +135,29 @@ final class AnkiEngine {
         let dir = support.appendingPathComponent(subdir, isDirectory: true)
         try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
         let colPath = dir.appendingPathComponent("collection.anki2").path
-        // Capture BEFORE anki_open, which creates the file if absent.
-        let isFirstLaunch = !FileManager.default.fileExists(atPath: colPath)
         let mediaDir = dir.appendingPathComponent("collection.media").path
-        try? FileManager.default.createDirectory(atPath: mediaDir, withIntermediateDirectories: true)
         let mediaDB = dir.appendingPathComponent("collection.media.db2").path
+
+        // The deck ships as 28 per-topic subdecks (deck layout v2). A collection
+        // persisted from an earlier build stores the cards under the OLD layout,
+        // and an in-place apkg re-import does NOT move existing cards into the new
+        // subdecks — Anki keeps existing cards in their current deck and just
+        // creates the subdecks empty. So when the stored layout is behind, RESET
+        // the collection and fresh-import: a fresh import files every card into
+        // its topic subdeck (verified). One-time on the layout bump; a genuinely
+        // new install just imports. Local review history is rebuilt from the deck
+        // (and re-synced from the server once one is configured).
+        let currentDeckVersion = 2
+        let storedVersion = UserDefaults.standard.integer(forKey: "gmatDeckVersion")
+        var isFirstLaunch = !FileManager.default.fileExists(atPath: colPath)
+        if !isFirstLaunch && storedVersion < currentDeckVersion {
+            note("deck layout v\(storedVersion)->v\(currentDeckVersion): resetting collection for a clean per-topic import")
+            try? FileManager.default.removeItem(atPath: colPath)
+            try? FileManager.default.removeItem(atPath: mediaDB)
+            try? FileManager.default.removeItem(atPath: mediaDir)
+            isFirstLaunch = true
+        }
+        try? FileManager.default.createDirectory(atPath: mediaDir, withIntermediateDirectories: true)
         note("collection: \(colPath) isFirstLaunch=\(isFirstLaunch)")
 
         let orc = colPath.withCString { cp in
@@ -152,24 +170,15 @@ final class AnkiEngine {
         note("anki_open rc=\(orc)")
         guard orc == 0 else { throw AnkiBridgeError.openCollection(orc) }
 
-        // 3. Import the bundled GMAT .apkg on first launch, OR re-import to
-        // MIGRATE an older collection to the current deck layout. Re-importing
-        // updates the existing notes by GUID (no duplication — verified) and
-        // re-files cards into the current per-topic subdecks, so an app updated
-        // in place (persisted collection from before the topic split) still gets
-        // the 28 topic decks. A version flag gates it to run only once per layout
-        // bump, never on an ordinary relaunch (which would waste work).
-        let currentDeckVersion = 2  // 2 = 28 per-topic subdecks + exam parent
-        let storedVersion = UserDefaults.standard.integer(forKey: "gmatDeckVersion")
-        let needsImport = isFirstLaunch || storedVersion < currentDeckVersion
-
-        if needsImport {
+        // Fresh-import the bundled deck (first launch or a post-reset migration),
+        // which places every card into its per-topic subdeck.
+        if isFirstLaunch {
             guard let apkg = Bundle.main.url(forResource: "gmat_focus", withExtension: "apkg") else {
                 note("FATAL: gmat_focus.apkg not found in app bundle")
                 throw AnkiBridgeError.importPackage(-99)
             }
             let irc = apkg.path.withCString { anki_import_apkg(backendPtr, $0) }
-            note("anki_import_apkg rc=\(irc) firstLaunch=\(isFirstLaunch) storedVersion=\(storedVersion)")
+            note("anki_import_apkg rc=\(irc)")
             guard irc == 0 else { throw AnkiBridgeError.importPackage(irc) }
             UserDefaults.standard.set(currentDeckVersion, forKey: "gmatDeckVersion")
         } else {
