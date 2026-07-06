@@ -86,6 +86,7 @@ enum AnkiBridgeError: Error, CustomStringConvertible {
     case syncLogin(Int32)
     case sync(Int32)
     case scores(Int32)
+    case breakdown(Int32)
 
     var description: String {
         switch self {
@@ -99,6 +100,7 @@ enum AnkiBridgeError: Error, CustomStringConvertible {
         case .syncLogin(let rc): return "anki_sync_login failed (rc=\(rc))"
         case .sync(let rc): return "sync failed (rc=\(rc))"
         case .scores(let rc): return "anki_get_scores failed (rc=\(rc))"
+        case .breakdown(let rc): return "anki_get_topic_breakdown failed (rc=\(rc))"
         }
     }
 }
@@ -207,6 +209,17 @@ final class AnkiEngine {
         guard rc == 0 else { throw AnkiBridgeError.answer(rc) }
     }
 
+    /// Point the scheduler at a specific deck by name so subsequent `nextCard()`
+    /// calls serve that deck. Pass a per-topic subdeck (e.g.
+    /// "GMAT Focus::Arithmetic · Percents") to practice one topic, or the parent
+    /// "GMAT Focus" to sit the full exam (studying the parent studies every
+    /// subdeck). Same FFI the session uses at startup.
+    func selectDeck(name: String) throws {
+        let rc = name.withCString { anki_select_deck_by_name(backendPtr, $0) }
+        note("anki_select_deck_by_name(\"\(name)\") rc=\(rc)")
+        guard rc == 0 else { throw AnkiBridgeError.selectDeck(rc) }
+    }
+
     /// Ask the shared engine to grade a tapped answer into a Rating from
     /// correctness × the student's confidence (calibration, not time — computed
     /// in rslib). Never throws: a grading hiccup falls back to `.good` so a review
@@ -250,6 +263,42 @@ final class AnkiEngine {
         return Scores(memory: parse("memory"),
                       performance: parse("performance"),
                       readiness: parse("readiness"))
+    }
+
+    /// Fetch the per-topic × per-difficulty breakdown (GetTopicBreakdown RPC).
+    /// `topic_depth: 3` groups at Section::Topic::Subtopic so the topics line up
+    /// with the 28 coverage-map topics / per-topic subdecks. The bridge returns
+    /// JSON (same pattern as `scores()`), so no SwiftProtobuf is needed.
+    func topicBreakdown() throws -> [TopicBreakdown] {
+        var outData: UnsafeMutablePointer<UInt8>? = nil
+        var outLen: UInt = 0
+        let rc = anki_get_topic_breakdown(backendPtr, 3, &outData, &outLen)
+        guard rc == 0 else { throw AnkiBridgeError.breakdown(rc) }
+        guard let outData, outLen > 0 else { throw AnkiBridgeError.badResponse }
+        defer { anki_free_response(outData, outLen) }
+
+        let data = Data(bytes: outData, count: Int(outLen))
+        guard let obj = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let topics = obj["topics"] as? [[String: Any]] else {
+            throw AnkiBridgeError.badResponse
+        }
+        func band(_ d: [String: Any]?) -> DifficultyBand {
+            let d = d ?? [:]
+            return DifficultyBand(
+                total: (d["total"] as? NSNumber)?.intValue ?? 0,
+                attempted: (d["attempted"] as? NSNumber)?.intValue ?? 0,
+                correct: (d["correct"] as? NSNumber)?.intValue ?? 0,
+                accuracy: (d["accuracy"] as? NSNumber)?.doubleValue ?? 0)
+        }
+        note("anki_get_topic_breakdown ok topics=\(topics.count)")
+        return topics.map { t in
+            TopicBreakdown(
+                topic: t["topic"] as? String ?? "",
+                reviewedCards: (t["reviewed_cards"] as? NSNumber)?.intValue ?? 0,
+                easy: band(t["easy"] as? [String: Any]),
+                medium: band(t["medium"] as? [String: Any]),
+                hard: band(t["hard"] as? [String: Any]))
+        }
     }
 
     /// Log in to a self-hosted sync server. Returns the serialized `SyncAuth`

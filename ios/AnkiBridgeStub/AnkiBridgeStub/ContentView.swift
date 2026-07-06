@@ -1,11 +1,71 @@
 import SwiftUI
 
+// MARK: - GMAT deck taxonomy
+
+/// One practiceable topic. Its subdeck is "GMAT Focus::<label>"; studying the
+/// parent "GMAT Focus" deck (every subdeck) is the full exam. The labels are
+/// 1:1 with the shipped subdecks and the readiness coverage map.
+struct GmatTopic: Identifiable, Hashable {
+    let label: String
+    var deckName: String { "GMAT Focus::\(label)" }
+    var id: String { label }
+}
+
+struct GmatSection: Identifiable {
+    let name: String
+    let topics: [GmatTopic]
+    var id: String { name }
+}
+
+let gmatSections: [GmatSection] = [
+    GmatSection(name: "QUANTITATIVE REASONING", topics: [
+        "Arithmetic · Properties Of Integers", "Arithmetic · Fractions Decimals",
+        "Arithmetic · Percents", "Arithmetic · Ratios Proportions",
+        "Arithmetic · Powers Roots", "Arithmetic · Statistics",
+        "Algebra · Linear Equations", "Algebra · Quadratics",
+        "Algebra · Inequalities", "Algebra · Functions Exponents",
+        "Word Problems · Rate Work Mixture Interest",
+    ].map { GmatTopic(label: $0) }),
+    GmatSection(name: "VERBAL REASONING", topics: [
+        "Critical Reasoning · Assumption", "Critical Reasoning · Strengthen",
+        "Critical Reasoning · Weaken", "Critical Reasoning · Inference",
+        "Critical Reasoning · Evaluate", "Critical Reasoning · Paradox",
+        "Critical Reasoning · Boldface", "Reading Comprehension · Main Idea",
+        "Reading Comprehension · Detail", "Reading Comprehension · Inference",
+        "Reading Comprehension · Function", "Reading Comprehension · Tone",
+    ].map { GmatTopic(label: $0) }),
+    GmatSection(name: "DATA INSIGHTS", topics: [
+        "Data Sufficiency", "Multi Source Reasoning", "Table Analysis",
+        "Graphics Interpretation", "Two Part Analysis",
+    ].map { GmatTopic(label: $0) }),
+]
+
+/// Per-difficulty stats for one topic (from rslib's GetTopicBreakdown RPC).
+struct DifficultyBand {
+    let total: Int
+    let attempted: Int
+    let correct: Int
+    let accuracy: Double   // correct / attempted, 0 when none attempted
+}
+
+/// One topic's mastery breakdown: whether the student has hit it at all, and
+/// their accuracy split across easy / medium / hard.
+struct TopicBreakdown: Identifiable {
+    let topic: String       // matches a GmatTopic.label
+    let reviewedCards: Int  // >0 means the coverage square is filled
+    let easy: DifficultyBand
+    let medium: DifficultyBand
+    let hard: DifficultyBand
+    var id: String { topic }
+}
+
 /// Drives a real review session on rslib: loads the GMAT deck, renders each card
 /// through the engine, and records Again/Hard/Good/Easy answers.
 @MainActor
 final class ReviewViewModel: ObservableObject {
     enum Phase {
         case loading
+        case home        // deck-picker dashboard (scores + topics + exam)
         case reviewing
         case finished
         case error(String)
@@ -27,8 +87,29 @@ final class ReviewViewModel: ObservableObject {
     }
     @Published var showingAnswer = false
     @Published var answeredCount = 0
+    /// Deck being reviewed (shown in the reviewer header). "GMAT Focus" = exam.
+    @Published var currentDeck = "GMAT Focus"
+    /// Per-topic × difficulty breakdown from the engine — drives green-if-hit on
+    /// the coverage map and the expandable easy/med/hard rows on the scores page.
+    @Published var breakdown: [TopicBreakdown] = []
     /// The three GMAT scores, refreshed after each card / sync. nil until first load.
     @Published var scores: Scores?
+
+    /// Engine topic keys are "Section::Topic::Subtopic"; the deck + coverage-map
+    /// labels drop the section and join the rest with " · " (e.g.
+    /// "Quant::Arithmetic::Percents" -> "Arithmetic · Percents").
+    static func prettyLabel(fromTopicKey key: String) -> String {
+        key.components(separatedBy: "::").filter { !$0.isEmpty }.dropFirst().joined(separator: " · ")
+    }
+    /// Breakdown keyed by the pretty topic label, for per-topic lookup in the UI.
+    var breakdownByLabel: [String: TopicBreakdown] {
+        Dictionary(breakdown.map { (Self.prettyLabel(fromTopicKey: $0.topic), $0) },
+                   uniquingKeysWith: { a, _ in a })
+    }
+    /// Topics the student has actually reviewed (>=1 card) — coverage square filled.
+    var reviewedTopicLabels: Set<String> {
+        Set(breakdown.filter { $0.reviewedCards > 0 }.map { Self.prettyLabel(fromTopicKey: $0.topic) })
+    }
 
     // --- Confidence-based grading + calibration / pacing ---
     // The engine decides Again/Hard/Good/Easy from correctness × your confidence;
@@ -83,13 +164,13 @@ final class ReviewViewModel: ObservableObject {
     // persist to UserDefaults so they survive app relaunches — paste once.
     // (Keychain would be the production choice for the password; UserDefaults
     // is fine for this self-hosted demo.)
-    @Published var serverURL = UserDefaults.standard.string(forKey: "syncServerURL") ?? "" {
+    @Published var serverURL = UserDefaults.standard.string(forKey: "syncServerURL") ?? "https://gmat-sync.fly.dev/" {
         didSet { UserDefaults.standard.set(serverURL, forKey: "syncServerURL") }
     }
-    @Published var syncUser = UserDefaults.standard.string(forKey: "syncUser") ?? "" {
+    @Published var syncUser = UserDefaults.standard.string(forKey: "syncUser") ?? "demo" {
         didSet { UserDefaults.standard.set(syncUser, forKey: "syncUser") }
     }
-    @Published var syncPass = UserDefaults.standard.string(forKey: "syncPass") ?? "" {
+    @Published var syncPass = UserDefaults.standard.string(forKey: "syncPass") ?? "gmatsync2026" {
         didSet { UserDefaults.standard.set(syncPass, forKey: "syncPass") }
     }
     @Published var syncStatus = ""
@@ -113,24 +194,64 @@ final class ReviewViewModel: ObservableObject {
 
     func start() {
         // rslib work is synchronous + CPU-bound; run off the main thread, then
-        // publish results back on main.
+        // publish results back on main. Opens on the deck-picker dashboard rather
+        // than diving straight into a review — the student chooses a topic (or the
+        // full exam) from home.
         Task.detached(priority: .userInitiated) { [engine] in
             do {
                 try engine.startSession()
-                let first = try engine.nextCard()
                 let sc = try? engine.scores()
+                let bd = (try? engine.topicBreakdown()) ?? []
                 await MainActor.run {
                     self.scores = sc
+                    self.breakdown = bd
+                    self.phase = .home
+                    self.autoSync()  // pull remote changes on launch (if configured)
+                }
+            } catch {
+                await MainActor.run { self.phase = .error("\(error)") }
+            }
+        }
+    }
+
+    /// Begin a review session on a specific deck. `deck` is the engine deck name
+    /// (a "GMAT Focus::<topic>" subdeck, or "GMAT Focus" for the full exam);
+    /// `title` is shown in the reviewer header. Resets the session tallies.
+    func startDeck(_ deck: String, title: String) {
+        phase = .loading
+        Task.detached(priority: .userInitiated) { [engine] in
+            do {
+                try engine.selectDeck(name: deck)
+                let first = try engine.nextCard()
+                await MainActor.run {
+                    self.currentDeck = title
+                    self.answeredCount = 0
+                    self.confidentCount = 0; self.confidentCorrect = 0
+                    self.overconfidentMisses = 0; self.skips = 0; self.slowCount = 0
                     if let first {
                         self.card = first
                         self.phase = .reviewing
                     } else {
                         self.phase = .finished
                     }
-                    self.autoSync()  // pull remote changes on launch (if configured)
                 }
             } catch {
                 await MainActor.run { self.phase = .error("\(error)") }
+            }
+        }
+    }
+
+    /// Return to the deck-picker dashboard, refreshing scores + breakdown so the
+    /// coverage map and per-topic stats reflect the session just finished.
+    func goHome() {
+        Task.detached(priority: .userInitiated) { [engine] in
+            let sc = try? engine.scores()
+            let bd = (try? engine.topicBreakdown()) ?? []
+            await MainActor.run {
+                self.scores = sc
+                self.breakdown = bd
+                self.phase = .home
+                self.autoSync()
             }
         }
     }
@@ -394,7 +515,7 @@ struct ContentView: View {
             SyncSettingsView(vm: vm)
         }
         .sheet(isPresented: $showingScores) {
-            ScoresView(scores: vm.scores)
+            ScoresView(scores: vm.scores, breakdown: vm.breakdown)
         }
     }
 
@@ -487,6 +608,9 @@ struct ContentView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(BauhausTheme.paper)
 
+        case .home:
+            HomeDashboardView(vm: vm)
+
         case .reviewing:
             if let card = vm.card {
                 reviewer(for: card)
@@ -542,6 +666,17 @@ struct ContentView: View {
                     calibrationStat("\(vm.slowCount)", "OVER\n2:00")
                 }
                 .padding(.top, 6)
+
+                Button { vm.goHome() } label: {
+                    Text("‹ BACK TO DECKS")
+                        .font(BauhausTheme.futura(size: 15, weight: .bold))
+                        .tracking(2)
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 24)
+                        .padding(.vertical, 14)
+                        .background(BauhausTheme.ink)
+                }
+                .padding(.top, 8)
             }
             .padding(BauhausTheme.pad)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -817,13 +952,138 @@ struct ContentView: View {
     }
 }
 
+// MARK: - Home dashboard (deck picker + scores + sync)
+
+/// The phone's home page now that the deck is split by topic: a compact
+/// three-score strip, the full-exam deck, and each topic as a practice row with
+/// a coverage square that fills green only once the student has reviewed it.
+private struct HomeDashboardView: View {
+    @ObservedObject var vm: ReviewViewModel
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 0) {
+                scoresStrip
+                    .padding(.horizontal, 20)
+                    .padding(.top, 18)
+                    .padding(.bottom, 12)
+
+                examRow
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 8)
+
+                ForEach(gmatSections) { section in
+                    Text(section.name)
+                        .font(BauhausTheme.futura(size: 13, weight: .bold))
+                        .tracking(2)
+                        .foregroundColor(BauhausTheme.ink)
+                        .padding(.horizontal, 20)
+                        .padding(.top, 16)
+                        .padding(.bottom, 4)
+                    ForEach(section.topics) { topic in
+                        topicRow(topic).padding(.horizontal, 20)
+                    }
+                }
+            }
+            .padding(.bottom, 28)
+        }
+        .background(BauhausTheme.paper)
+    }
+
+    private var scoresStrip: some View {
+        HStack(spacing: 8) {
+            scoreCell("MEMORY", vm.scores?.memory)
+            scoreCell("PERFORMANCE", vm.scores?.performance)
+            scoreCell("READINESS", vm.scores?.readiness)
+        }
+    }
+
+    private func scoreCell(_ label: String, _ sv: ScoreValue?) -> some View {
+        VStack(spacing: 4) {
+            Text(sv == nil || sv!.abstained ? "—" : scoreText(sv!))
+                .font(BauhausTheme.futura(size: 22, weight: .bold).monospacedDigit())
+                .foregroundColor(BauhausTheme.ink)
+            Text(label)
+                .font(BauhausTheme.futura(size: 9, weight: .bold))
+                .tracking(1)
+                .foregroundColor(BauhausTheme.ink)
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 12)
+        .overlay(Rectangle().stroke(BauhausTheme.ink, lineWidth: 2.5))
+    }
+
+    private func scoreText(_ sv: ScoreValue) -> String {
+        sv.unit == "gmat" ? "\(Int(sv.score.rounded()))" : "\(Int(sv.score.rounded()))%"
+    }
+
+    private var examRow: some View {
+        Button { vm.startDeck("GMAT Focus", title: "Full Exam") } label: {
+            HStack {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("FULL EXAM")
+                        .font(BauhausTheme.futura(size: 18, weight: .bold)).tracking(2)
+                        .foregroundColor(BauhausTheme.paper)
+                    Text("ALL 28 TOPICS")
+                        .font(BauhausTheme.futura(size: 10, weight: .bold)).tracking(1)
+                        .foregroundColor(BauhausTheme.paper.opacity(0.85))
+                }
+                Spacer()
+                Text("START →")
+                    .font(BauhausTheme.futura(size: 13, weight: .bold)).tracking(1)
+                    .foregroundColor(BauhausTheme.paper)
+            }
+            .padding(.horizontal, 18)
+            .padding(.vertical, 16)
+            .background(BauhausTheme.ink)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+    }
+
+    private func topicRow(_ topic: GmatTopic) -> some View {
+        let hit = vm.reviewedTopicLabels.contains(topic.label)
+        return Button { vm.startDeck(topic.deckName, title: topic.label) } label: {
+            HStack(spacing: 12) {
+                Rectangle()
+                    .fill(hit ? BauhausTheme.green : BauhausTheme.paper)
+                    .frame(width: 16, height: 16)
+                    .overlay(Rectangle().stroke(hit ? BauhausTheme.green : BauhausTheme.ink, lineWidth: 2.5))
+                Text(topic.label)
+                    .font(BauhausTheme.futura(size: 15, weight: .medium))
+                    .foregroundColor(BauhausTheme.ink)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
+                Spacer()
+                Text("PRACTICE ›")
+                    .font(BauhausTheme.futura(size: 11, weight: .bold)).tracking(1)
+                    .foregroundColor(BauhausTheme.blue)
+            }
+            .padding(.vertical, 11)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .overlay(alignment: .bottom) {
+            Rectangle().fill(BauhausTheme.ink.opacity(0.12)).frame(height: 1)
+        }
+    }
+}
+
 // MARK: - Scores panel
 
 /// The three-score panel: memory, performance, readiness — each with its range,
 /// or the give-up state (what's still missing). Bauhaus idiom, matching the app.
 private struct ScoresView: View {
     let scores: Scores?
+    let breakdown: [TopicBreakdown]
     @Environment(\.dismiss) private var dismiss
+
+    /// Breakdown keyed by pretty topic label, for per-topic lookup.
+    private var byLabel: [String: TopicBreakdown] {
+        Dictionary(breakdown.map { (ReviewViewModel.prettyLabel(fromTopicKey: $0.topic), $0) },
+                   uniquingKeysWith: { a, _ in a })
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -860,11 +1120,103 @@ private struct ScoresView: View {
                             .foregroundColor(BauhausTheme.ink)
                             .padding(BauhausTheme.pad)
                     }
+
+                    // Per-topic breakdown — coverage (green = practiced) plus
+                    // easy / medium / hard accuracy when a topic is tapped.
+                    Rectangle().fill(BauhausTheme.ink).frame(height: BauhausTheme.rowRule)
+                    Text("TOPIC BREAKDOWN")
+                        .font(BauhausTheme.futura(size: 13, weight: .bold)).tracking(2)
+                        .foregroundColor(BauhausTheme.ink)
+                        .padding(.horizontal, BauhausTheme.pad).padding(.top, 16).padding(.bottom, 2)
+                    Text("Green = practiced. Tap a topic for easy / medium / hard accuracy.")
+                        .font(BauhausTheme.futura(size: 11))
+                        .foregroundColor(BauhausTheme.ink.opacity(0.6))
+                        .padding(.horizontal, BauhausTheme.pad).padding(.bottom, 6)
+                    ForEach(gmatSections) { section in
+                        Text(section.name)
+                            .font(BauhausTheme.futura(size: 11, weight: .bold)).tracking(1.5)
+                            .foregroundColor(BauhausTheme.ink.opacity(0.7))
+                            .padding(.horizontal, BauhausTheme.pad).padding(.top, 12).padding(.bottom, 2)
+                        ForEach(section.topics) { topic in
+                            TopicBreakdownRow(topic: topic, data: byLabel[topic.label])
+                                .padding(.horizontal, BauhausTheme.pad)
+                        }
+                    }
                 }
             }
         }
         .background(BauhausTheme.paper.ignoresSafeArea())
         .preferredColorScheme(.light)
+    }
+}
+
+/// One row on the scores page: a topic with a green-if-practiced square that
+/// expands (when tapped) to show easy / medium / hard accuracy for that topic.
+private struct TopicBreakdownRow: View {
+    let topic: GmatTopic
+    let data: TopicBreakdown?
+    @State private var expanded = false
+
+    private var hit: Bool { (data?.reviewedCards ?? 0) > 0 }
+
+    var body: some View {
+        VStack(spacing: 0) {
+            Button {
+                if hit { withAnimation(.easeOut(duration: 0.12)) { expanded.toggle() } }
+            } label: {
+                HStack(spacing: 10) {
+                    Rectangle()
+                        .fill(hit ? BauhausTheme.green : BauhausTheme.paper)
+                        .frame(width: 14, height: 14)
+                        .overlay(Rectangle().stroke(hit ? BauhausTheme.green : BauhausTheme.ink, lineWidth: 2))
+                    Text(topic.label)
+                        .font(BauhausTheme.futura(size: 14, weight: .medium))
+                        .foregroundColor(BauhausTheme.ink)
+                        .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Spacer()
+                    Text(hit ? (expanded ? "▾" : "▸") : "—")
+                        .font(BauhausTheme.futura(size: 13, weight: .bold))
+                        .foregroundColor(hit ? BauhausTheme.ink : BauhausTheme.ink.opacity(0.35))
+                }
+                .padding(.vertical, 10)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+
+            if expanded, let d = data {
+                VStack(spacing: 6) {
+                    bandRow("EASY", d.easy, BauhausTheme.green)
+                    bandRow("MEDIUM", d.medium, BauhausTheme.yellow)
+                    bandRow("HARD", d.hard, BauhausTheme.red)
+                }
+                .padding(.leading, 24)
+                .padding(.bottom, 12)
+            }
+        }
+        .overlay(alignment: .bottom) {
+            Rectangle().fill(BauhausTheme.ink.opacity(0.12)).frame(height: 1)
+        }
+    }
+
+    private func bandRow(_ label: String, _ b: DifficultyBand, _ color: Color) -> some View {
+        HStack(spacing: 10) {
+            Rectangle().fill(color).frame(width: 10, height: 10)
+            Text(label)
+                .font(BauhausTheme.futura(size: 11, weight: .bold)).tracking(1)
+                .foregroundColor(BauhausTheme.ink)
+                .frame(width: 62, alignment: .leading)
+            if b.attempted == 0 {
+                Text(b.total > 0 ? "not attempted · \(b.total) cards" : "no cards")
+                    .font(BauhausTheme.futura(size: 12))
+                    .foregroundColor(BauhausTheme.ink.opacity(0.5))
+            } else {
+                Text("\(Int((b.accuracy * 100).rounded()))%  ·  \(b.attempted)/\(b.total) seen")
+                    .font(BauhausTheme.futura(size: 12, weight: .medium).monospacedDigit())
+                    .foregroundColor(BauhausTheme.ink)
+            }
+            Spacer()
+        }
     }
 }
 
