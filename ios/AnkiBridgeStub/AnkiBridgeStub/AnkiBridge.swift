@@ -147,13 +147,10 @@ final class AnkiEngine {
         // its topic subdeck (verified). One-time on the layout bump; a genuinely
         // new install just imports. Local review history is rebuilt from the deck
         // (and re-synced from the server once one is configured).
-        // v4: re-import the apkg that now BAKES IN mid-progress demo history, so
-        // the phone opens looking "midway through practising" — the three scores
-        // (Memory/Performance/Readiness) populate and the coverage map shows real
-        // topics as practised, instead of a wiped, from-scratch deck. Requires the
-        // bridge to import WITH scheduling (see anki_import_apkg). v3 already fixed
-        // the per-topic subdeck layout; bumping to v4 forces the reset + fresh
-        // import so existing installs pick up the seeded deck on next launch.
+        // Deck layout version. v2 = 28 per-topic subdecks; v3 fixed installs
+        // stuck on the old flat layout. Bumping this forces existing installs to
+        // reset + fresh-import the current bundled deck on next launch, so they
+        // always pick up the shipped per-topic layout.
         let currentDeckVersion = 4
         let storedVersion = UserDefaults.standard.integer(forKey: "gmatDeckVersion")
         var isFirstLaunch = !FileManager.default.fileExists(atPath: colPath)

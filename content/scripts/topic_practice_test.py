@@ -1,18 +1,16 @@
 #!/usr/bin/env python3
-"""Per-topic practice + mid-progress demo-seed test (re-runnable).
+"""Per-topic practice test (re-runnable).
 
 Proves, against the shipped deck and the REAL desktop startup migration
 (`anki/qt/aqt/gmat_deck_migrate.py`), that a legacy/flat collection is brought
-to the state the demo needs:
+to the per-topic layout:
 
   * the 28 per-topic subdecks exist and are populated,
   * the "GMAT Focus" exam parent is expanded (every topic visible in the deck
     list, not one collapsed row),
-  * all three shared-engine scores are non-abstaining (Memory / Performance /
-    Readiness) — i.e. it looks "midway through practising", not from scratch,
-  * every topic is practiceable — a covered topic serves a due review and an
-    uncovered topic serves a new card (no "session complete" dead-ends),
-  * the migration is idempotent (a second launch moves/adds nothing).
+  * every topic is practiceable — studying a topic serves a card, so there are
+    no "session complete" dead-ends,
+  * the migration is idempotent (a second launch moves nothing).
 
 Usage:  python content/scripts/topic_practice_test.py     (exit 0 = PASS)
 """
@@ -101,32 +99,23 @@ def main():
     subs = sorted(d.name for d in col.decks.all_names_and_ids() if d.name.startswith(PARENT + "::"))
     populated = [n for n in subs if col.db.scalar("select count(*) from cards where did=?", col.decks.id(n)) > 0]
     parent = col.decks.by_name(PARENT)
-    s = col._backend.get_gmat_scores(PARENT)
-    covered, uncovered = subs[0], subs[24]  # [0] is seeded; [24] is beyond the 18 covered
-    serve_cov, serve_unc = _serves(col, covered), _serves(col, uncovered)
+    # A couple of topics from opposite ends of the list both serve a card.
+    serve_a, serve_b = _serves(col, subs[0]), _serves(col, subs[-1])
 
     before = dict(col.db.execute("select id,did from cards"))
-    rl_before = col.db.scalar("select count(*) from revlog")
     mod._migrate()
-    idempotent = before == dict(col.db.execute("select id,did from cards")) and rl_before == col.db.scalar(
-        "select count(*) from revlog"
-    )
+    idempotent = before == dict(col.db.execute("select id,did from cards"))
 
     print(f"subdecks={len(subs)} populated={len(populated)} expanded={not parent.get('browserCollapsed')}")
-    print(f"scores: memory={'ABSTAIN' if s.memory.abstained else int(s.memory.score)} "
-          f"performance={'ABSTAIN' if s.performance.abstained else int(s.performance.score)} "
-          f"readiness={'ABSTAIN' if s.readiness.abstained else int(s.readiness.score)}/{s.readiness.confidence}")
-    print(f"practiceable: covered={serve_cov} uncovered={serve_unc}   idempotent={idempotent}")
+    print(f"practiceable: '{subs[0].split('::')[1]}'={serve_a} '{subs[-1].split('::')[1]}'={serve_b}   "
+          f"idempotent={idempotent}")
 
     ok = (
         len(subs) == 28
         and len(populated) == 28
         and not parent.get("browserCollapsed")
-        and not s.memory.abstained
-        and not s.performance.abstained
-        and not s.readiness.abstained
-        and serve_cov
-        and serve_unc
+        and serve_a
+        and serve_b
         and idempotent
     )
     print("RESULT:", "PASS" if ok else "FAIL")

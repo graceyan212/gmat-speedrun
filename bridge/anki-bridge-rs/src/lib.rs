@@ -387,9 +387,9 @@ pub unsafe extern "C" fn anki_import_apkg(
                 anki_proto::import_export::ImportAnkiPackageUpdateCondition::Always as i32,
             update_notetypes:
                 anki_proto::import_export::ImportAnkiPackageUpdateCondition::Always as i32,
-            // Import scheduling + revlog so the deck's baked demo history (the
-            // mid-progress state that drives the three scores + topic coverage)
-            // comes in with the cards, not just blank new cards.
+            // Import with scheduling so the bundled deck's per-topic subdeck
+            // layout + deck config come in with the cards. The deck ships no
+            // review history, so cards still import as new.
             with_scheduling: true,
             with_deck_configs: true,
         }),
