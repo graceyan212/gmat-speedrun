@@ -3,6 +3,10 @@
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
+# app name is STABLE: it fixes the public hostname `https://gmat-sync.fly.dev/`
+# for the life of the app (fly.io only frees the name if the app is destroyed).
+# That stability is why we bake this URL into both clients as their default
+# server — no per-deploy URL to paste. Do NOT rename this app.
 app = 'gmat-sync'
 primary_region = 'sjc'
 
@@ -13,6 +17,11 @@ primary_region = 'sjc'
   SYNC_BASE = '/anki_data'
   SYNC_HOST = '0.0.0.0'
   SYNC_PORT = '8080'
+  # Default demo account, so a bare `fly deploy` already has a working login
+  # that matches the value both apps ship with. provision.py sets the same
+  # value; override/rotate it as the SYNC_USER1 fly *secret* (README) — a secret
+  # of the same name takes precedence over this env entry.
+  SYNC_USER1 = 'demo:gmatsync2026'
 
 [[mounts]]
   source = 'anki_data'
